@@ -1,0 +1,23 @@
+.leftSidebar{
+    position: fixed;
+    top: 4.2em;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    height: 90vh;
+    width: 20%;
+    background: rgba(0, 0, 0, 0.779);
+    z-index: 2000;
+    color: rgb(0, 0, 0);
+}
+.leftSidebar .container .list-card{
+    list-style: none;
+    text-decoration: none;
+    text-align: start;
+    line-height: 2.5em;
+}
+@media (max-width: 798px) {
+    .leftSidebar{
+        display: none;
+    }
+}

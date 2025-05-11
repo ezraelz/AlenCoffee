@@ -1,0 +1,20 @@
+.hot_drinks{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    z-index: 200;
+    background: white;
+    width: 100%;
+    margin: 0;
+    gap: 2em;
+    padding: 3em 2em;
+}
+.drink_card{
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+.drink_card img{
+    width: 60vh;
+    height: 50vh;
+}

@@ -1,0 +1,187 @@
+.checkout {
+    position: relative;
+    max-width: 100%;
+    margin: 5rem auto;
+    padding: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
+    z-index: 3;
+  }
+  .checkout::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #14100c63;
+    z-index: -2;
+}
+.checkout .hero h1{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1em;
+}
+.checkout .hero {
+    text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 3em;
+    background: #8e5603f2;
+    position: fixed;
+    top: 1em;
+    left: 0;
+    width: 100%;
+    z-index: 200;
+    padding: 1.6em;
+  }
+  .checkout .hero.top{
+    display: none;
+    margin-top: 0;
+    top: 0;
+    opacity: 0;
+    padding: 1em;
+    height: 2em;
+    font-size: 1rem;
+    animation: fallDown 2s forwards ease-in-out;
+  }
+  .checkout h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #000000;
+  }
+  .checkout .checkout-container {
+    margin-top: 6em;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items:safe;
+    text-align: center;
+    color: #000000;
+  }
+  
+  .checkout .shipping-info{
+    background-color: #f0f0f0;
+    padding: 2rem 6em;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+ 
+  }
+  .checkout .cart-summary{
+    height: auto;
+    background-color: #ffffff57;
+    padding: 2rem 4em;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    position:sticky;
+    top: 8em;
+    right: 8em;
+    height: 20em;
+    margin-top: 0;
+  }
+  .checkout .shipping-info h3,
+  .checkout .cart-summary h3 {
+    margin-bottom: 1rem;
+    color: #000000;
+  }
+  
+  .checkout form{
+    display: flex;
+    flex-direction: column;
+  }
+  .checkout input[type="text"],
+  .checkout input[type="email"],
+  .checkout input[type="tel"] {
+    width: 25em;
+    padding: .6em;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    outline: none;
+    background: transparent;
+    color: #2d2813;
+    border:1px solid #000000;
+  }
+  
+  .checkout input:focus {
+    border-color: #4CAF50;
+    outline: none;
+  }
+  
+  .checkout button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 25em;
+  }
+  .checkout button{
+    background-color: #2d2813;
+    color: white;
+    border: none;
+    padding: .6em;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 25em;
+  }
+  .checkout button:hover{
+    background: #2d2813d6;
+    box-shadow: 0 0 .5em #665c34;
+  }
+  .checkout button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .checkout button[disabled] {
+    background-color: #9CCC9C;
+    cursor: not-allowed;
+  }
+  
+  .checkout ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .cart-summary li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+  }
+  
+  .checkout p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  
+  strong {
+    font-weight: bold;
+  }
+  
+  @media (max-width: 768px) {
+    .checkout-container {
+      flex-direction: column;
+    }
+  }
+
+  @keyframes fallDown {
+    0%{
+      opacity: 0;
+      transform: translateY(-4rem);
+    }100%{
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+  

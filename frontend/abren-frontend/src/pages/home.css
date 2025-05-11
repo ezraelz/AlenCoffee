@@ -1,0 +1,71 @@
+/* home.css */
+.home-section {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url('../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
+    background-attachment: fixed;
+    text-align: center;
+    padding-top: 2em;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 3em;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .home-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000094;
+    z-index: 0;
+  }
+  
+  .home-section .home-content {
+    width: 100%;
+    height: 90vh;
+    z-index: 2;
+    position: relative;
+    padding-bottom: 5rem;
+  }
+  
+  .home-content h1 {
+    padding-top: 3em;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .brand-name {
+    color: #f4b400;
+  }
+  
+  .home-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: #ddd;
+  }
+  
+  .shop-button {
+    padding: 12px 30px;
+    background-color: #f4b400;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .shop-button:hover {
+    background-color: #e0a800;
+    color: #fff;
+  }
+  
+ 
