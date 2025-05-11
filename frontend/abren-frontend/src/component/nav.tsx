@@ -150,6 +150,9 @@ const Nav: React.FC = () => {
   return (
     <>
       <div className={scrolledUp ? 'navbar scroll' : 'navbar'} onScroll={() => handleScrollChange()}>
+        <div className='nav_second'>
+          <p>Order now and get 10% discount</p>
+        </div>
         <nav>
           <div className="container">
             <Link className="navbar-brand" to="/">
@@ -210,9 +213,7 @@ const Nav: React.FC = () => {
             </div>
           </div>
         </nav>
-        <div className='nav_second'>
-          <p>Order now and get 10% discount</p>
-        </div>
+        
       </div>
       
     </>

@@ -13,6 +13,8 @@ import './component/shoppingform.css';
 import './component/home/trending_products.css';
 import './component/home/homeStory.css';
 import './component/home/hotDrinks.css';
+import './pages/blog/blog.css';
+import './pages/blog/catagories.css';
 import Nav from './component/nav';
 import Footer from './component/footer';
 
@@ -21,6 +23,8 @@ const Shop = lazy(() => import('./pages/shop/shop'));
 const Cart = lazy(() => import('./pages/shop/cart'));
 const Home = lazy(() => import('./pages/home'));
 const Login = lazy(() => import('./pages/login'));
+const Blog = lazy(() => import('./pages/blog/blog'));
+const News = lazy(() => import('./pages/blog/news'));
 const Logout = lazy(() => import('./pages/logout'));
 const SingleProduct = lazy(() => import('./pages/shop/signleProduct'));
 const Checkout = lazy(() => import('./pages/shop/checkout'));
@@ -89,7 +93,7 @@ const App = () => {
   return (
     <Router>
       <Nav isLoggedIn={isLoggedIn} />
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top" autoClose={3000} />
       <Suspense fallback={<div className="main">Loading Page...</div>}>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -101,6 +105,9 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/payment-success/" element={<PaymentSuccess />} />
+
+          <Route path='/blog' element={<Blog />} />
+          <Route path='/blog/news' element={<News /> } />
         </Routes>
       </Suspense>
       <Footer />

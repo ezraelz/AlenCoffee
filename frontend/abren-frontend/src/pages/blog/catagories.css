@@ -1,0 +1,32 @@
+.blog-catagories{
+
+}
+.blog-catagories ul{
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    background: #333;
+}
+.blog-catagories ul li{
+    padding: 2em;
+}
+.blog-catagories ul li:hover{
+    background: white;
+    color: black;
+    cursor: pointer;
+}
+.blog-catagories ul li:active{
+    background: white;
+}
+.blog-catagories ul .li.active{
+    background: white;
+    color: black;
+}
+.blog-catagories ul .li button{
+    background: 'none';
+    border: 'none';
+    cursor: 'pointer';
+}
