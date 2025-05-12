@@ -19,8 +19,8 @@
   }
   
   .blog-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
   }
   
@@ -35,7 +35,6 @@
     transition: transform 0.2s ease, box-shadow 0.3s ease;
   }
   
- 
   
   .blog-card h3 {
     margin-top: 0;

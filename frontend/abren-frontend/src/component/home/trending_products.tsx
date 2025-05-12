@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from '../../utils/axios';
 import { useCart } from '../../pages/shop/useCart'; // ✅ Import global cart context
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +19,25 @@ const Trending_products: React.FC = () => {
   const [loadingProductIds, setLoadingProductIds] = useState<Set<number>>(new Set());
   const { fetchCartData, cartItemCount } = useCart(); // ✅ Use global cart context
   const navigate = useNavigate();
+  const [scrolledUp, setScrolledUp] = useState<boolean>(false);
+  const lastScrollY = useRef<number>(0);
+  
+    const handleScrollChange = () => {
+      const currentScrollY = window.scrollY;
+  
+      if (currentScrollY > lastScrollY.current) {
+        setScrolledUp(true); // User is scrolling up
+      } else {
+        setScrolledUp(false); // User is scrolling down
+      }
+  
+      lastScrollY.current = currentScrollY;
+    };
+  
+    useEffect(() => {
+      window.addEventListener('scroll', handleScrollChange);
+      return () => window.removeEventListener('scroll', handleScrollChange);
+    }, []);
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -72,7 +91,7 @@ const Trending_products: React.FC = () => {
         {products.length > 0 ? (
             <div className='product_container'>
                 {products.map((product, index) => (
-                    <div className="product_card" key={index}>
+                    <div className={scrolledUp ? "product_card anime": 'product_card'} key={index}>
                         <img src={product.image} alt="" />
                         <div className="description">
                             <p>{product.name}</p>

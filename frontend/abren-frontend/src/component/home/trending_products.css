@@ -34,7 +34,21 @@
     position: relative;
     overflow: hidden;
   }
-  
+  .trending-products .product_container .product-card.anime{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60vh;
+    background: #edecec;
+    color: #000;
+    padding: .5em;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    animation: moveUp 1s forwards ease-in-out;
+  }
   .trending-products .product_card:hover {
     transform: translateY(-5px);
   }
@@ -57,4 +71,14 @@
     top: 1em;
     right: 1em;
   }
+
+@keyframes moveUp {
+  0%{
+    opacity: 0;
+    transform: translateY(4rem);
+  } 100%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
   

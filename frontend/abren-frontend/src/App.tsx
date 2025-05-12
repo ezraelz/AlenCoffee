@@ -15,6 +15,8 @@ import './component/home/homeStory.css';
 import './component/home/hotDrinks.css';
 import './pages/blog/blog.css';
 import './pages/blog/catagories.css';
+import './component/footer.css';
+import './component/home/homeBlog.css';
 import Nav from './component/nav';
 import Footer from './component/footer';
 

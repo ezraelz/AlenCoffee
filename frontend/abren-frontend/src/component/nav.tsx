@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import axios from '../utils/axios';
 import { useAuth } from '../context/AuthContext'; // ✅ Import the hook
@@ -131,8 +131,9 @@ const Nav: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'About', to: '/about', is_active: `nav-item ${isActive('/about') ? 'active' : ''}` },
+    { name: 'About AbrenCoffee', to: '/about', is_active: `nav-item ${isActive('/about') ? 'active' : ''}` },
     { name: 'Services', to: '/services', is_active: `nav-item ${isActive('/services') ? 'active' : ''}` },
+    { name: 'Gifts', to: '/blog', is_active: `nav-item ${isActive('/blog') ? 'active' : ''}` },
     { name: 'Blog', to: '/blog', is_active: `nav-item ${isActive('/blog') ? 'active' : ''}` },
     { name: 'Menu', to: '/menu', is_active: `nav-item ${isActive('/menu') ? 'active' : ''}` },
     { name: 'Contact', to: '/contact', is_active: `nav-item ${isActive('/contact') ? 'active' : ''}` },
@@ -147,6 +148,12 @@ const Nav: React.FC = () => {
     },
   ];
 
+  const sideLinks = [
+      { link: '/cart', icon: <FaSearch/>},
+      { link: '/profile', icon: <FaUser /> },  // Using FaUser icon  
+      { link: '/cart', icon: <FaShoppingCart /> ,}  // Using FaShoppingCart icon
+    ];
+
   return (
     <>
       <div className={scrolledUp ? 'navbar scroll' : 'navbar'} onScroll={() => handleScrollChange()}>
@@ -156,7 +163,7 @@ const Nav: React.FC = () => {
         <nav>
           <div className="container">
             <Link className="navbar-brand" to="/">
-              Aberen<small>Coffee</small>
+              Abren<small>Coffee</small>
             </Link>
             <button className="navbar-toggler" onClick={handleDropdown}>
               <span className="oi oi-menu">Menu</span>
@@ -199,18 +206,16 @@ const Nav: React.FC = () => {
               </ul>
             </div>
 
-            <div className="carts">
-              <p>
-                <Link to="/cart" className={isActive('/cart') ? 'active' : ''}>
-                  <span className="icon-shopping_cart">
-                    <FaShoppingCart />
-                  </span>
-                  <span className="bag">
-                    Cart <small>{cartItemCount}</small>
-                  </span>
-                </Link>
-              </p>
+            <div className="side">
+              {sideLinks.map((link, index) => (
+                <div className="link-group" key={index}>
+                  <a href={link.link} className="link">
+                    <span className="icon">{link.icon}</span>  {/* Displaying icon */}
+                  </a>
+                </div>
+              ))}
             </div>
+            <div className='cart'><small>{cartItemCount}</small></div>
           </div>
         </nav>
         

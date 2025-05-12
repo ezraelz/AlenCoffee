@@ -33,22 +33,22 @@ const Cart: React.FC = () => {
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const lastScrollY = useRef<number>(0);
   
-    const handleScrollChange = () => {
-      const currentScrollY = window.scrollY;
-  
-      if (currentScrollY > lastScrollY.current) {
-        setScrolledUp(true); // User is scrolling up
-      } else {
-        setScrolledUp(false); // User is scrolling down
-      }
-  
-      lastScrollY.current = currentScrollY;
-    };
-  
-    useEffect(() => {
-      window.addEventListener('scroll', handleScrollChange);
-      return () => window.removeEventListener('scroll', handleScrollChange);
-    }, []);
+  const handleScrollChange = () => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY.current) {
+      setScrolledUp(true); // User is scrolling up
+    } else {
+      setScrolledUp(false); // User is scrolling down
+    }
+
+    lastScrollY.current = currentScrollY;
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScrollChange);
+    return () => window.removeEventListener('scroll', handleScrollChange);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScrollChange);

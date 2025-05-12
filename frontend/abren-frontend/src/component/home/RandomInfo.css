@@ -41,6 +41,7 @@
     font-size: 5em;
     border-radius: 50%;
     border: 1px solid #000000;
+    transition: all .5s ease-in-out;
   }
   .info-icon:hover{
     border-radius: 0;

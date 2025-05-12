@@ -116,7 +116,7 @@ const Checkout: React.FC = () => {
   };
 
   return (
-    <div className="checkout" style={{ padding: '2rem' }}>
+    <div className="checkout">
       <div className={scrolledUp ? 'hero top' : 'hero'}>
         <h1>
       {orderSuccess && <p style={{ color: 'green' }}>🎉 Your order has been placed!</p>}

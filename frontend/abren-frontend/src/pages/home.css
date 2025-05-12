@@ -55,8 +55,8 @@
   
   .shop-button {
     padding: 12px 30px;
-    background-color: #f4b400;
-    color: #000;
+    border:1px solid #f4b400;
+    color: #f4b400;
     text-decoration: none;
     font-weight: bold;
     border-radius: 25px;
@@ -64,8 +64,8 @@
   }
   
   .shop-button:hover {
-    background-color: #e0a800;
-    color: #fff;
+    color: #ffffff;
+    background-color: #f4b400;
   }
   
  

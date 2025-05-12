@@ -6,15 +6,15 @@ import Trending_products from '../component/home/trending_products';
 import RandomInfo from '../component/home/randomInfo';
 import HomeStory from '../component/home/homeStory';
 import HotDrink from '../component/home/hotDrink';
+import HomeBlog from '../component/home/homeBlog';
 
 const Home: React.FC = () => {
-  
     
     return (
         <div className="home-section">
             <Sidebar />
             <div className="home-content">
-                <h1>Welcome to <span className="brand-name">Aberen Coffee</span></h1>
+                <h1>Welcome to <span className="brand-name">Abren Coffee</span></h1>
                 <p>Brewing joy one cup at a time.</p>
                 <Link to={'/shop'}>
                    <a className="shop-button">Shop Now</a>
@@ -24,6 +24,7 @@ const Home: React.FC = () => {
             <RandomInfo />
             <HotDrink />
             <HomeStory />
+            <HomeBlog /> 
         </div>
     );
 };

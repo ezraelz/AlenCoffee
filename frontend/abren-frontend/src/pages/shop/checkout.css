@@ -1,7 +1,7 @@
 .checkout {
     position: relative;
     max-width: 100%;
-    margin: 5rem auto;
+    margin:10em auto;
     padding: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
@@ -26,10 +26,9 @@
 .checkout .hero {
     text-align: center;
     margin-bottom: 2rem;
-    margin-top: 3em;
     background: #8e5603f2;
     position: fixed;
-    top: 1em;
+    top: 8em;
     left: 0;
     width: 100%;
     z-index: 200;
