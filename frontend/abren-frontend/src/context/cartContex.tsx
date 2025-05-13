@@ -24,10 +24,13 @@ export interface Cart {
 }
 
 export interface CartContextType {
-  cart: Cart;
+  cartItems: CartItem[];
   cartItemCount: number;
-  fetchCartData: () => void;
-  setCart: React.Dispatch<React.SetStateAction<Cart>>;
+  totalPrice: number;
+  addItem: (product: Product, quantity?: number) => void;
+  updateItemQuantity: (productId: number, newQuantity: number) => void;
+  removeItem: (productId: number) => void;
+  clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -52,10 +55,99 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchCartData();
   }, []);
 
-  const cartItemCount = cart.cart_items.reduce((acc, item) => acc + item.quantity, 0);
+  const cartItems = cart.cart_items;
+  const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalPrice = cart.total_price;
+
+  const addItem = async (product: Product, quantity: number = 1) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      await axios.post(
+        '/cart/add/',
+        { product_id: product.id, quantity },
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+      await fetchCartData();
+    } catch (error) {
+      console.error('Error adding item:', error);
+    }
+  };
+
+  const updateItemQuantity = async (productId: number, newQuantity: number) => {
+    try {
+      const token = localStorage.getItem('access_token');
+  
+      if (newQuantity < 1) {
+        // Automatically delete the item if quantity < 1
+        await axios.delete(`/cart/delete/${productId}/`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        });
+      } else {
+        // Otherwise, update the quantity
+        await axios.put(
+          `/cart/update/${productId}/`,
+          { quantity: newQuantity },
+          {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            withCredentials: true,
+          }
+        );
+      }
+  
+      await fetchCartData(); // Refresh cart
+    } catch (error) {
+      console.error('Error updating item quantity:', error);
+    }
+  };
+  
+
+  const removeItem = async (productId: number) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      await axios.delete(`/cart/delete/${productId}/`, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        withCredentials: true,
+      });
+      await fetchCartData(); // Refresh cart
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  };
+  
+
+  const clearCart = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      await axios.post(
+        '/cart/clear/',
+        {},
+        {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          withCredentials: true,
+        }
+      );
+      await fetchCartData();
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+    }
+  };
 
   return (
-    <CartContext.Provider value={{ cart, cartItemCount, fetchCartData, setCart }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        cartItemCount,
+        totalPrice,
+        addItem,
+        updateItemQuantity,
+        removeItem,
+        clearCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

@@ -12,7 +12,6 @@ const Home: React.FC = () => {
     
     return (
         <div className="home-section">
-            <Sidebar />
             <div className="home-content">
                 <h1>Welcome to <span className="brand-name">Abren Coffee</span></h1>
                 <p>Brewing joy one cup at a time.</p>

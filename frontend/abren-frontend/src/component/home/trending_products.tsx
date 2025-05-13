@@ -17,7 +17,7 @@ const Trending_products: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [loadingProductIds, setLoadingProductIds] = useState<Set<number>>(new Set());
-  const { fetchCartData, cartItemCount } = useCart(); // ✅ Use global cart context
+  const { cartItemCount,addItem } = useCart(); // ✅ Use global cart context
   const navigate = useNavigate();
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const lastScrollY = useRef<number>(0);
@@ -100,7 +100,7 @@ const Trending_products: React.FC = () => {
                         <div className="button-group">
                             <button
                                 className="addCart"
-                                onClick={() => handleAddToCart(product)}
+                                onClick={() => addItem(product)}
                                 type="button"
                                 >
                                 Add to Cart

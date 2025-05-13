@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import './component/nav.css';
@@ -19,10 +19,10 @@ import './component/footer.css';
 import './component/home/homeBlog.css';
 import Nav from './component/nav';
 import Footer from './component/footer';
+import Cart from './pages/shop/cart';
 
 const Admin = lazy(() => import('./pages/admin/adminPage'));
 const Shop = lazy(() => import('./pages/shop/shop'));
-const Cart = lazy(() => import('./pages/shop/cart'));
 const Home = lazy(() => import('./pages/home'));
 const Login = lazy(() => import('./pages/login'));
 const Blog = lazy(() => import('./pages/blog/blog'));
@@ -35,6 +35,11 @@ const PaymentSuccess = lazy(() => import('./pages/shop/pymentSuccess'));
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+
   const isLoggedIn = localStorage.getItem('access_token') ? true : false;
   const isLoading = false;  // No need to use React state for loading here.
 
@@ -94,7 +99,8 @@ const App = () => {
 
   return (
     <Router>
-      <Nav isLoggedIn={isLoggedIn} />
+      <Nav isLoggedIn={isLoggedIn} onCartClick={openCart}/>
+      <Cart isOpen={isCartOpen} onClose={closeCart} />
       <ToastContainer position="top" autoClose={3000} />
       <Suspense fallback={<div className="main">Loading Page...</div>}>
         <Routes>
@@ -102,12 +108,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/shop" element={<Shop />} />
-          <Route path="/cart" element={<Cart />} />
           <Route path="/logout" element={<Logout />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/payment-success/" element={<PaymentSuccess />} />
-
           <Route path='/blog' element={<Blog />} />
           <Route path='/blog/news' element={<News /> } />
         </Routes>

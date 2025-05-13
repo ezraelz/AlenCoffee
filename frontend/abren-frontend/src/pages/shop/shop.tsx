@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
-import { FaShoppingCart } from 'react-icons/fa';
 import Leftsidebar from '../../component/leftsidebar';
 import { useCart } from './useCart'; // ✅ Import global cart context
 
@@ -21,7 +20,7 @@ const Shop: React.FC = () => {
   const [loadingProductIds, setLoadingProductIds] = useState<Set<number>>(new Set());
   const navigate = useNavigate();
 
-  const { fetchCartData, cartItemCount } = useCart(); // ✅ Use global cart context
+  const { cartItemCount,addItem } = useCart(); // ✅ Use global cart context
 
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -41,8 +40,8 @@ const Shop: React.FC = () => {
     };
 
     fetchInitialData();
-    fetchCartData(); // ✅ Load cart globally
-  }, [fetchCartData]);
+   
+  }, []);
 
   const handleAddToCart = async (product: Product) => {
     if (loadingProductIds.has(product.id)) return;
@@ -99,7 +98,7 @@ const Shop: React.FC = () => {
                 </div>
                 <button
                   className="addCart"
-                  onClick={() => handleAddToCart(product)}
+                  onClick={() => addItem(product)}
                   disabled={isLoading || isOutOfStock}
                   type="button"
                 >

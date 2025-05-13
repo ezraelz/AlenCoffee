@@ -2,51 +2,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import axios from '../utils/axios';
-import { useAuth } from '../context/AuthContext'; // ✅ Import the hook
-import { useCart } from '../pages/shop/useCart'
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../pages/shop/useCart';
 
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  stock: number;
-  image: string;
-  quantity: number;
+interface NavProps {
+  onCartClick: () => void;
 }
 
-interface CartItem {
-  product: Product;
-  quantity: number;
-  price: number | string;
-  total_price?: number;
-}
-
-interface Cart {
-  id: number;
-  cart_items: CartItem[];
-  total_price: number;
-}
-
-const Nav: React.FC = () => {
+const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const { cartItemCount } = useCart();
-  const { isLoggedIn, setIsLoggedIn } = useAuth(); // ✅ Use context here
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [cart, setCart] = useState<Cart>({ id: 0, cart_items: [], total_price: 0 });
-  const [cartCount, setCartCount] = useState(0);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const lastScrollY = useRef<number>(0);
   const location = useLocation();
 
   const handleScrollChange = () => {
     const currentScrollY = window.scrollY;
-
-    if (currentScrollY > lastScrollY.current) {
-      setScrolledUp(true); // User is scrolling up
-    } else {
-      setScrolledUp(false); // User is scrolling down
-    }
-
+    setScrolledUp(currentScrollY > lastScrollY.current);
     lastScrollY.current = currentScrollY;
   };
 
@@ -58,10 +31,7 @@ const Nav: React.FC = () => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await axios.get('/api/auth/status/', {
-          withCredentials: true,
-        });
-
+        const response = await axios.get('/api/auth/status/', { withCredentials: true });
         if (response.data.isAuthenticated) {
           localStorage.setItem('access_token', response.data.access_token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
@@ -80,22 +50,7 @@ const Nav: React.FC = () => {
     };
 
     checkAuthStatus();
-    fetchCartData();
   }, [setIsLoggedIn]);
-
-  const fetchCartData = async () => {
-    try {
-      const token = localStorage.getItem('access_token');
-      const response = await axios.get<Cart>('/cart/', {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        withCredentials: true,
-      });
-      setCart(response.data); // Update cart state with the latest data
-      console.log(response.data);
-    } catch (error) {
-      console.error('Error fetching cart data:', error);
-    }
-  };
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -106,9 +61,7 @@ const Nav: React.FC = () => {
     { name: 'Checkout', to: '/checkout' },
   ];
 
-  const handleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  const handleDropdown = () => setIsOpen((prev) => !prev);
 
   const handleLogout = async () => {
     try {
@@ -126,17 +79,16 @@ const Nav: React.FC = () => {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
       setIsLoggedIn(false);
-      setCartCount(0);
     }
   };
 
   const navLinks = [
-    { name: 'About AbrenCoffee', to: '/about', is_active: `nav-item ${isActive('/about') ? 'active' : ''}` },
-    { name: 'Services', to: '/services', is_active: `nav-item ${isActive('/services') ? 'active' : ''}` },
-    { name: 'Gifts', to: '/blog', is_active: `nav-item ${isActive('/blog') ? 'active' : ''}` },
-    { name: 'Blog', to: '/blog', is_active: `nav-item ${isActive('/blog') ? 'active' : ''}` },
-    { name: 'Menu', to: '/menu', is_active: `nav-item ${isActive('/menu') ? 'active' : ''}` },
-    { name: 'Contact', to: '/contact', is_active: `nav-item ${isActive('/contact') ? 'active' : ''}` },
+    { name: 'About AbrenCoffee', to: '/about' },
+    { name: 'Services', to: '/services' },
+    { name: 'Gifts', to: '/blog' },
+    { name: 'Blog', to: '/blog' },
+    { name: 'Menu', to: '/menu' },
+    { name: 'Contact', to: '/contact' },
     {
       name: isLoggedIn ? 'Logout' : 'Login',
       to: isLoggedIn ? '#' : '/login',
@@ -149,79 +101,82 @@ const Nav: React.FC = () => {
   ];
 
   const sideLinks = [
-      { link: '/cart', icon: <FaSearch/>},
-      { link: '/profile', icon: <FaUser /> },  // Using FaUser icon  
-      { link: '/cart', icon: <FaShoppingCart /> ,}  // Using FaShoppingCart icon
-    ];
+    { link: '/search', icon: <FaSearch /> },
+    { link: '/profile', icon: <FaUser /> },
+    { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
+  ];
 
   return (
-    <>
-      <div className={scrolledUp ? 'navbar scroll' : 'navbar'} onScroll={() => handleScrollChange()}>
-        <div className='nav_second'>
-          <p>Order now and get 10% discount</p>
-        </div>
-        <nav>
-          <div className="container">
-            <Link className="navbar-brand" to="/">
-              Abren<small>Coffee</small>
-            </Link>
-            <button className="navbar-toggler" onClick={handleDropdown}>
-              <span className="oi oi-menu">Menu</span>
-            </button>
+    <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
+      <div className='nav_second'>
+        <p>Order now and get 10% discount</p>
+      </div>
+      <nav>
+        <div className="container">
+          <Link className="navbar-brand" to="/">
+            Abren<small>Coffee</small>
+          </Link>
+          <button className="navbar-toggler" onClick={handleDropdown}>
+            <span className="oi oi-menu">Menu</span>
+          </button>
 
-            <div className="collapse navbar-collapse" id="ftco-nav">
-              <ul className="navbar-nav">
-                <li className="nav-item dropdown">
-                  <span
-                    className="nav-link dropdown-toggle"
-                    style={{ cursor: 'pointer' }}
-                    onClick={handleDropdown}
-                  >
-                    Shop
-                  </span>
-                  {isOpen && (
-                    <div className="dropdown-menu">
-                      <ul>
-                        {dropdown.map((li, index) => (
-                          <li key={index}>
-                            <Link className="dropdown-item" to={li.to}>
-                              {li.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </li>
+          <div className="collapse navbar-collapse" id="ftco-nav">
+            <ul className="navbar-nav">
+              <li className="nav-item dropdown">
+                <span className="nav-link dropdown-toggle" onClick={handleDropdown} style={{ cursor: 'pointer' }}>
+                  Shop
+                </span>
+                {isOpen && (
+                  <div className="dropdown-menu">
+                    <ul>
+                      {dropdown.map((li, index) => (
+                        <li key={index}>
+                          <Link className="dropdown-item" to={li.to}>
+                            {li.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </li>
 
-                {navLinks.map((link, index) =>
-                  link.name ? (
-                    <li key={index} className={link.is_active}>
+              {navLinks.map(
+                (link, index) =>
+                  link.name && (
+                    <li
+                      key={index}
+                      className={`nav-item ${isActive(link.to) ? 'active' : ''}`}
+                    >
                       <Link to={link.to} className="nav-link" onClick={link.onClick}>
                         {link.name}
                       </Link>
                     </li>
-                  ) : null
-                )}
-              </ul>
-            </div>
-
-            <div className="side">
-              {sideLinks.map((link, index) => (
-                <div className="link-group" key={index}>
-                  <a href={link.link} className="link">
-                    <span className="icon">{link.icon}</span>  {/* Displaying icon */}
-                  </a>
-                </div>
-              ))}
-            </div>
-            <div className='cart'><small>{cartItemCount}</small></div>
+                  )
+              )}
+            </ul>
           </div>
-        </nav>
-        
-      </div>
-      
-    </>
+
+          <div className="side">
+            {sideLinks.map((link, index) => (
+              <div className="link-group" key={index}>
+                <Link to={link.link} className="link" >
+                  <span className="icon" onClick={e=> {
+                  if (link.onClick) {
+                    e.preventDefault();
+                    link.onClick();
+                  }
+                }}>{link.icon}</span>
+                </Link>
+              </div>
+            ))}
+            <div className="cart">
+              <small>{cartItemCount}</small>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
   );
 };
 
