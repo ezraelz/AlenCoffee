@@ -24,7 +24,7 @@ const PaymentSuccess: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: '2rem', textAlign: 'center' }}>
+    <div style={{ padding: '2rem', textAlign: 'center' , margin: '14em auto'}}>
       <h1>🎉 Thank You for Your Purchase!</h1>
       <p>Your payment has been successfully processed.</p>
       {cleared ? (

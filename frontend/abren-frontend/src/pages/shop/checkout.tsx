@@ -156,7 +156,7 @@ const Checkout: React.FC = () => {
           />
 
           <h3>Choose a Payment Method</h3>
-          <div className="payment-buttons" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div className="payment-buttons" >
             <button onClick={handleStripeCheckout} disabled={paymentLoading || !cart}>
               {paymentLoading ? 'Processing...' : '💳 Pay with Stripe (Visa/MasterCard)'}
             </button>
@@ -166,7 +166,7 @@ const Checkout: React.FC = () => {
             <button onClick={() => handlePaymentRedirect('klarna')} disabled={paymentLoading || !cart}>
               🧾 Pay with Klarna
             </button>
-            <button onClick={() => handlePaymentRedirect('swish')} disabled={paymentLoading || !cart}>
+            <button typeof='radio' onClick={() => handlePaymentRedirect('swish')} disabled={paymentLoading || !cart}>
               📱 Pay with Swish
             </button>
           </div>

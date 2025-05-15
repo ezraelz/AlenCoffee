@@ -19,7 +19,6 @@
   z-index: 1000;
   padding: 0;
   opacity: 0;
-  color: #ffffff;
   animation: fallDown 1s forwards ease-in-out;
 }
 .navbar.scroll .container .collapse .navbar-nav .nav-link,
@@ -200,7 +199,18 @@
 
   .navbar .container .cart{
     position: absolute;
-    top: 0;
+    top: 5.4em;
+    right: 1em;
+    width: 1.4em;
+    font-size: .6em;
+    font-weight: 600;
+    border-radius: 50%;
+    background: rgb(175, 30, 5);
+    z-index: 9;
+  }
+  .navbar.scroll .container .cart{
+    position: absolute;
+    top: 0em;
     right: 1em;
     width: 1.4em;
     font-size: .6em;

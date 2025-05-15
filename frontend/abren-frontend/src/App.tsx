@@ -105,7 +105,7 @@ const App = () => {
     <Router>
       <Nav isLoggedIn={isLoggedIn} onCartClick={openCart}/>
       <Cart isOpen={isCartOpen} onClose={closeCart} />
-      <ToastContainer position="top" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={3000} />
       <Suspense fallback={<div className="main">Loading Page...</div>}>
         <ScrollToTop />
         <Routes>
@@ -116,7 +116,7 @@ const App = () => {
           <Route path="/logout" element={<Logout />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/product/:id" element={<SingleProduct />} />
-          <Route path="/payment-success/" element={<PaymentSuccess />} />
+          <Route path="/success/" element={<PaymentSuccess />} />
           <Route path='/blog' element={<Blog />} />
           <Route path='/blog/news' element={<News /> } />
           <Route path='/profile' element={<Profile />} /> 

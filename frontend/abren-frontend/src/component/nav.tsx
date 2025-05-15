@@ -108,7 +108,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { name: 'Menu', to: '/menu' },
     { name: 'Contact', to: '/contact' },
     { name: isLoggedIn ? 'Logout' : 'Login', to: '/login', onClick: handleLogout },
-    { name: isLoggedIn ? '' : 'Register', to: '/register',onClick: '' },
+    { name: isLoggedIn ? '' : 'Subscribe', to: '/register',onClick: '' },
     { name: isLoggedIn && role === 'admin' ? 'Dashboard' : '', to: '/admin',onClick: '' },
    ] // Remove nulls
   
