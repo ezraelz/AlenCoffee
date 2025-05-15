@@ -1,0 +1,75 @@
+/* Profile Page */
+.profile {
+    margin: 1em auto 0 auto;
+    width: 100%;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.profile .profile-hero {
+    margin-top: 8em;
+    background: linear-gradient(to right, #333, #555);
+    width: 100%;
+    padding: 2em;
+    color: white;
+    text-align: center;
+}
+
+.profile h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.profile-container,
+.shipping-container {
+    width: 30em;
+    margin-top: 1em;
+    margin-bottom: 3em;
+    padding: 2em;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.profile-container p,
+.shipping-container p {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.profile-container strong,
+.shipping-container strong {
+    color: #333;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.error-message {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #e74c3c;
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container,
+    .shipping-container {
+        width: 90%;
+        padding: 1.5em;
+    }
+}

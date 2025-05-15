@@ -27,8 +27,8 @@ const Column2: React.FC = () => {
           <div className="footer2">
             <h3>Shop</h3>
             <ul>
-                {links.map((link)=> (
-                    <li><Link to={link.to}>{link.name}</Link></li>
+                {links.map((link, index)=> (
+                    <li key={index}><Link to={link.to}>{link.name}</Link></li>
                 ))}
             </ul>
           </div>
@@ -50,8 +50,8 @@ const Column3: React.FC = () => {
           <div className="footer2">
             <h3>Services</h3>
             <ul>
-                {links.map((link)=> (
-                    <li><Link to={link.to}>{link.name}</Link></li>
+                {links.map((link, index)=> (
+                    <li key={index}><Link to={link.to}>{link.name}</Link></li>
                 ))}
             </ul>
           </div>
@@ -73,8 +73,8 @@ const Column4: React.FC = () => {
           <div className="footer2">
             <h3>Privacy and Terms</h3>
             <ul>
-                {links.map((link)=> (
-                    <li><Link to={link.to}>{link.name}</Link></li>
+                {links.map((link, index)=> (
+                    <li key={index}><Link to={link.to}>{link.name}</Link></li>
                 ))}
             </ul>
           </div>

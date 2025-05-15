@@ -17,6 +17,7 @@ import './pages/blog/blog.css';
 import './pages/blog/catagories.css';
 import './component/footer.css';
 import './component/home/homeBlog.css';
+import './pages/profile.css';
 import Nav from './component/nav';
 import Footer from './component/footer';
 import Cart from './pages/shop/cart';
@@ -31,8 +32,11 @@ const Logout = lazy(() => import('./pages/logout'));
 const SingleProduct = lazy(() => import('./pages/shop/signleProduct'));
 const Checkout = lazy(() => import('./pages/shop/checkout'));
 const PaymentSuccess = lazy(() => import('./pages/shop/pymentSuccess'));
+const Profile = lazy(() => import('./pages/profile'));
+const Register = lazy(() => import('./pages/register'));
 
 import { ToastContainer } from 'react-toastify';
+import ScrollToTop from './routes/ScrollToTop';
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -103,6 +107,7 @@ const App = () => {
       <Cart isOpen={isCartOpen} onClose={closeCart} />
       <ToastContainer position="top" autoClose={3000} />
       <Suspense fallback={<div className="main">Loading Page...</div>}>
+        <ScrollToTop />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Home />} />
@@ -114,6 +119,8 @@ const App = () => {
           <Route path="/payment-success/" element={<PaymentSuccess />} />
           <Route path='/blog' element={<Blog />} />
           <Route path='/blog/news' element={<News /> } />
+          <Route path='/profile' element={<Profile />} /> 
+          <Route path='/register' element={<Register />} />
         </Routes>
       </Suspense>
       <Footer />

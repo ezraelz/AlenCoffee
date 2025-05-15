@@ -11,8 +11,8 @@ const HotDrink = () => {
     ]
   return (
     <div className='hot_drinks'>
-      {drinks.map((drink)=> (
-        <div className="drink_card">
+      {drinks.map((drink, index)=> (
+        <div className="drink_card" key={index}>
             <img src={drink.img} alt={drink.name} />
             <div className="detail">
                 <h2>{drink.name}</h2>

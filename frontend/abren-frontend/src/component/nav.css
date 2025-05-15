@@ -9,6 +9,7 @@
   justify-content: center;
   background: #f2f2f2;
   z-index: 1000;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 .navbar.scroll{
   width: 100%;
@@ -81,7 +82,7 @@
     align-items: center;
     list-style: none;
     gap: 1.4rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
   }
   
   .nav-item {
@@ -89,7 +90,7 @@
   }
   
   .nav-link {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1.2rem;
     color: #000000 !important;
     font-weight: 500;
@@ -110,8 +111,12 @@
     width: 24vh;
     height: auto;
     position: absolute;
-    top: 6vh;
+    justify-content: start;
+    margin-left: -1.5em;
+    top: 10.3vh;
     left: 0;
+    color: #000000;
+    background: white;
   }
   .dropdown-menu ul{
     gap: 2em;
@@ -123,7 +128,7 @@
     line-height: 2.4em;
   }
   .dropdown-item {
-    color: #fff;
+    color: #000000;
     padding-bottom: 1vh;
     transition: all 0.3s ease;
   }

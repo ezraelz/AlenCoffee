@@ -1,46 +1,42 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 
 interface AuthContextType {
   isLoggedIn: boolean;
   setIsLoggedIn: (value: boolean) => void;
   isLoading: boolean;
-  role: string | null;
-  email: string | null;
+  username: string | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isLoggedIn: false,
   setIsLoggedIn: () => {},
   isLoading: true,
-  role: null,
-  email: null,
+  username: null,
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [role, setRole] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('access_token');
-    const storedRole = localStorage.getItem('role');
-    const storedEmail = localStorage.getItem('email');
+    const storedUsername = localStorage.getItem('username');
 
     if (accessToken) {
       axios
-        .get('http://127.0.0.1:8000/api/auth/status/', {
+        .get('/api/auth/status/', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
           withCredentials: true,
+          
         })
         .then((res) => {
           if (res.data.isAuthenticated) {
             setIsLoggedIn(true);
-            setRole(storedRole);
-            setEmail(storedEmail);
+            setUsername(storedUsername);
           } else {
             setIsLoggedIn(false);
           }
@@ -59,7 +55,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, isLoading, role, email }}>
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, isLoading,  username }}>
       {children}
     </AuthContext.Provider>
   );

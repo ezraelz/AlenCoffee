@@ -1,6 +1,5 @@
 import React from 'react';
 import './home.css'; // Make sure this path matches your file structure
-import Sidebar from '../component/sidebar';
 import { Link} from 'react-router-dom';
 import Trending_products from '../component/home/trending_products';
 import RandomInfo from '../component/home/randomInfo';
@@ -15,8 +14,8 @@ const Home: React.FC = () => {
             <div className="home-content">
                 <h1>Welcome to <span className="brand-name">Abren Coffee</span></h1>
                 <p>Brewing joy one cup at a time.</p>
-                <Link to={'/shop'}>
-                   <a className="shop-button">Shop Now</a>
+                <Link to={'/shop'} className="shop-button">
+                   Shop Now
                 </Link>
             </div>
             <Trending_products />

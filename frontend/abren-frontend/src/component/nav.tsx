@@ -11,12 +11,49 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const { cartItemCount } = useCart();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn} = useAuth();
+  const [ role, setRole] = useState('');
+  const [ username, setUsername] = useState('');
+  const [ error, setError] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const lastScrollY = useRef<number>(0);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  
+
+  useEffect(() => {
+    const fetchRoleData = async () => {
+      try {
+        const token = localStorage.getItem('access_token');
+        const response = await axios.get(`/users/me/`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        console.log(response.data.role);
+        setRole(response.data.role);
+        setUsername(response.data.username);
+      } catch (err) {
+        console.error('Failed to fetch user data:', err);
+        setError(err);
+      }
+    };
+  
+    if (isLoggedIn) fetchRoleData();
+  }, [isLoggedIn]);
+  
   const handleScrollChange = () => {
     const currentScrollY = window.scrollY;
     setScrolledUp(currentScrollY > lastScrollY.current);
@@ -28,36 +65,12 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     return () => window.removeEventListener('scroll', handleScrollChange);
   }, []);
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axios.get('/api/auth/status/', { withCredentials: true });
-        if (response.data.isAuthenticated) {
-          localStorage.setItem('access_token', response.data.access_token);
-          localStorage.setItem('refresh_token', response.data.refresh_token);
-          setIsLoggedIn(true);
-        } else {
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          setIsLoggedIn(false);
-        }
-      } catch (err) {
-        console.error('Error checking auth status:', err);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        setIsLoggedIn(false);
-      }
-    };
-
-    checkAuthStatus();
-  }, [setIsLoggedIn]);
-
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname.startsWith(path);
 
   const dropdown = [
     { name: 'All Products', to: '/shop' },
     { name: 'Single Product', to: '/product/1' },
-    { name: 'Cart', to: '/cart' },
+    { name: 'Cart', onClick: onCartClick  },
     { name: 'Checkout', to: '/checkout' },
   ];
 
@@ -82,6 +95,11 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     }
   };
 
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location.pathname]);
+  
+
   const navLinks = [
     { name: 'About AbrenCoffee', to: '/about' },
     { name: 'Services', to: '/services' },
@@ -89,22 +107,18 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { name: 'Blog', to: '/blog' },
     { name: 'Menu', to: '/menu' },
     { name: 'Contact', to: '/contact' },
-    {
-      name: isLoggedIn ? 'Logout' : 'Login',
-      to: isLoggedIn ? '#' : '/login',
-      onClick: isLoggedIn ? handleLogout : undefined,
-    },
-    {
-      name: isLoggedIn ? '' : 'Register',
-      to: isLoggedIn ? '#' : '/register',
-    },
-  ];
-
+    { name: isLoggedIn ? 'Logout' : 'Login', to: '/login', onClick: handleLogout },
+    { name: isLoggedIn ? '' : 'Register', to: '/register',onClick: '' },
+    { name: isLoggedIn && role === 'admin' ? 'Dashboard' : '', to: '/admin',onClick: '' },
+   ] // Remove nulls
+  
   const sideLinks = [
     { link: '/search', icon: <FaSearch /> },
     { link: '/profile', icon: <FaUser /> },
     { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
   ];
+
+  console.log({isLoggedIn, role, username});
 
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
@@ -127,11 +141,11 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
                   Shop
                 </span>
                 {isOpen && (
-                  <div className="dropdown-menu">
+                  <div className="dropdown-menu" ref={dropdownRef}>
                     <ul>
                       {dropdown.map((li, index) => (
                         <li key={index}>
-                          <Link className="dropdown-item" to={li.to}>
+                          <Link className="dropdown-item" to={li.to} onClick={li?.onclick}>
                             {li.name}
                           </Link>
                         </li>
@@ -141,19 +155,17 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
                 )}
               </li>
 
-              {navLinks.map(
-                (link, index) =>
-                  link.name && (
-                    <li
-                      key={index}
-                      className={`nav-item ${isActive(link.to) ? 'active' : ''}`}
-                    >
-                      <Link to={link.to} className="nav-link" onClick={link.onClick}>
-                        {link.name}
-                      </Link>
-                    </li>
-                  )
-              )}
+              {navLinks.map((link, index) => (
+                <li
+                  key={index}
+                  className={`nav-item ${isActive(link?.to) ? 'active' : ''}`}
+                >
+                  <Link to={link?.to} className="nav-link" onClick={link?.onClick}>
+                    {link?.name}
+                  </Link>
+                </li>
+              ))}
+
             </ul>
           </div>
 

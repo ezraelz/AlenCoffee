@@ -1,7 +1,7 @@
 .checkout {
   position: relative;
   max-width: 100%;
-  margin: 10em auto;
+  margin: 7em auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
   z-index: 3;
@@ -71,7 +71,7 @@
 
 .checkout .shipping-info {
   background-color: #ece6e6;
-  padding-left: 6em;
+  padding-left: 6.7em;
   padding-right: 6em;
   display: flex;
   flex-direction: column;
@@ -112,7 +112,7 @@
   font-size: 1rem;
   border-radius: 6px;
   border: 1px solid #000;
-  background: transparent;
+  background: #ece6e6;
   color: #2d2813;
   transition: border-color 0.3s ease;
 }

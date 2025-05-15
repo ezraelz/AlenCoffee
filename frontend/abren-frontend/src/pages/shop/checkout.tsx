@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
 import ShippingForm from '../../component/shoppingform';
+import { FaPaypal } from 'react-icons/fa';
 
 interface Product {
   id: number;
@@ -81,7 +82,7 @@ const Checkout: React.FC = () => {
       });
 
       setOrderSuccess(true);
-      setFormData({ name: '', email: '', address: '', city: '', zip: '' });
+      
       toast.success('✅ Order placed successfully!');
     } catch {
       toast.error('❌ Failed to place order. Please try again.');
@@ -103,24 +104,46 @@ const Checkout: React.FC = () => {
   };
 
   const handleStripeCheckout = async () => {
+    if (!cart) return;
     setPaymentLoading(true);
     try {
-      const response = await axios.post('orders/payments/stripe/', {}, { withCredentials: true });
+      const response = await axios.post(
+        '/orders/payments/stripe/',
+        {
+          amount: cart.total_price,
+          email: formData.email,
+        },
+        { withCredentials: true }
+      );
+  
+      console.log("Stripe response:", response.data);
+  
       const stripe = (window as any).Stripe(response.data.stripe_public_key);
-      await stripe.redirectToCheckout({ sessionId: response.data.session_id });
-    } catch {
+      const result = await stripe.redirectToCheckout({ sessionId: response.data.session_id });
+  
+      if (result.error) {
+        console.error("Stripe redirect error:", result.error.message);
+        toast.error(`❌ ${result.error.message}`);
+      }
+    } catch (error) {
+      console.error("Stripe checkout failed:", error);
       toast.error('❌ Stripe checkout failed.');
     } finally {
       setPaymentLoading(false);
     }
   };
+  
+  
+  
+  console.log("cart.total_price:", cart?.total_price, typeof cart?.total_price);
 
   return (
     <div className="checkout">
       <div className={scrolledUp ? 'hero top' : 'hero'}>
         <h1>
-      {orderSuccess && <p style={{ color: 'green' }}>🎉 Your order has been placed!</p>}
-      Checkout  </h1>
+          {orderSuccess && <p style={{ color: 'green' }}>🎉 Your order has been placed!</p>}
+          Checkout  
+        </h1>
       </div>
       <div className="checkout-container">
         <div className="shipping-info">
@@ -138,7 +161,7 @@ const Checkout: React.FC = () => {
               {paymentLoading ? 'Processing...' : '💳 Pay with Stripe (Visa/MasterCard)'}
             </button>
             <button onClick={() => handlePaymentRedirect('paypal')} disabled={paymentLoading || !cart}>
-              💰 Pay with PayPal
+              <FaPaypal/> Pay with PayPal
             </button>
             <button onClick={() => handlePaymentRedirect('klarna')} disabled={paymentLoading || !cart}>
               🧾 Pay with Klarna

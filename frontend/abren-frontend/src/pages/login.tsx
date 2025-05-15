@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import { getCookie } from '../utils/csrf';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 
 const Login: React.FC = () => {
-  const { setIsLoggedIn } = useAuth(); // ✅ Now using context
-  const [email, setEmail] = useState('');
+  const { setIsLoggedIn, isLoggedIn} = useAuth(); // ✅ Now using context
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/auth/status/', {
+        const response = await axios.get('/api/auth/status/', {
           withCredentials: true
         });
         if (response.data.isAuthenticated) {
@@ -39,34 +39,25 @@ const Login: React.FC = () => {
     setError(null);
   
     try {
-
         interface LoginResponse {
-            access: string;
-            refresh: string;
-            role: string;
-            email: string;
+            username: string;
+            password: string;
           }
 
-      const csrfToken = getCookie('csrftoken');
-      const response = await axios.post<LoginResponse>(
-        'http://127.0.0.1:8000/api/login/',
-        { email, password },
-        {
-          headers: {
-            'X-CSRFToken': csrfToken,
-            'Content-Type': 'application/json',
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post<LoginResponse>('/api/login/', {
+        username,
+        password,
+      });
   
-      const { access, refresh, role, email: userEmail } = response.data;
-  
+      console.log(response.data);
+      const { access, refresh, email: userEmail, username: userUsername} = response.data;
+      
+
       // ✅ Save tokens and role to localStorage
       localStorage.setItem('access_token', access);
       localStorage.setItem('refresh_token', refresh);
-      localStorage.setItem('role', role);
       localStorage.setItem('email', userEmail);
+      localStorage.setItem('username', userUsername);
       localStorage.setItem('isLoggedIn', 'true');
   
       setIsLoggedIn(true);
@@ -77,16 +68,15 @@ const Login: React.FC = () => {
     }
   };
   
-
   return (
     <div className="login-container">
       <h2 className="login-title">Login</h2>
       <form onSubmit={handleLogin} className="login-box">
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
           className="login-input"
           required
         />
@@ -101,6 +91,11 @@ const Login: React.FC = () => {
         <button type="submit" className="login-button">Login</button>
       </form>
       {error && <div className="error-message">{error}</div>}
+      <div className="login-footer">
+          <p>
+            Forgot your password? <a href="/reset">Reset here</a>
+          </p>
+        </div>
     </div>
   );
 };
