@@ -34,7 +34,7 @@
     position: relative;
     overflow: hidden;
   }
-  .trending-products .product_container .product-card.anime{
+  .trending-products .product_container .product_card.anime{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,7 +47,17 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    opacity: 0;
     animation: moveUp 1s forwards ease-in-out;
+  }
+  .trending-products .product_container .product_card.anime:nth-child(1){
+    animation-delay: .2s;
+  }
+  .trending-products .product_container .product_card.anime:nth-child(2){
+    animation-delay: .6s;
+  }
+  .trending-products .product_container .product_card.anime:nth-child(3){
+    animation-delay: .8s;
   }
   .trending-products .product_card:hover {
     transform: translateY(-5px);
@@ -60,7 +70,7 @@
     border-radius: 6px;
   }
 
-  .trending-products .product-card .addCart {
+  .trending-products .product_card .addCart {
     background-color: #714b1c;
     color: white;
     padding: 0.5em 1em;
@@ -68,10 +78,23 @@
     cursor: pointer;
     transition: background 0.3s ease;
     position: absolute;
-    top: 1em;
+    top: 1.5em;
     right: 1em;
   }
 
+  .trending-products .product_container .button-group .viewCart{
+    background: none;
+    outline: none;
+    border: 1px solid #714b1c94;
+    border-radius: .3em;
+    padding: .6em;
+    color: #714b1c;
+    cursor: pointer;
+  }
+.trending-products .product_card .button-group .viewCart:hover{
+  background: #714b1ca8;
+  color: #ffffff;
+}
 @keyframes moveUp {
   0%{
     opacity: 0;

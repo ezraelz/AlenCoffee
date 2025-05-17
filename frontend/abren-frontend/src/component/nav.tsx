@@ -105,7 +105,6 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { name: 'Services', to: '/services' },
     { name: 'Gifts', to: '/blog' },
     { name: 'Blog', to: '/blog' },
-    { name: 'Menu', to: '/menu' },
     { name: 'Contact', to: '/contact' },
     { name: isLoggedIn ? 'Logout' : 'Login', to: '/login', onClick: handleLogout },
     { name: isLoggedIn ? '' : 'Subscribe', to: '/register',onClick: '' },
@@ -117,9 +116,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { link: '/profile', icon: <FaUser /> },
     { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
   ];
-
-  console.log({isLoggedIn, role, username});
-
+  
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
       <div className='nav_second'>

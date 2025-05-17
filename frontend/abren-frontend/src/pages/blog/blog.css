@@ -2,13 +2,14 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f9f9f9;
     min-height: 100vh;
-    margin-top: 8em;
+    margin-top: 10em;
     z-index: 300;
+    color: #fff;
   }
   
   .blog-hero {
     text-align: center;
-    padding: 3rem 1rem 2rem;
+    padding: 4rem 2rem;
     background-color: #333;
     color: #fff;
   }

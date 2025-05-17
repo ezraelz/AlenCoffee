@@ -6,9 +6,9 @@ import RandomInfo from '../component/home/randomInfo';
 import HomeStory from '../component/home/homeStory';
 import HotDrink from '../component/home/hotDrink';
 import HomeBlog from '../component/home/homeBlog';
+import HappyCustomers from '../component/home/happyCustomers';
 
 const Home: React.FC = () => {
-    
     return (
         <div className="home-section">
             <div className="home-content">
@@ -23,6 +23,7 @@ const Home: React.FC = () => {
             <HotDrink />
             <HomeStory />
             <HomeBlog /> 
+            <HappyCustomers />
         </div>
     );
 };

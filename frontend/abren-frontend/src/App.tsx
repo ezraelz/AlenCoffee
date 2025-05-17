@@ -18,6 +18,7 @@ import './pages/blog/catagories.css';
 import './component/footer.css';
 import './component/home/homeBlog.css';
 import './pages/profile.css';
+import './component/home/happyCustomer.css';
 import Nav from './component/nav';
 import Footer from './component/footer';
 import Cart from './pages/shop/cart';
@@ -117,8 +118,8 @@ const App = () => {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/success/" element={<PaymentSuccess />} />
-          <Route path='/blog' element={<Blog />} />
-          <Route path='/blog/news' element={<News /> } />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:category" element={<Blog />} />
           <Route path='/profile' element={<Profile />} /> 
           <Route path='/register' element={<Register />} />
         </Routes>

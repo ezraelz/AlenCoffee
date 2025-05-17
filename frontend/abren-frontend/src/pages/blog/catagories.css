@@ -1,7 +1,7 @@
 .blog-catagories{
 
 }
-.blog-catagories ul{
+.blog-categories ul{
     list-style: none;
     display: flex;
     justify-content: center;
@@ -10,22 +10,22 @@
     margin: 0;
     background: #333;
 }
-.blog-catagories ul li{
-    padding: 2em;
+.blog-categories ul li{
+    padding: .5em;
 }
-.blog-catagories ul li:hover{
+.blog-categories ul li:hover{
     background: white;
     color: black;
     cursor: pointer;
 }
-.blog-catagories ul li:active{
+.blog-categories ul li:active{
     background: white;
 }
-.blog-catagories ul .li.active{
+.blog-categories ul .li.active{
     background: white;
     color: black;
 }
-.blog-catagories ul .li button{
+.blog-categories ul .li button{
     background: 'none';
     border: 'none';
     cursor: 'pointer';

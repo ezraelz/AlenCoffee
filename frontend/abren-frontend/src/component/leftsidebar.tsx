@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Leftsidebar = () => {
+  const [scrolledUp, setScrolledUp] = useState<boolean>(false);
+  const lastScrollY = useRef<number>(0);
+
+   const handleScrollChange = () => {
+      const currentScrollY = window.scrollY;
+      setScrolledUp(currentScrollY > lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
+  
+    useEffect(() => {
+      window.addEventListener('scroll', handleScrollChange);
+      return () => window.removeEventListener('scroll', handleScrollChange);
+    }, []);
     const items = [
         {name: 'Newest', link: '', icon: ''},
         {name: 'Most Purchased', link: '', icon: ''},
@@ -10,12 +23,11 @@ const Leftsidebar = () => {
         {name: 'Catagories', link: '', icon: ''},
     ]
   return (
-    <div className='leftSidebar'>
+    <div className={scrolledUp ? 'shop-nav scrolled' : 'shop-nav'}>
       <div className="container">
-         <h3>Welcome to the Shop</h3>
          <ul className="list-card">
             {items.map((item) =>(
-                <li >
+                <li className='links'>
                     <Link to={''}>{item.name}</Link>
                 </li>
             ))}

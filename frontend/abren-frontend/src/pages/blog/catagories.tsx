@@ -1,29 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from '../../utils/axios';
 
-interface Props {
-  setActiveBlog: (path: string) => void;
+interface Category {
+  name: string;
+  link: string;
 }
 
-const Catagories: React.FC<Props> = ({ setActiveBlog }) => {
-  const categories = [
-    { name: 'All Categories', link: '/blog' },
-    { name: 'News', link: '/blog/news' },
-    { name: 'Coffee Production', link: '/blog/coffee' },
-    { name: 'Random', link: '/blog/random' },
-  ];
+const Categories: React.FC = () => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogCategories = async () => {
+      try {
+        const response = await axios.get('/blog/catagory/');
+        setCategories(response.data);
+      } catch (error) {
+        console.error('Error fetching categories', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogCategories();
+  }, []);
+
+  if (loading) return <p>Loading categories...</p>;
 
   return (
-    <div className='blog-catagories'>
+    <div className="blog-categories">
       <ul>
-        {categories.map((c, index) => (
-          <li className='li' key={index} onClick={() => setActiveBlog(c.link)}>
-            <Link to={c.link}>{c.name}</Link>
-          </li>
-        ))}
+      {categories.map((c) => (
+        <li className='li' key={c.link}>
+          <Link to={c.link}>{c.name}</Link>
+        </li>
+      ))}
       </ul>
     </div>
   );
 };
 
-export default Catagories;
+export default Categories;

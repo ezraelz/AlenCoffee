@@ -26,7 +26,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
             {cartItems.map((item) => (
               <li key={item.product.id} className="cart-item">
                 <div className="cart-item-info">
-                  <span className="cart-item-name">{item.product.name}</span>
+                  <span className="cart-item-name">{item.product.name} - </span>
                   <span className="cart-item-price">
                     ${item.price} × {item.quantity}
                   </span>

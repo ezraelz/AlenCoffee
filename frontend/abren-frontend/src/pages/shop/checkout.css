@@ -1,7 +1,7 @@
 .checkout {
   position: relative;
   max-width: 100%;
-  margin: 7em auto;
+  margin: 9em auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
   z-index: 3;
@@ -113,7 +113,7 @@
   font-size: 1rem;
   border-radius: 6px;
   border: none;
-  box-shadow: 0 0 4px #ababab;
+  box-shadow: 0 0 4px #bdbdbd;
   color: #2d2813;
   transition: border-color 0.3s ease;
 }
@@ -125,8 +125,9 @@
 
 .checkout button,
 .checkout button[type="submit"] {
-  background-color: #2d2813;
-  color: white;
+  background-color: transparent;
+  border: 0 0 5px #000;
+  color: rgb(0, 0, 0);
   border: none;
   padding: 0.6em;
   font-size: 1rem;

@@ -115,9 +115,7 @@ const Checkout: React.FC = () => {
         },
         { withCredentials: true }
       );
-  
-      console.log("Stripe response:", response.data);
-  
+ 
       const stripe = (window as any).Stripe(response.data.stripe_public_key);
       const result = await stripe.redirectToCheckout({ sessionId: response.data.session_id });
   
@@ -133,9 +131,33 @@ const Checkout: React.FC = () => {
     }
   };
   
+  const handlePayPalCheckout = async () => {
+    if (!cart) return;
+    setPaymentLoading(true);
+    try {
+      const response = await axios.post(
+        '/orders/payments/paypal/',
+        {
+          amount: cart.total_price,
+          email: formData.email,
+        },
+        { withCredentials: true }
+      );
   
+      // ✅ Redirect to PayPal approval URL
+      if (response.data.approval_url) {
+        window.location.href = response.data.approval_url;
+      } else {
+        toast.error('❌ No approval URL returned from PayPal.');
+      }
   
-  console.log("cart.total_price:", cart?.total_price, typeof cart?.total_price);
+    } catch (error) {
+      console.error("PayPal checkout failed:", error);
+      toast.error('❌ PayPal checkout failed.');
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
 
   return (
     <div className="checkout">
@@ -160,7 +182,7 @@ const Checkout: React.FC = () => {
             <button onClick={handleStripeCheckout} disabled={paymentLoading || !cart}>
               {paymentLoading ? 'Processing...' : '💳 Pay with Stripe (Visa/MasterCard)'}
             </button>
-            <button onClick={() => handlePaymentRedirect('paypal')} disabled={paymentLoading || !cart}>
+            <button onClick={handlePayPalCheckout} disabled={paymentLoading || !cart}>
               <FaPaypal/> Pay with PayPal
             </button>
             <button onClick={() => handlePaymentRedirect('klarna')} disabled={paymentLoading || !cart}>

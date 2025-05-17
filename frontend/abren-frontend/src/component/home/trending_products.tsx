@@ -16,11 +16,11 @@ const Trending_products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [loadingProductIds, setLoadingProductIds] = useState<Set<number>>(new Set());
   const { cartItemCount,addItem } = useCart(); // ✅ Use global cart context
   const navigate = useNavigate();
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const lastScrollY = useRef<number>(0);
+  const maxItems = 3;
   
     const handleScrollChange = () => {
       const currentScrollY = window.scrollY;
@@ -43,7 +43,7 @@ const Trending_products: React.FC = () => {
     const fetchInitialData = async () => {
       try {
         const productsResponse = await axios.get<Product[]>('/products/list/');
-        setProducts(productsResponse.data);
+        setProducts(productsResponse.data.slice(0, maxItems));
         console.log(productsResponse.data);
       } catch (error) {
         console.error('Failed to load products:', error);
@@ -54,35 +54,6 @@ const Trending_products: React.FC = () => {
     fetchInitialData();
   }, []);
 
-  const handleAddToCart = async (product: Product) => {
-    if (loadingProductIds.has(product.id)) return;
-
-    setLoadingProductIds((prev) => new Set(prev).add(product.id));
-
-    try {
-      const token = localStorage.getItem('access_token');
-      await axios.post(
-        '/cart/add/',
-        { product_id: product.id, quantity: 1 },
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-          withCredentials: true,
-        }
-      );
-
-      await fetchCartData(); // ✅ Refresh global cart
-      setMessage('Item added to the cart!');
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      setError('Failed to add item to cart. Please try again.');
-    } finally {
-      setLoadingProductIds((prev) => {
-        const updated = new Set(prev);
-        updated.delete(product.id);
-        return updated;
-      });
-    }
-  };
 
   return (
     <div className="trending-products">

@@ -49,7 +49,6 @@ const Login: React.FC = () => {
         password,
       });
   
-      console.log(response.data);
       const { access, refresh, email: userEmail, username: userUsername} = response.data;
       
 
