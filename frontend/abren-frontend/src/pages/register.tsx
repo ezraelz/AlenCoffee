@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import axios from '../utils/axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
     username: '',
     email: '',
-    phone_number: '',
     password: '',
   });
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,6 +26,8 @@ const Register: React.FC = () => {
       const response = await axios.post('/api/register/', formData);
       console.log(response.data);
       // You might want to redirect or show success message here
+      toast.success('Subscribed successfully!')
+      navigate('/');
     } catch (err: any) {
       if (err.response) {
         setError(err.response.data.error || 'Registration failed');
@@ -42,24 +44,6 @@ const Register: React.FC = () => {
       <form onSubmit={handleRegister} className="login-box">
         <input
           type="text"
-          name="first_name"
-          value={formData.first_name}
-          onChange={handleChange}
-          placeholder="First Name"
-          className="login-input"
-          required
-        />
-        <input
-          type="text"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-          placeholder="Last Name"
-          className="login-input"
-          required
-        />
-        <input
-          type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
@@ -73,15 +57,6 @@ const Register: React.FC = () => {
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="login-input"
-          required
-        />
-        <input
-          type="text"
-          name="phone_number"
-          value={formData.phone_number}
-          onChange={handleChange}
-          placeholder="Phone Number"
           className="login-input"
           required
         />

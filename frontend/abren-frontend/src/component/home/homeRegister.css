@@ -1,0 +1,40 @@
+.home-register{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background: rgb(207, 187, 148);
+    z-index: 200;
+}
+.home-register .section-title{
+    width: 50%;
+    height: 100%;
+    padding: 1em;
+}
+.home-register .section-register{
+    width: 50%;
+    background: rgb(174, 132, 55);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+}
+.section-register form{
+    background: none;
+    box-shadow: none;
+}
+.section-register form input{
+    border: 1.5px solid #000;
+}
+.section-title h1{
+    display: block;
+}
+.section-title h1 span{
+    color: blue;
+}
+.section-title img{
+    width: 40vh;
+    height: 40vh;
+}

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import './component/nav.css';
 import './pages/home.css';
@@ -19,7 +19,7 @@ import './component/footer.css';
 import './component/home/homeBlog.css';
 import './pages/profile.css';
 import './component/home/happyCustomer.css';
-import Nav from './component/nav';
+import './component/home/homeRegister.css';
 import Footer from './component/footer';
 import Cart from './pages/shop/cart';
 
@@ -28,7 +28,6 @@ const Shop = lazy(() => import('./pages/shop/shop'));
 const Home = lazy(() => import('./pages/home'));
 const Login = lazy(() => import('./pages/login'));
 const Blog = lazy(() => import('./pages/blog/blog'));
-const News = lazy(() => import('./pages/blog/news'));
 const Logout = lazy(() => import('./pages/logout'));
 const SingleProduct = lazy(() => import('./pages/shop/signleProduct'));
 const Checkout = lazy(() => import('./pages/shop/checkout'));
@@ -38,6 +37,8 @@ const Register = lazy(() => import('./pages/register'));
 
 import { ToastContainer } from 'react-toastify';
 import ScrollToTop from './routes/ScrollToTop';
+import { NavVisibilityProvider } from './context/NavVisibilityContext';
+import Layout from './layout';
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -46,7 +47,6 @@ const App = () => {
   const closeCart = () => setIsCartOpen(false);
 
   const isLoggedIn = localStorage.getItem('access_token') ? true : false;
-  const isLoading = false;  // No need to use React state for loading here.
 
   // The useEffect will check if the user is authenticated, 
   // verify the access token and refresh token logic on every page load.
@@ -103,29 +103,36 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
-      <Nav isLoggedIn={isLoggedIn} onCartClick={openCart}/>
-      <Cart isOpen={isCartOpen} onClose={closeCart} />
-      <ToastContainer position="top-right" autoClose={3000} />
-      <Suspense fallback={<div className="main">Loading Page...</div>}>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/product/:id" element={<SingleProduct />} />
-          <Route path="/success/" element={<PaymentSuccess />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:category" element={<Blog />} />
-          <Route path='/profile' element={<Profile />} /> 
-          <Route path='/register' element={<Register />} />
-        </Routes>
-      </Suspense>
-      <Footer />
-    </Router>
+    <NavVisibilityProvider>
+      <Router>
+        <Cart isOpen={isCartOpen} onClose={closeCart} />
+        <ToastContainer position="top-right" autoClose={3000} />
+        <Suspense fallback={<div className="main">Loading Page...</div>}>
+          <ScrollToTop />
+          <Layout
+            isCartOpen={isCartOpen}
+            openCart={openCart}
+            closeCart={closeCart}
+            isLoggedIn={isLoggedIn}
+          >
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/product/:id" element={<SingleProduct />} />
+              <Route path="/success/" element={<PaymentSuccess />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:category" element={<Blog />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </Layout>
+        </Suspense>
+      </Router>
+    </NavVisibilityProvider>
   );
 };
 

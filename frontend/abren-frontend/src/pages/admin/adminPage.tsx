@@ -7,6 +7,7 @@ import './adminPage.css'; // Adjust the import path as necessary
 import Sidebar from './sidebar'; // Adjust the import path as necessary
 import TopNav from './topnav';
 import axios from 'axios';
+import { useNavVisibility } from '../../context/NavVisibilityContext';
 
 const AdminPage: React.FC = () => {
     const [products, setProducts] = useState(0);
@@ -14,14 +15,28 @@ const AdminPage: React.FC = () => {
     const [sales, setSales] = useState(0);
     const [users, setUsers] = useState('');
     const [orders, setOrders] = useState(0);
+    const { setShowNav } = useNavVisibility();
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        setShowNav(false); // hide navbar when admin page loads
+        return () => setShowNav(true); // restore it on unmount
+      }, [setShowNav]);
 
     useEffect(() => {
         const fetchData = async () => {
             try{
-                const response = await axios.get('http://127.0.0.1:8000/adminPanel/total-products/');
+                const token = localStorage.getItem('access_token');
+                const response = await axios.get('http://127.0.0.1:8000/adminPanel/total-products/', {
+                    headers: {
+                        Authorization: `Bearer${token}`
+                    }
+                });
                 setProducts(response.data.total_products);
+                console.log(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setError('Error fetching data');
             }
         }
         fetchData();
@@ -80,10 +95,15 @@ const AdminPage: React.FC = () => {
             <TopNav />
             <Sidebar /> {/* Include the sidebar component */}
             <div className="cards container mt-5 mb-5 d-flex flex-wrap justify-content-center">
-                <div className="card">
-                    <h2>Products</h2>
-                    <p>{products}</p>
-                </div>
+                {products ? (
+                    <div className="card">
+                        <h2>Products</h2>
+                        <p>{products}</p>
+                    </div>
+                ) : (
+                   <><p>{error}</p></>
+                )}
+                
                 <div className="card">
                     <h2>Stock</h2>
                     <p>{stock}</p>

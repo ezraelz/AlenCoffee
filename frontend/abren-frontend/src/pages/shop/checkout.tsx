@@ -3,6 +3,8 @@ import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
 import ShippingForm from '../../component/shoppingform';
 import { FaPaypal } from 'react-icons/fa';
+import { useNavVisibility } from '../../context/NavVisibilityContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   id: number;
@@ -32,6 +34,8 @@ const Checkout: React.FC = () => {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);
   const [paymentLoading, setPaymentLoading] = useState(false);
+  const { setShowNav } = useNavVisibility();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     full_name: '',
@@ -45,6 +49,12 @@ const Checkout: React.FC = () => {
     country: '',
     zipcode: '',
   });
+
+  useEffect(() => {
+    setShowNav(false); // hide navbar when admin page loads
+    return () => setShowNav(true); // restore it on unmount
+  }, [setShowNav]);
+
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -161,14 +171,12 @@ const Checkout: React.FC = () => {
 
   return (
     <div className="checkout">
-      <div className={scrolledUp ? 'hero top' : 'hero'}>
-        <h1>
-          {orderSuccess && <p style={{ color: 'green' }}>🎉 Your order has been placed!</p>}
-          Checkout  
-        </h1>
-      </div>
+      
       <div className="checkout-container">
         <div className="shipping-info">
+        <button onClick={() => navigate(-1)} className="shipping-back-btn">
+          ← Go Back
+        </button>
           <h3>Shipping Information</h3>
           <ShippingForm
             formData={formData}

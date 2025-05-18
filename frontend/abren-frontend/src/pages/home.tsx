@@ -7,6 +7,7 @@ import HomeStory from '../component/home/homeStory';
 import HotDrink from '../component/home/hotDrink';
 import HomeBlog from '../component/home/homeBlog';
 import HappyCustomers from '../component/home/happyCustomers';
+import HomeRegister from '../component/home/homeRegister';
 
 const Home: React.FC = () => {
     return (
@@ -24,6 +25,7 @@ const Home: React.FC = () => {
             <HomeStory />
             <HomeBlog /> 
             <HappyCustomers />
+            <HomeRegister />
         </div>
     );
 };
