@@ -5,7 +5,6 @@ import ShippingForm from '../../component/shoppingform';
 import { FaPaypal } from 'react-icons/fa';
 import { useNavVisibility } from '../../context/NavVisibilityContext';
 import { useNavigate } from 'react-router-dom';
-
 interface Product {
   id: number;
   name: string;

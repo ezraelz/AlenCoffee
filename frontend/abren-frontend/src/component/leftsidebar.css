@@ -12,7 +12,9 @@
     color: rgb(0, 0, 0);
 }
 .shop-nav.scrolled{
-    display: none;
+    top: 5.5em;
+    color: black;
+    animation: fallD 1s forwards ease-in-out;
 }
 .shop-nav .container{
 }
@@ -25,8 +27,13 @@
     text-align: start;
     margin: auto;
 }
-.shop-nav .list-card .links{
+.shop-nav .list-card .links {
     padding: 1.2em;
+    color: #000;
+}
+.shop-nav.scrolled .list-card .links{
+    padding: 1.2em;
+    color: #000;
 }
 @media (max-width: 798px) {
     .shop-nav{

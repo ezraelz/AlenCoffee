@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useNavVisibility } from '../context/NavVisibilityContext';
 
 const Column1: React.FC = () => {
     return (
@@ -14,6 +15,7 @@ const Column1: React.FC = () => {
 }
 
 const Column2: React.FC = () => {
+
     const links = [
         {name: 'Espresso', to: '/'},
         {name: 'Latte', to: '/'},
@@ -83,6 +85,9 @@ const Column4: React.FC = () => {
 }
 
 const Footer: React.FC = () => {
+    const { showFooter } = useNavVisibility();
+
+    if (!showFooter) return null;
     const currentYear = new Date().getFullYear();
     const footList = [<Column1 key="1" />, 
                         <Column2 key="2" />,

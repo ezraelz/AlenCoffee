@@ -121,7 +121,7 @@ const App = () => {
               <Route path="/admin" element={<Admin />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/:orderId" element={<Checkout />} />
               <Route path="/product/:id" element={<SingleProduct />} />
               <Route path="/success/" element={<PaymentSuccess />} />
               <Route path="/blog" element={<Blog />} />

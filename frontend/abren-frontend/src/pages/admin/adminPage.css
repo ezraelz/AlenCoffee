@@ -1,57 +1,159 @@
+/* Main layout */
 .admin-page {
     display: flex;
+    height: 120vh;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 90%;
-    background-color: #f4f4f4;
-    position: absolute;
-    top: 0;
-    left: 25vh;
+    background: #f2f2f2;
+    background-position:center;
+    background-attachment: fixed;
 }
 
-.cards{
+/* Flex container for sidebar and content */
+.cards-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: .3em;
-    margin-top: 0;
-    width: 100%;
-    margin-left: 2vh;
+    flex-direction: column;
+    position: absolute;
+    top: 5em;
+    left: 15em;
+    padding: 1em;
+    background-color: #f2f2f2;
+    gap: 1em;
+    height: auto;
 }
 
+/* Cards wrapper */
+.cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    padding: 1.5em;
+    background-color: #ebebec;
+    border-top-left-radius: 12px;
+}
+
+/* Individual card styles */
 .card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    color: #000;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 16px;
-    margin: 6px;
-    width: 26vh;
+    width: 30vh;
+    height: 20vh;
+    background-color: #ffffffe8;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
-.card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 8px;
+.card h2 {
+    font-size: 1.2rem;
     color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
-.card-content {
-    font-size: 1rem;
+.card p {
+    font-size: 1.5rem;
+    color: #2d8cf0;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Small stats section under main value */
+.card small {
+    display: flex;
+    gap: .4em;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.card small p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+/* Loading/Error styling */
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-size: 1.2rem;
     color: #555;
-    line-height: 1.6;
 }
 
-.card-footer {
-    margin-top: 16px;
-    text-align: right;
+/* Error alert */
+.alert {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #ff4d4f;
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.users-top-products{
+    display: flex;
+    background-color: #ebebec;
+    padding: 1.5em;
+    gap: 1.5em;
+}
+.top-products,.sales-per-day {
+    padding: 20px;
+    background-color: #f8fafc; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    color: #050505;
+    width: 70%;
+}
+
+.sales-per-day {
+    padding: 20px;
+    background-color: #f8fafc; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    color: #050505;
+    width: 30%;
+}
+
+.top-products table, .sales-per-day table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.top-products th,
+.top-products td ,
+.sales-per-day th, 
+.sales-per-day td{
+    padding: 12px 15px;
+    text-align: left;
+    color: #050505;
+    border-bottom: 1px solid #e2e8f0; /* slate-200 */
+}
+
+.top-products thead {
+    background-color: #e2e8f0; /* slate-200 */
+    color: #1e293b; /* slate-800 */
+}
+
+.top-products tr:hover {
+    background-color: #f1f5f9; /* slate-100 */
+    transition: background-color 0.2s ease;
+}
+
+.top-products td:first-child {
+    font-weight: bold;
+    color: #050505; /* slate-500 */
 }

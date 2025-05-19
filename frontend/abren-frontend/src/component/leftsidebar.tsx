@@ -26,9 +26,9 @@ const Leftsidebar = () => {
     <div className={scrolledUp ? 'shop-nav scrolled' : 'shop-nav'}>
       <div className="container">
          <ul className="list-card">
-            {items.map((item) =>(
-                <li className='links'>
-                    <Link to={''}>{item.name}</Link>
+            {items.map((item, index) =>(
+                <li key={index}>
+                    <Link to={''}  className='links'>{item.name}</Link>
                 </li>
             ))}
          </ul>

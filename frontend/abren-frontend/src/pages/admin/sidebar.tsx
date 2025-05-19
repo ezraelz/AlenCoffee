@@ -1,31 +1,50 @@
 import React from 'react';
+import {
+    FaArrowCircleRight,
+    FaClipboardCheck,
+    FaClock,
+    FaHome,
+    FaUser
+} from 'react-icons/fa';
+import { FaArrowRightToCity, FaGear } from 'react-icons/fa6';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Sidebar: React.FC = () => {
-    // Sidebar component for the admin page
-    // This component contains a list of navigation options for the admin user
-    // You can add more options as needed
-    // The sidebar is styled using CSS classes defined in sidebar.css
-    // The sidebar is a functional component that returns a JSX element
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('access_token');
+        navigate('/login');
+    };
 
     const links = [
-        { name: 'Dashboard', path: '/admin/dashboard' },
-        { name: 'Users', path: '/admin/users' },
-        { name: 'Settings', path: '/admin/settings' },
-        { name: 'Reports', path: '/admin/reports' },
-        { name: 'Logout', path: '/admin/logout' },
-        { name: 'Help', path: '/admin/help' }
+        { name: 'Home', path: '/', icon: <FaHome /> },
+        { name: 'Dashboard', path: '/admin/dashboard', icon: <FaClock /> },
+        { name: 'Users', path: '/admin/users', icon: <FaUser /> },
+        { name: 'Settings', path: '/admin/settings', icon: <FaGear /> },
+        { name: 'Reports', path: '/admin/reports', icon: <FaClipboardCheck /> },
+        { name: 'Help', path: '/admin/help', icon: <FaArrowRightToCity /> }
     ];
 
     return (
-        <div className='sidebar'>
-            <h2>Admin Sidebar</h2> {/* Move the header above the list */}
+        <div className="sidebar">
+            <div className="sidebar-hero">
+                <h2>Abren Coffee</h2>
+            </div>
             <ul>
                 {links.map((link, index) => (
                     <li key={index}>
-                        <a href={link.path} className='sidebar-link'>{link.name}</a> {/* Display link name */}
+                        <Link to={link.path} className="sidebar-link">
+                            {link.icon} {link.name}
+                        </Link>
                     </li>
                 ))}
-            </ul> {/* Close the ul tag here */}
+                <li>
+                    <button onClick={handleLogout} className="sidebar-link logout-button">
+                        <FaArrowCircleRight /> Logout
+                    </button>
+                </li>
+            </ul>
         </div>
     );
 };
