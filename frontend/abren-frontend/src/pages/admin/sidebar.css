@@ -1,5 +1,5 @@
 :root {
-  --sidebar-bg: #f2f2f2;
+  --sidebar-bg: #ffffffef;
   --sidebar-text: #2c2c2c;
   --sidebar-accent: #38bdf8;
   --sidebar-hover: #334155;
@@ -14,7 +14,7 @@
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1rem;
+  padding: 1rem 1rem;
   position:fixed;
   top: 0;
   left: 0;
@@ -34,7 +34,7 @@
   font-size: 1.375rem;
   font-weight: 600;
   text-align: center;
-  color: var(--sidebar-accent);
+  color: transparent;
   margin: 0;
   padding: 0.5rem 0;
   position: relative;
@@ -95,7 +95,7 @@
   font: inherit;
 }
 .sidebar li .sidebar-link{
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family:'Arial Narrow Bold', sans-serif;
   font-size: 1.3rem;
 }
 .sidebar a,

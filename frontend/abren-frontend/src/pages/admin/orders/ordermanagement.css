@@ -1,0 +1,42 @@
+.order-management{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 5em;
+        left: 15em;
+        padding: 1em;
+        gap: 1em;
+        height: auto;
+        border-radius: .7em;
+        color: black;
+        justify-content: start;
+        align-items: start;
+}
+
+.order-management .orders-list{
+        width: 100%;
+        background: #f8fafc;
+        padding: 1.5em;
+    }
+    .order-management th,
+    .order-management td{
+        padding: 12px 15px;
+        text-align: left;
+        color: #050505;
+        border-bottom: 1px solid #e2e8f0; /* slate-200 */
+    }
+    
+    .order-management thead {
+        background-color: #e2e8f0; /* slate-200 */
+        color: #1e293b; /* slate-800 */
+    }
+    
+    .order-management tr:hover {
+        background-color: #f1f5f9; /* slate-100 */
+        transition: background-color 0.2s ease;
+    }
+    
+    .order-management td:first-child {
+        font-weight: bold;
+        color: #050505; /* slate-500 */
+    }

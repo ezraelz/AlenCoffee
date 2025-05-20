@@ -20,7 +20,7 @@ import './component/home/homeBlog.css';
 import './pages/profile.css';
 import './component/home/happyCustomer.css';
 import './component/home/homeRegister.css';
-import Footer from './component/footer';
+import './pages/admin/overview.css';
 import Cart from './pages/shop/cart';
 
 const Admin = lazy(() => import('./pages/admin/adminPage'));

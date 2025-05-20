@@ -1,11 +1,12 @@
 /* Main layout */
 .admin-page {
     display: flex;
-    height: 120vh;
+    height: 200vh;
     flex-direction: column;
     background: #f2f2f2;
     background-position:center;
     background-attachment: fixed;
+    transition: all .5s ease-in-out;
 }
 
 /* Flex container for sidebar and content */
@@ -16,9 +17,10 @@
     top: 5em;
     left: 15em;
     padding: 1em;
-    background-color: #f2f2f2;
+    background: #f2f2f2;
     gap: 1em;
     height: auto;
+    border-radius: .7em;
 }
 
 /* Cards wrapper */
@@ -26,20 +28,20 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 1.4em;
     padding: 1.5em;
     background-color: #ebebec;
-    border-top-left-radius: 12px;
+    border-radius: .7em;
 }
 
 /* Individual card styles */
 .card {
     width: 30vh;
     height: 20vh;
-    background-color: #ffffffe8;
+    background-color: #ffffffef;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-    padding: 20px;
+    padding: 1.4em;
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
@@ -51,7 +53,7 @@
 }
 
 .card h2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #333;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -106,6 +108,7 @@
     background-color: #ebebec;
     padding: 1.5em;
     gap: 1.5em;
+    border-radius: .7em;
 }
 .top-products,.sales-per-day {
     padding: 20px;
@@ -126,8 +129,21 @@
     color: #050505;
     width: 30%;
 }
-
-.top-products table, .sales-per-day table {
+.sales-chart{
+    display: flex;
+    background-color: #ebebec;
+    padding: 1.5em;
+    gap: 1.5em;
+    border-radius: .7em;
+}
+.sales-per-day-chart{
+    padding: 20px;
+    background-color: #f8fafc; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: #050505;
+}
+.top-products table, .sales-per-day table, .sales-per-day-chart {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
