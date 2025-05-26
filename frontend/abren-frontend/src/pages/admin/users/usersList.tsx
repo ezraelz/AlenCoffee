@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 
+interface ShippingAddress {
+  id?: number;
+  address1?: string;
+  street?: string;
+  city?: string;
+  zip_code?: string;
+  // Add more fields if needed
+}
+
+interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  role: string;
+  email: string;
+}
+
 interface UserEntry {
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-    username: string;
-    role: string;
-    email: string;
-  };
-  shipping_address: {
-    address1: string;
-  }; 
+  user: User;
+  shipping_address: ShippingAddress[];
   total_spent: number[];
 }
 
+
 const UsersList: React.FC = () => {
   const [users, setUsers] = useState<UserEntry[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 5;
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -33,6 +46,17 @@ const UsersList: React.FC = () => {
     fetchAllUsers();
   }, []);
 
+  const filteredUsers = users.filter((user) =>
+    user.user.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+
   return (
     <div className='users-list'>
       <h1>All Users</h1>
@@ -44,23 +68,32 @@ const UsersList: React.FC = () => {
               <th>Username</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Shipping Address</th>
+              <th>Shipping Address Count</th>
               <th>Total Spent ($)</th>
             </tr>
           </thead>
           <tbody>
-            {users.length > 0 ? (
-              users.map((entry, index) => {
+            {currentUsers.length > 0 ? (
+              currentUsers.map((entry, index) => {
                 const { user, shipping_address, total_spent } = entry;
                 const totalSpentAmount = total_spent.reduce((acc, val) => acc + val, 0); // adjust if total_spent contains objects
                 return (
                   <tr key={user.id}>
-                    <td>{index + 1}</td>
+                    <td>{indexOfFirstUser + index + 1}</td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
-                    <td>{shipping_address.address1}</td>
-                    <td>${totalSpentAmount.toFixed(2)}</td>
+                    <td>
+                      {shipping_address.length > 0 ? (
+                        shipping_address.map((addr, i) => (
+                          <div key={i}>{addr.address1 || 'No address info'}, {addr.street || 'No street info'}</div>
+                        ))
+                      ) : (
+                        <span>No address</span>
+                      )}
+                    </td>
+
+                    <td>${totalSpentAmount}</td>
                   </tr>
                 );
               })
@@ -73,6 +106,19 @@ const UsersList: React.FC = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="pagination">
+        {[...Array(totalPages).keys()].map((page) => (
+          <button
+            key={page + 1}
+            onClick={() => setCurrentPage(page + 1)}
+            className={currentPage === page + 1 ? 'active' : ''}
+          >
+            {page + 1}
+          </button>
+        ))}
       </div>
     </div>
   );

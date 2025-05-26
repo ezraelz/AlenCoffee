@@ -15,16 +15,16 @@ import {
   FaArrowCircleRight,
   FaCartPlus,
   FaClock,
+  FaFileInvoice,
   FaHome,
   FaProductHunt,
   FaUser
 } from 'react-icons/fa';
 import { FaArrowRightToCity, FaGear } from 'react-icons/fa6';
-import UsersManagement from './users/usersManagement';
-import Blog from '../blog/blog';
-import Help from './help/help';
+import UsersManagement from './users/usersManagement';import Help from './help/help';
 import BlogManagement from './blog/blogManagement';
 import OrderManagement from './orders/orderManagement';
+import InvoiceManagement from './invoice/invoiceManagement';
 
 interface User {
   id: number;
@@ -92,11 +92,13 @@ const AdminPage: React.FC = () => {
   };
 
   const componentMap: { [key: string]: JSX.Element } = {
+    Home: '',
     Dashboard: <Overview />,
     Products: <ProductManagement />,
     Users: <UsersManagement/>,
     Blog: <BlogManagement/>,
     Orders: <OrderManagement />,
+    Invoices: <InvoiceManagement />,
     Help: <Help/>
   };
 
@@ -108,6 +110,7 @@ const AdminPage: React.FC = () => {
   // ------------------------
   // Inner Sidebar Component
   // ------------------------
+
   const Sidebar: React.FC = () => {
     const links = [
       { name: 'Home', icon: <FaHome /> },
@@ -115,6 +118,7 @@ const AdminPage: React.FC = () => {
       { name: 'Users', icon: <FaUser /> },
       { name: 'Products', icon: <FaProductHunt /> },
       { name: 'Orders', icon: <FaCartPlus/> }, 
+      { name: 'Invoices', icon: <FaFileInvoice /> },
       { name: 'Blog', icon: <FaGear /> },
       { name: 'Help', icon: <FaArrowRightToCity /> }
     ];

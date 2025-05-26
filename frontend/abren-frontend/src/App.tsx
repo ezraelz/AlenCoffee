@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import './App.css';
 import './component/nav.css';
 import './pages/home.css';
-import './pages/shop/shop.css';
 import './pages/login.css';
 import './component/leftsidebar.css';
 import './pages/shop/cart.css';
@@ -13,11 +12,9 @@ import './component/shoppingform.css';
 import './component/home/trending_products.css';
 import './component/home/homeStory.css';
 import './component/home/hotDrinks.css';
-import './pages/blog/blog.css';
 import './pages/blog/catagories.css';
 import './component/footer.css';
 import './component/home/homeBlog.css';
-import './pages/profile.css';
 import './component/home/happyCustomer.css';
 import './component/home/homeRegister.css';
 import './pages/admin/overview.css';
@@ -32,7 +29,7 @@ const Logout = lazy(() => import('./pages/logout'));
 const SingleProduct = lazy(() => import('./pages/shop/signleProduct'));
 const Checkout = lazy(() => import('./pages/shop/checkout'));
 const PaymentSuccess = lazy(() => import('./pages/shop/pymentSuccess'));
-const Profile = lazy(() => import('./pages/profile'));
+const Profile = lazy(() => import('./pages/profile/profileManagement'));
 const Register = lazy(() => import('./pages/register'));
 
 import { ToastContainer } from 'react-toastify';
@@ -42,6 +39,22 @@ import Layout from './layout';
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [shippingData, setShippingData] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/orders/resume/")
+      .then(res => res.json())
+      .then(data => {
+        if (data.order_id) {
+          setCartItems(data.cart_items);
+          setShippingData(data.shipping_data);
+        }
+      })
+      .catch(() => {
+        // No order to resume
+      });
+  }, []);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
@@ -105,7 +118,7 @@ const App = () => {
   return (
     <NavVisibilityProvider>
       <Router>
-        <Cart isOpen={isCartOpen} onClose={closeCart} />
+        <Cart cartItems={cartItems} shippingData={shippingData} />
         <ToastContainer position="top-right" autoClose={3000} />
         <Suspense fallback={<div className="main">Loading Page...</div>}>
           <ScrollToTop />
@@ -121,7 +134,7 @@ const App = () => {
               <Route path="/admin" element={<Admin />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/checkout/:orderId" element={<Checkout />} />
+              <Route path="/checkout/" element={<Checkout />} />
               <Route path="/product/:id" element={<SingleProduct />} />
               <Route path="/success/" element={<PaymentSuccess />} />
               <Route path="/blog" element={<Blog />} />

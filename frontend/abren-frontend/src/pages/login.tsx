@@ -42,6 +42,9 @@ const Login: React.FC = () => {
         interface LoginResponse {
             username: string;
             password: string;
+            email: string; // Added email property
+            refresh: string; // Added refresh token property
+            access: string; // Added access token property
           }
 
       const response = await axios.post<LoginResponse>('/api/login/', {

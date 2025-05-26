@@ -23,10 +23,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
     <form onSubmit={onSubmit}>
       <div className="mb4">
         <input
+          title='full_name'
           type="text"
           name="full_name"
           placeholder=" "
-          value={formData.full_name}
+          value={formData.full_name || ''}
           onChange={onChange}
           required
         />
@@ -34,10 +35,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='email'
           type="email"
           name="email"
           placeholder=" "
-          value={formData.email}
+          value={formData.email || ''}
           onChange={onChange}
           required
         />
@@ -45,10 +47,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='phone_number'
           type="tel"
           name="phone_number"
           placeholder=" "
-          value={formData.phone_number}
+          value={formData.phone_number || ''}
           onChange={onChange}
           required
         />
@@ -56,10 +59,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='address1'
           type="text"
           name="address1"
           placeholder=" "
-          value={formData.address1}
+          value={formData.address1 || ''}
           onChange={onChange}
           required
         />
@@ -68,10 +72,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       
       <div className="mb4">
         <input
+          title='address2'
           type="text"
           name="address2"
           placeholder=" "
-          value={formData.address2}
+          value={formData.address2 || ''}
           onChange={onChange}
           required
         />
@@ -79,10 +84,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='city'
           type="text"
           name="city"
           placeholder=" "
-          value={formData.city}
+          value={formData.city || ''}
           onChange={onChange}
           required
         />
@@ -90,6 +96,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='street'
           type="text"
           name="street"
           placeholder=" "
@@ -100,6 +107,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='state'
           type="text"
           name="state"
           placeholder=" "
@@ -110,10 +118,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='country'
           type="text"
           name="country"
           placeholder=" "
-          value={formData.country}
+          value={formData.country || ''}
           onChange={onChange}
           required
         />
@@ -121,10 +130,11 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       <div className="mb4">
         <input
+          title='zipcode'
           type="text"
           name="zipcode"
           placeholder=" "
-          value={formData.zipcode}
+          value={formData.zipcode || ''}
           onChange={onChange}
           required
         />
@@ -132,7 +142,7 @@ const ShippingForm: React.FC<ShippingFormProps> = ({ formData, loading, onChange
       </div>
       
       <button type="submit" disabled={loading}>
-        {loading ? 'Processing...' : 'Place Order'}
+        {loading ? 'Processing...' : 'Place Shipping Address'}
       </button>
     </form>
   );

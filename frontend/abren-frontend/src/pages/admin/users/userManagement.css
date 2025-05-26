@@ -1,23 +1,25 @@
 .user-management {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 5em;
-    left: 15em;
-    padding: 1em;
-    gap: 1em;
+    margin-top: 4em;
+    margin-left: 16em;
     height: auto;
     border-radius: .7em;
     color: black;
+    justify-content: start;
     align-items: start;
 }
 .user-management .users-list{
-    width: 100%;
+    width: 90%;
     background: #f8fafc;
+    margin-top: 1em;
     padding: 1.5em;
+    align-items: center;
+    justify-content: center;
 }
 .user-management th,
 .user-management td{
+    flex-wrap: wrap;
     padding: 12px 15px;
     text-align: left;
     color: #050505;

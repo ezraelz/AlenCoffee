@@ -1,45 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './cart.css';
 import { useCart } from '../../pages/shop/useCart';
-import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
-
 
 interface CartModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const ITEMS_PER_PAGE = 5;
+
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const { cartItems, removeItem, totalPrice, updateItemQuantity } = useCart();
   const navigate = useNavigate();
 
-
+  const [currentPage, setCurrentPage] = useState(1);
   if (!isOpen) return null;
 
-  // Inside CartPage.tsx or similar
-  const handleCheckout = async () => {
-    try {
-      const token = localStorage.getItem('access_token');
-      const response = await axios.post('/orders/create/', {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        withCredentials: true,
-      });
+  const totalPages = Math.ceil(cartItems.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedItems = cartItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-      if (response.status !== 201) {
-        throw new Error('Failed to create order');
-      }
+  const handlePrevPage = () => setCurrentPage((page) => Math.max(page - 1, 1));
+  const handleNextPage = () => setCurrentPage((page) => Math.min(page + 1, totalPages));
+  const handlePageClick = (page: number) => setCurrentPage(page);
+
   
-      const data = response.data;
-      const orderId = data.order_id;
-  
-      // Redirect to shipping page with order ID
-      navigate(`/checkout/${orderId}`);
-    } catch (err) {
-      console.error(err);
-      alert('Could not create order. Try again.');
-    }
-  };
 
   return (
     <div className="cart-modal-backdrop" onClick={onClose}>
@@ -50,36 +36,60 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <ul className="cart-items-list">
-            {cartItems.map((item) => (
-              <li key={item.product.id} className="cart-item">
-                <div className="cart-item-info">
-                  <span className="cart-item-name">{item.product.name} - </span>
-                  <span className="cart-item-price">
-                    ${item.price} × {item.quantity}
-                  </span>
-                </div>
+          <>
+            <ul className="cart-items-list">
+              {paginatedItems.map((item) => (
+                <li key={item.product.id} className="cart-item">
+                  <div className="cart-item-info">
+                    <span className="cart-item-image">
+                      <img
+                        src={`http://127.0.0.1:8000/${item.product.image}`}
+                        alt={item.product.name}
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = '/images/placeholder.jpg';
+                        }}
+                      />
+                    </span>
+                    <span className="cart-item-name">{item.product.name} - × {item.quantity}</span>
+                    <span className="cart-item-price">${item.price} </span>
+                  </div>
 
-                <div className="cart-item-controls">
-                  <button onClick={() =>
-                    updateItemQuantity(item.product.id, item.quantity - 1)
-                  }>
-                    ➖
+                  <div className="cart-item-controls">
+                    <button
+                      onClick={() => updateItemQuantity(item.product.id, item.quantity - 1)}
+                      disabled={item.quantity <= 1}
+                    >
+                      ➖
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => updateItemQuantity(item.product.id, item.quantity + 1)}
+                    >
+                      ➕
+                    </button>
+                    <button onClick={() => removeItem(item.product.id)}>🗑️</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            <div className="pagination">
+              <button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</button>
+              {[...Array(totalPages)].map((_, idx) => {
+                const pageNum = idx + 1;
+                return (
+                  <button
+                    key={pageNum}
+                    className={pageNum === currentPage ? 'active' : ''}
+                    onClick={() => handlePageClick(pageNum)}
+                  >
+                    {pageNum}
                   </button>
-
-                  <span>{item.quantity}</span>
-
-                  <button onClick={() =>
-                    updateItemQuantity(item.product.id, item.quantity + 1)
-                  }>
-                    ➕
-                  </button>
-
-                  <button onClick={() => removeItem(item.product.id)}>🗑️</button>
-                </div>
-              </li>
-            ))}
-          </ul>
+                );
+              })}
+              <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
+            </div>
+          </>
         )}
 
         {cartItems.length > 0 && (
@@ -87,18 +97,15 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
             <div className="cart-total">
               <strong>Total:</strong> ${totalPrice.toFixed(2)}
             </div>
-            <button 
-              type='submit'
+            <button
               className="checkout-btn"
               onClick={() => {
-                if (onClose) onClose();
-                handleCheckout();
+                onClose();
+                navigate('/checkout');
               }}
             >
               Proceed to Checkout
             </button>
-
-
           </>
         )}
       </div>

@@ -38,7 +38,7 @@
 .card {
     width: 30vh;
     height: 20vh;
-    background-color: #ffffffef;
+    background-color: #ffffffbd;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
     padding: 1.4em;
@@ -53,14 +53,14 @@
 }
 
 .card h2 {
-    font-size: 1rem;
+    font-size: .8rem;
     color: #333;
     margin-bottom: 10px;
     text-transform: uppercase;
 }
 
 .card p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #2d8cf0;
     font-weight: bold;
     margin: 0;
@@ -73,7 +73,7 @@
     margin-top: 12px;
     padding-top: 10px;
     border-top: 1px solid #eee;
-    font-size: 0.85rem;
+    font-size: 0.6rem;
     color: #666;
 }
 
@@ -173,3 +173,118 @@
     font-weight: bold;
     color: #050505; /* slate-500 */
 }
+
+/* Make cards container adapt to small screens */
+@media screen and (max-width: 1024px) {
+    .cards-container {
+      left: 0;
+      top: 6em;
+      padding: 1em;
+      width: 100%;
+    }
+  
+    .cards {
+      justify-content: center;
+    }
+  
+    .users-top-products {
+      flex-direction: column;
+    }
+  
+    .top-products,
+    .sales-per-day {
+      width: 100%;
+    }
+  
+    .sales-chart {
+      flex-direction: column;
+    }
+  
+    .sales-per-day-chart {
+      width: 100%;
+    }
+  }
+  
+  /* Stack sidebar and content on mobile */
+  @media screen and (max-width: 768px) {
+    .admin-page {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      position: relative;
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .sidebar-header {
+      display: none;
+    }
+  
+    .sidebar-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #fff;
+      border-radius: 6px;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+  
+    .logout-button {
+      background-color: #ffecec;
+    }
+  
+    .card {
+      width: 90%;
+      margin: 0 auto;
+      height: auto;
+    }
+  }
+  
+  /* Handle extreme small screens */
+  @media screen and (max-width: 480px) {
+    .sidebar-link span {
+      display: none;
+    }
+  
+    .sidebar-link {
+      padding: 0.4rem 0.5rem;
+    }
+  
+    .card h2 {
+      font-size: 0.9rem;
+    }
+  
+    .card p {
+      font-size: 1.2rem;
+    }
+  
+    .card small {
+      font-size: 0.75rem;
+      flex-direction: column;
+    }
+  
+    .top-products th,
+    .top-products td,
+    .sales-per-day th,
+    .sales-per-day td {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  }
+  

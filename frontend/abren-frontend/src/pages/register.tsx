@@ -24,7 +24,6 @@ const Register: React.FC = () => {
 
     try {
       const response = await axios.post('/api/register/', formData);
-      console.log(response.data);
       // You might want to redirect or show success message here
       toast.success('Subscribed successfully!')
       navigate('/');

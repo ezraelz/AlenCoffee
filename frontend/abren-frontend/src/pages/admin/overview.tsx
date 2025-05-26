@@ -60,7 +60,7 @@ const Overview:React.FC = () => {
                 setTopProducts(topProductsRes.data);
                 setDailySales(salesPerDayRes.data);
 
-                console.log(salesPerDayRes.data);
+                console.log(salesRes.data);
             } catch (error) {
                 console.error('Error fetching admin data:', error);
                 setError('Failed to load admin statistics.');
@@ -93,7 +93,7 @@ const Overview:React.FC = () => {
                     <h2>Total Users</h2>
                 </div>
                 <div className="card">
-                    <p>{orders > 0 ? orders.toLocaleString() : 'Loading...'}</p>
+                    <p>{orders > 0 ? orders.toLocaleString() : '0'}</p>
                     <h2>Total Orders</h2>
                 </div>
             </div>

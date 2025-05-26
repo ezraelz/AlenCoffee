@@ -3,6 +3,7 @@ import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import Leftsidebar from '../../component/leftsidebar';
 import { useCart } from './useCart'; // ✅ Import global cart context
+import './shop.css';
 
 interface Product {
   id: number;
@@ -121,3 +122,7 @@ const Shop: React.FC = () => {
 };
 
 export default Shop;
+function fetchCartData() {
+  throw new Error('Function not implemented.');
+}
+

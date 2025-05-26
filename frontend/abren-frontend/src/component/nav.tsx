@@ -11,83 +11,70 @@ interface NavProps {
 
 const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const { cartItemCount } = useCart();
-  const { isLoggedIn, setIsLoggedIn} = useAuth();
-  const [ role, setRole] = useState('');
-  const [ username, setUsername] = useState('');
-  const [ error, setError] = useState();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const [role, setRole] = useState('');
+  const [username, setUsername] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolledUp, setScrolledUp] = useState<boolean>(false);
-  const lastScrollY = useRef<number>(0);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [scrolledUp, setScrolledUp] = useState(false);
+  const lastScrollY = useRef(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const liDropdownRef = useRef<HTMLLIElement>(null);
   const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setIsProfileOpen(false);
       }
     };
-  
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-  
 
   useEffect(() => {
     const fetchRoleData = async () => {
       try {
         const token = localStorage.getItem('access_token');
-        const response = await axios.get(`/users/me/`, {
+        const response = await axios.get('/users/me/', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(response.data.role);
         setRole(response.data.role);
         setUsername(response.data.username);
       } catch (err) {
         console.error('Failed to fetch user data:', err);
-        setError(err);
       }
     };
-  
+
     if (isLoggedIn) fetchRoleData();
   }, [isLoggedIn]);
-  
-  const handleScrollChange = () => {
-    const currentScrollY = window.scrollY;
-    setScrolledUp(currentScrollY > lastScrollY.current);
-    lastScrollY.current = currentScrollY;
-  };
 
   useEffect(() => {
+    const handleScrollChange = () => {
+      const currentScrollY = window.scrollY;
+      setScrolledUp(currentScrollY > lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
     window.addEventListener('scroll', handleScrollChange);
     return () => window.removeEventListener('scroll', handleScrollChange);
   }, []);
 
-  const isActive = (path: string) => location.pathname.startsWith(path);
-
-  const dropdown = [
-    { name: 'All Products', to: '/shop' },
-    { name: 'Single Product', to: '/product/1' },
-    { name: 'Cart', onClick: onCartClick  },
-    { name: 'Checkout', to: '/checkout' },
-  ];
-
-  const handleDropdown = () => setIsOpen((prev) => !prev);
+  useEffect(() => {
+    setIsOpen(false);
+    setIsProfileOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     try {
-      const refreshToken = localStorage.getItem('access_token');
-      if (refreshToken) {
-        await axios.post(
-          '/api/logout/',
-          { refresh: refreshToken },
-          { headers: { 'Content-Type': 'application/json' } }
-        );
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        await axios.post('/api/logout/', { refresh: token }, {
+          headers: { 'Content-Type': 'application/json' }
+        });
       }
     } catch (err) {
-      console.error('Error during logout:', err);
+      console.error('Logout failed:', err);
     } finally {
       localStorage.removeItem('access_token');
       localStorage.removeItem('refresh_token');
@@ -95,28 +82,36 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     }
   };
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
-  
-
   const navLinks = [
     { name: 'About AbrenCoffee', to: '/about' },
     { name: 'Services', to: '/services' },
     { name: 'Gifts', to: '/blog' },
     { name: 'Blog', to: '/blog' },
     { name: 'Contact', to: '/contact' },
+    { name: 'Subscribtion', to: '/register' },
+  ].filter(Boolean);
+
+  const shopDropdown = [
+    { name: 'All Products', to: '/shop' },
+    { name: 'Single Product', to: '/product/1' },
+    { name: 'Cart', to: '#', onClick: onCartClick },
+    { name: 'Checkout', to: '/checkout' },
+  ];
+
+  const profileDropdown = [
+    { name: isLoggedIn ? 'Profile' : '', to: '/profile' },
+    role === 'admin' ? { name: 'Dashboard', to: '/admin' } : null,
+    { name: 'Settings', to: '/settings' },
     { name: isLoggedIn ? 'Logout' : 'Login', to: '/login', onClick: handleLogout },
-    { name: isLoggedIn ? '' : 'Subscribe', to: '/register',onClick: '' },
-    { name: isLoggedIn && role === 'admin' ? 'Dashboard' : '', to: '/admin',onClick: '' },
-   ] // Remove nulls
-  
+    { name: isLoggedIn ? '' : 'Register', to: '/register', onClick: handleLogout },
+  ].filter((item): item is { name: string; to: string; onClick?: () => Promise<void> } => item !== null);
+
   const sideLinks = [
     { link: '/search', icon: <FaSearch /> },
-    { link: '/profile', icon: <FaUser /> },
+    { link: '#', icon: <FaUser />, onClick: () => setIsProfileOpen(prev => !prev) },
     { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
   ];
-  
+
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
       <div className='nav_second'>
@@ -127,23 +122,20 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
           <Link className="navbar-brand" to="/">
             Abren<small>Coffee</small>
           </Link>
-          <button className="navbar-toggler" onClick={handleDropdown}>
-            <span className="oi oi-menu">Menu</span>
-          </button>
 
           <div className="collapse navbar-collapse" id="ftco-nav">
             <ul className="navbar-nav">
               <li className="nav-item dropdown">
-                <span className="nav-link dropdown-toggle" onClick={handleDropdown} style={{ cursor: 'pointer' }}>
+                <span className="nav-link dropdown-toggle" onClick={() => setIsOpen(prev => !prev)} style={{ cursor: 'pointer' }}>
                   Shop
                 </span>
                 {isOpen && (
                   <div className="dropdown-menu" ref={dropdownRef}>
                     <ul>
-                      {dropdown.map((li, index) => (
-                        <li key={index}>
-                          <Link className="dropdown-item" to={li.to} onClick={li?.onclick}>
-                            {li.name}
+                      {shopDropdown.map((item, idx) => (
+                        <li key={idx}>
+                          <Link className="dropdown-item" to={item.to} onClick={item?.onClick}>
+                            {item.name}
                           </Link>
                         </li>
                       ))}
@@ -152,13 +144,10 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
                 )}
               </li>
 
-              {navLinks.map((link, index) => (
-                <li
-                  key={index}
-                  className={`nav-item ${isActive(link?.to) ? 'active' : ''}`}
-                >
-                  <Link to={link?.to} className="nav-link" onClick={link?.onClick}>
-                    {link?.name}
+              {navLinks.map((link, idx) => (
+                <li key={idx} className={`nav-item ${location.pathname.startsWith(link.to) ? 'active' : ''}`}>
+                  <Link to={link.to} className="nav-link" onClick={link?.onClick}>
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -167,18 +156,32 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
           </div>
 
           <div className="side">
-            {sideLinks.map((link, index) => (
-              <div className="link-group" key={index}>
-                <Link to={link.link} className="link" >
-                  <span className="icon" onClick={e=> {
-                  if (link.onClick) {
-                    e.preventDefault();
-                    link.onClick();
-                  }
-                }}>{link.icon}</span>
-                </Link>
-              </div>
-            ))}
+              {isProfileOpen && (
+                <div className="profile-dropdown-menu">
+                  <ul>
+                    {profileDropdown.map((item, idx) => (
+                      <li key={idx}>
+                        <Link className="dropdown-item" to={item.to} onClick={item?.onClick}>
+                          {item.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {sideLinks.map((link, idx) => (
+                <div className="link-group" key={idx}>
+                  <Link to={link.link} className="link" onClick={e => {
+                    if (link.onClick) {
+                      e.preventDefault();
+                      link.onClick();
+                    }
+                  }}>
+                    <span className="icon">{link.icon}</span>
+                  </Link>
+                </div>
+              ))}
             <div className="cart">
               <small>{cartItemCount}</small>
             </div>

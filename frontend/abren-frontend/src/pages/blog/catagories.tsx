@@ -14,7 +14,7 @@ const Categories: React.FC = () => {
   useEffect(() => {
     const fetchBlogCategories = async () => {
       try {
-        const response = await axios.get('/blog/catagory/');
+        const response = await axios.get('/blog/category/');
         setCategories(response.data);
       } catch (error) {
         console.error('Error fetching categories', error);

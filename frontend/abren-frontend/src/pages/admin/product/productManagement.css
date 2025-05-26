@@ -1,42 +1,96 @@
+/* ===============================
+   Product Management Container
+================================= */
 .product-management {
+    position: absolute;
+    top: 4em;
+    left: 15em;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 5em;
-    left: 15em;
+    align-items: flex-start;
+    justify-content: flex-start;
     padding: 1em;
     gap: 1em;
+    border-radius: 0.7em;
+    color: #000000;
     height: auto;
-    border-radius: .7em;
-    color: black;
-    justify-content: start;
-    align-items: start;
-}
+  }
 
-.product-management .users-list{
+/* ===============================
+     Header Section
+
+  ================================= */
+.product-management .header {
     width: 100%;
-    background: #f8fafc;
+    background-color: #f1f5f9; /* slate-100 */
     padding: 1.5em;
-}
-.product-management th,
-.product-management td{
-    padding: 12px 15px;
-    text-align: left;
-    color: #050505;
-    border-bottom: 1px solid #e2e8f0; /* slate-200 */
-}
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
-.product-management thead {
+.product-management .container {
+    width: 100%;
+    margin: auto;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ===============================
+     Product List Section
+  ================================= */
+  .product-management .product-list {
+    width: 100%;
+    background-color: #f8fafc; /* slate-50 */
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ===============================
+     Table Styling
+  ================================= */
+  .product-management table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 0.5em;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Table Header */
+  .product-management thead {
     background-color: #e2e8f0; /* slate-200 */
     color: #1e293b; /* slate-800 */
-}
-
-.product-management tr:hover {
+  }
+  
+  /* Header & Body Cells */
+  .product-management th,
+  .product-management td {
+    padding: 12px 15px;
+    text-align: left;
+    color: #050505; /* near-black */
+    border-bottom: 1px solid #e2e8f0; /* slate-200 */
+  }
+  
+  /* First Column Styling */
+  .product-management td:first-child {
+    font-weight: bold;
+    color: #050505; /* slate-950 */
+  }
+  
+  /* Hover Effect */
+  .product-management tr:hover {
     background-color: #f1f5f9; /* slate-100 */
     transition: background-color 0.2s ease;
-}
-
-.product-management td:first-child {
-    font-weight: bold;
-    color: #050505; /* slate-500 */
-}
+  }
+  
