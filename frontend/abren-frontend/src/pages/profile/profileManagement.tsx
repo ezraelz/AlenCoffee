@@ -4,6 +4,8 @@ import Profile from './profile';
 import ProfileShippingInfo from './profileShippingInfo';
 import './profileManagement.css';
 import AdminPage from '../admin/adminPage';
+import ProfileInvoices from './profileInvoice';
+import ProfileOrderList from './profileOrders';
 
 const ProfileManagement = () => {
     const [activeTab, setActiveTab] = useState('profile');
@@ -39,9 +41,9 @@ const ProfileManagement = () => {
     const renderTabs = () => {
       const buttons = [
         { name: 'profile' },
+        { name: role === 'admin' ? 'dashboard' : 'shipping address' },
         { name: role === 'admin' ? '' : 'orders'},
         { name: role === 'admin' ? '' : 'wishlist' },
-        { name: role === 'admin' ? '' : 'notifications' },
         { name: role === 'admin' ? '' : 'invoices' },
         { name: isLoggedIn ? 'Logout' : '', to: '', onClick: handleLogout },
         { name: 'settings' },
@@ -75,6 +77,10 @@ const ProfileManagement = () => {
           return <ProfileShippingInfo/>;
         case 'dashboard':
             return <AdminPage />
+        case 'invoices':
+          return <ProfileInvoices />
+        case 'orders':
+          return <ProfileOrderList />
         default:
           return <Profile />;
       }

@@ -85,7 +85,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const navLinks = [
     { name: 'About AbrenCoffee', to: '/about' },
     { name: 'Services', to: '/services' },
-    { name: 'Gifts', to: '/blog' },
+    { name: 'Gifts', to: '/gifts' },
     { name: 'Blog', to: '/blog' },
     { name: 'Contact', to: '/contact' },
     { name: 'Subscribtion', to: '/register' },
@@ -115,7 +115,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
       <div className='nav_second'>
-        <p>Order now and get 10% discount</p>
+        <p>10% discount on Subscription</p>
       </div>
       <nav>
         <div className="container">

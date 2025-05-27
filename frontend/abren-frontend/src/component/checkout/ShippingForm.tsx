@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './ShippingForm.module.css';
+import './ShippingForm.css';
 
 interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,7 +22,7 @@ const ShippingForm: React.FC<Props> = ({
   useEffect(() => {
     const fetchShippingAddress = async () => {
       try {
-        const response = await axios.get('/api/shipping-address/retrieve/');
+        const response = await axios.get('/orders/shipping/retrieve/');
         if (response.status === 200 || response.status === 204) {
           const data = response.data;
           if (Object.keys(data).length > 0) {
@@ -39,33 +39,36 @@ const ShippingForm: React.FC<Props> = ({
   }, [setFormData]);
 
   return (
-    <form onSubmit={onSubmit} className={styles.container}>
-      <h2 className={styles.title}>
+    <form onSubmit={onSubmit} className='shipping-form-container'>
+      <h2 className='title'>
         {prefilled ? 'Edit Shipping Information' : 'Shipping Information'}
       </h2>
-      {[
-        'full_name', 'email', 'phone_number',
-        'address1', 'address2', 'street',
-        'city', 'state', 'country', 'zipcode'
-      ].map((field) => (
-        <input
-          key={field}
-          type="text"
-          name={field}
-          placeholder={field.replace('_', ' ').toUpperCase()}
-          value={formData[field] || ''}
-          onChange={onChange}
-          required={field !== 'address2'}
-          className={styles.input}
-        />
-      ))}
-      <button
-        type="submit"
-        disabled={loading}
-        className={styles.button}
-      >
-        {loading ? 'Submitting...' : prefilled ? 'Update & Continue' : 'Continue to Review'}
-      </button>
+      <div className="form-input-group">
+        {[
+          'full_name', 'email', 'phone_number',
+          'address1', 'address2', 'street',
+          'city', 'state', 'country', 'zipcode'
+        ].map((field) => (
+          <input
+            key={field}
+            type="text"
+            name={field}
+            placeholder={field.replace('_', ' ').toUpperCase()}
+            value={formData[field] || ''}
+            onChange={onChange}
+            required={field !== 'address2'}
+            className='input'
+          />
+        ))}
+        <button
+          type="submit"
+          disabled={loading}
+          className='button'
+        >
+          {loading ? 'Submitting...' : prefilled ? 'Update & Continue' : 'Continue to Review'}
+        </button>
+      </div>
+      
     </form>
   );
 };

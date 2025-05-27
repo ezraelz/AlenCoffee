@@ -61,7 +61,6 @@ const CreateCategory: React.FC = () => {
     setIsOpen(false);
   }
 
-
   const handleClose = () => {
     Onclose();
   }
@@ -88,7 +87,6 @@ const CreateCategory: React.FC = () => {
             {loading ? 'Submitting...' : 'Create Blog Category'}
         </button>
         </form>
-        <button className="close-btn" onClick={handleClose}>×</button>
     </>
     
   );

@@ -1,8 +1,11 @@
 .blog {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
+    background: url(../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     height: auto;
-    margin-top: 10.7em;
+    margin-top: 0;
     margin: auto;
     z-index: 300;
     color: #fff;
@@ -10,13 +13,11 @@
   
   .blog-hero {
     text-align: center;
-    padding: 4rem 2rem;
-    background: url(../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
     color: #fff;
+    padding-top: 12em;
+    background: #333333e7;
   }
+
   .blog-hero.scroll{
     opacity: 0;
   }
@@ -24,6 +25,7 @@
   .blog-hero h1 {
     font-size: 3rem;
     margin: 0;
+    padding-bottom: 1em;
   }
   
   .blog-container {
@@ -31,14 +33,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 2rem;
-    margin-inline: 2rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin: auto;
     overflow: hidden;
   }
   
   .blog-card:nth-child(1) {
-    background: #bc8383;
+    background: #e7d7d7d8;
     border-radius: 1rem;
     display: flex;
     align-items:safe;

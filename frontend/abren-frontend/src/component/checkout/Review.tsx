@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Review.module.css';
+import './Review.css';
 
 interface Product {
   id: number;
@@ -39,33 +39,33 @@ const Review: React.FC<Props> = ({ cart, formData, onBack, onConfirm, loading}) 
       <div className='review-section'>
         <h3 className='review-section-title'>Shipping Details</h3>
         {Object.entries(formData).map(([key, value]) => (
-          <p key={key} className={styles.p}>
+          <p key={key} className='p'>
             <strong>{key.replace(/_/g, ' ')}:</strong> {value}
           </p>
         ))}
       </div>
 
-      <div className={styles.section}>
-        <h3 className={styles.title}>Items in Cart</h3>
+      <div className='section'>
+        <h3 className='title'>Items in Cart</h3>
         {cart.cart_items.map(({ product, quantity, total_price }) => (
-          <div key={product.id} className={styles.itemRow}>
+          <div key={product.id} className='itemRow'>
             <span>
               {product.name} × {quantity}
             </span>
             <span>${total_price.toFixed(2)}</span>
           </div>
         ))}
-        <p className={styles.total}>Total: ${cart.total_price.toFixed(2)}</p>
+        <p className='total'>Total: ${cart.total_price.toFixed(2)}</p>
       </div>
 
-      <div className={styles.section}>
-        <button onClick={onBack} className={styles.backBtn}>
+      <div className='section'>
+        <button onClick={onBack} className='backBtn'>
           Back
         </button>
         <button
           onClick={onConfirm}
           disabled={loading}
-          className={styles.confirmBtn}
+          className='confirmBtn'
         >
           {loading ? 'Processing...' : 'Confirm and Pay'}
         </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaCcStripe, FaPaypal } from 'react-icons/fa';
-import { SiKlarna, SiWish} from 'react-icons/si';
-import styles from './PaymentMethods.module.css';
+import { SiWish} from 'react-icons/si';
+import './PaymentMethods.css';
 import axios from '../../utils/axios';
 
 interface Cart {
@@ -20,7 +20,6 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
   const paymentOptions = [
     { id: 'stripe', label: 'Stripe', icon: <FaCcStripe /> },
     { id: 'paypal', label: 'PayPal', icon: <FaPaypal /> },
-    { id: 'klarna', label: 'Klarna', icon: <SiKlarna /> },
     { id: 'swish', label: 'Swish', icon: <SiWish/> },
   ];
 
@@ -69,28 +68,30 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
         }
       );
   
-      const { approval_url } = response.data;
-      if (approval_url) {
-        window.location.href = approval_url;
+      const approvalUrl = response.data.approval_url;
+      if (approvalUrl) {
+        window.location.href = approvalUrl;
       } else {
-        alert("Swish payment initiated. Please approve it on your device.");
+        console.error('Approval URL is undefined.');
       }
     } catch (err) {
       console.error("Swish setup error:", err);
       alert("Swish setup failed. Please check your phone number and try again.");
     }
   };
-  
-  interface SetupPaymentResponse {
-    approval_url?: string;
-  }
 
-  const setupPayment = async (method: string): Promise<void> => {
+  const handlePayPalPayment = async () => {
     try {
       const token = localStorage.getItem('access_token');
-      const response = await axios.post<SetupPaymentResponse>(
-        `/orders/payments/${method}/setup/`,
-        { email, amount: cart.total_price },
+  
+      const response = await axios.post(
+        '/orders/payments/paypal/setup/',
+        {
+          email,
+          amount: cart.total_price,
+          // You can optionally include order_id or cart_id here if available
+          // order_id: someOrderId
+        },
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
           withCredentials: true,
@@ -98,21 +99,22 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
       );
   
       const { approval_url } = response.data;
+  
       if (approval_url) {
         window.location.href = approval_url;
       } else {
-        console.error(`Missing ${method} approval URL.`);
+        alert('PayPal setup failed: Missing approval URL.');
       }
-    } catch (err) {
-      console.error(err);
-      alert(`${method} setup failed.`);
+    } catch (error) {
+      console.error('PayPal setup error:', error);
+      alert('Something went wrong while setting up PayPal.');
     }
-  };
+  };  
   
+  interface SetupPaymentResponse {
+    approval_url?: string;
+  }
 
-  const handlePaypalPayment = () => setupPayment("paypal");
-  const handleKlarnaPayment = () => setupPayment("klarna");
-  
 
   const handlePayment = async (method: string) => {
     setLoading(true);
@@ -121,10 +123,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
         await handleStripePayment();
         break;
       case 'paypal':
-        await handlePaypalPayment();
-        break;
-      case 'klarna':
-        await handleKlarnaPayment();
+        await handlePayPalPayment();
         break;
       case 'swish':
         await handleSwishPayment();
@@ -136,15 +135,15 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
   };
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Choose Payment Method</h2>
-      <div className={styles.section}>
+    <div className='payment-container'>
+      <h2 className='title'>Choose Payment Method</h2>
+      <div className='section'>
         {paymentOptions.map(({ id, label, icon }) => (
           <button
             key={id}
             onClick={() => handlePayment(id)}
             disabled={loading}
-            className={styles.button}
+            className='button'
           >
             {icon}
             <span>{label}</span>
@@ -152,7 +151,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
         ))}
       </div>
       
-      <p className={styles.total}>Total to Pay: ${cart.total_price.toFixed(2)}</p>
+      <p className='total'>Total to Pay: ${cart.total_price.toFixed(2)}</p>
     </div>
   );
 };

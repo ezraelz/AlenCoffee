@@ -20,7 +20,7 @@ const OrderList: React.FC = () => {
   useEffect(() => {
     const fetchAllOrders = async () => {
       const token = localStorage.getItem('access_token');
-      const response = await axios.get('/orders/list/', {
+      const response = await axios.get('/adminPanel/orders/', {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 
 interface Invoice {
   id: number;
+  order: number;
   created_at: string;
   status: 'pending' | 'paid' | 'cancelled' | 'failed';
   pdf_file?: string; // Optional property for the PDF file URL
@@ -45,6 +46,7 @@ const Invoices: React.FC = () => {
           <thead>
             <tr>
               <th>Invoice ID</th>
+              <th>Order</th>
               <th>Date</th>
               <th>Status</th>
               <th>Actions</th>
@@ -54,6 +56,7 @@ const Invoices: React.FC = () => {
             {invoices.map((invoice) => (
               <tr key={invoice.id}>
                 <td>{invoice.id}</td>
+                <td>{invoice.order}</td>
                 <td>{new Date(invoice.created_at).toLocaleDateString()}</td>
                 <td>{invoice.status}</td>
                 <td className="action-buttons">

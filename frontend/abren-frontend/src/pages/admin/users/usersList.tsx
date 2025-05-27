@@ -76,7 +76,7 @@ const UsersList: React.FC = () => {
             {currentUsers.length > 0 ? (
               currentUsers.map((entry, index) => {
                 const { user, shipping_address, total_spent } = entry;
-                const totalSpentAmount = total_spent.reduce((acc, val) => acc + val, 0); // adjust if total_spent contains objects
+                const totalSpentAmount = total_spent; // adjust if total_spent contains objects
                 return (
                   <tr key={user.id}>
                     <td>{indexOfFirstUser + index + 1}</td>

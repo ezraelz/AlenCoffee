@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
+import './profileShippingInfo.css'
 
 interface Shipping {
     session_key: string;
@@ -26,7 +27,7 @@ const ProfileShippingInfo = () => {
             if (!token) return;
 
             try {
-                const response = await axios.get('/orders/shipping/list/', {
+                const response = await axios.get('/orders/shipping/user/', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 console.log("Shipping Response:", response.data);
@@ -48,10 +49,10 @@ const ProfileShippingInfo = () => {
 
   return (
     <div>
-      <div className="shipping-container">
+      <div className="profile-shipping-container">
         <h2>Shipping Address</h2>
             {shippingAddress ? (
-                <>
+                <div className='shipping-details'>
                     <p><strong>Name:</strong> {shippingAddress.full_name}</p>
                     <p><strong>Email:</strong> {shippingAddress.email}</p>
                     <p><strong>Address 1:</strong> {shippingAddress.address1}</p>
@@ -60,9 +61,9 @@ const ProfileShippingInfo = () => {
                     <p><strong>Status:</strong> {shippingAddress.status}</p>
                     <p><strong>Zipcode:</strong> {shippingAddress.zipcode}</p>
                     <p><strong>Country:</strong> {shippingAddress.country}</p>
-                </>
+                </div>
             ) : (
-                <p>No shipping address found.</p>
+                <p className='no-address'>No shipping address found.</p>
             )}
         </div>
     </div>

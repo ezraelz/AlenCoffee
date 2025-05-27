@@ -12,8 +12,7 @@ import {
   
 const Overview:React.FC = () => {
     const [topProducts, setTopProducts] = useState<
-    { id: number; name: string; popularity: number; sales: number }[]
-    >([]);
+    { id: number; name: string; popularity: number; sales: number }[]>([]);
     const [dailySales, setDailySales] = useState<{ day: string; total_sales: number }[]>([]);
     const [products, setProducts] = useState(0);
     const [stock, setStock] = useState(0);
@@ -21,6 +20,9 @@ const Overview:React.FC = () => {
     const [orders, setOrders] = useState(0);
     const [users, setUsers] = useState(0);
     const [error, setError] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const productsPerPage = 5;
 
     useEffect(() => {
         const fetchAllStats = async () => {
@@ -70,6 +72,29 @@ const Overview:React.FC = () => {
         fetchAllStats();
     }, []);
 
+    const filteredSales = dailySales.filter((sale) => (
+        sale.total_sales > 0 && sale.day.toLowerCase().includes(searchTerm.toLowerCase())
+    ));
+
+    // Filter top products based on search term
+    const indexOfLastSale = currentPage * productsPerPage;
+    const indexOfFirstSale = indexOfLastSale - productsPerPage;
+    const currentSales = filteredSales.slice(indexOfFirstSale, indexOfLastSale);
+
+    const totalSalesPages = Math.ceil(filteredSales.length / productsPerPage);
+
+    const filteredProducts = topProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+    // Calculate pagination for top products
+    const currentPageProducts = currentPage > 0 ? currentPage : 1;
+    const indexOfLastProduct = currentPageProducts * productsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+    const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+    
+    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+        
   return (
     <div className='overview'>
       <div className="cards-container ">
@@ -110,8 +135,8 @@ const Overview:React.FC = () => {
                         </tr>
                         </thead>
                         <tbody>
-                            {topProducts.length > 0 ? (
-                                topProducts.map((product, index) => (
+                            {currentProducts.length > 0 ? (
+                                currentProducts.map((product, index) => (
                                 <tr key={product.id}>
                                     <td>{index + 1}</td>
                                     <td>{product.name}</td>
@@ -128,6 +153,19 @@ const Overview:React.FC = () => {
                             )}
                         </tbody>
                     </table>
+
+                    {/* Pagination */}
+                    <div className="pagination">
+                        {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                            key={page + 1}
+                            onClick={() => setCurrentPage(page + 1)}
+                            className={currentPage === page + 1 ? 'active' : ''}
+                        >
+                            {page + 1}
+                        </button>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="sales-per-day">
@@ -140,8 +178,8 @@ const Overview:React.FC = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {dailySales.length > 0 ? (
-                                dailySales.map((sale, index) => (
+                            {currentSales.length > 0 ? (
+                                currentSales.map((sale, index) => (
                                     <tr key={index}>
                                         <td>{sale.day}</td>
                                         <td>${sale.total_sales}</td>
@@ -154,6 +192,18 @@ const Overview:React.FC = () => {
                             )}
                         </tbody>
                     </table>
+                     {/* Pagination */}
+                    <div className="pagination">
+                        {[...Array(totalSalesPages).keys()].map((page) => (
+                        <button
+                            key={page + 1}
+                            onClick={() => setCurrentPage(page + 1)}
+                            className={currentPage === page + 1 ? 'active' : ''}
+                        >
+                            {page + 1}
+                        </button>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="sales-chart">
