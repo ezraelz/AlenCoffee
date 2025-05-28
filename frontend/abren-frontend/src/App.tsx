@@ -23,6 +23,8 @@ import Cart from './pages/shop/cart';
 const Admin = lazy(() => import('./pages/admin/adminPage'));
 const Shop = lazy(() => import('./pages/shop/shop'));
 const Home = lazy(() => import('./pages/home'));
+const About = lazy(() => import('./pages/about'));
+const Contact = lazy(() => import('./pages/contact'));
 const Login = lazy(() => import('./pages/login'));
 const Blog = lazy(() => import('./pages/blog/blog'));
 const Logout = lazy(() => import('./pages/logout'));
@@ -31,6 +33,8 @@ const Checkout = lazy(() => import('./pages/shop/checkout'));
 const PaymentSuccess = lazy(() => import('./pages/shop/pymentSuccess'));
 const Profile = lazy(() => import('./pages/profile/profileManagement'));
 const Register = lazy(() => import('./pages/register'));
+const Services = lazy(() => import('./pages/services'));
+const Subscription = lazy(() => import('./pages/subscription'));
 
 import { ToastContainer } from 'react-toastify';
 import ScrollToTop from './routes/ScrollToTop';
@@ -131,9 +135,13 @@ const App = () => {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/logout" element={<Logout />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/services" element={<Services/>} />
+              <Route path='/subscription' element={<Subscription />} />
               <Route path="/checkout/" element={<Checkout />} />
               <Route path="/product/:id" element={<SingleProduct />} />
               <Route path="/success/" element={<PaymentSuccess />} />

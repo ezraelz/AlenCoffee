@@ -88,7 +88,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { name: 'Gifts', to: '/gifts' },
     { name: 'Blog', to: '/blog' },
     { name: 'Contact', to: '/contact' },
-    { name: 'Subscribtion', to: '/register' },
+    { name: 'Subscribtion', to: '/subscription' },
   ].filter(Boolean);
 
   const shopDropdown = [

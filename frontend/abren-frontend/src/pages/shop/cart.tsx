@@ -8,7 +8,7 @@ interface CartModalProps {
   onClose: () => void;
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 3;
 
 const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const { cartItems, removeItem, totalPrice, updateItemQuantity } = useCart();
@@ -26,7 +26,6 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
   const handlePageClick = (page: number) => setCurrentPage(page);
 
   
-
   return (
     <div className="cart-modal-backdrop" onClick={onClose}>
       <div className="cart-modal-content" onClick={(e) => e.stopPropagation()}>
@@ -50,7 +49,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                         }}
                       />
                     </span>
-                    <span className="cart-item-name">{item.product.name} - × {item.quantity}</span>
+                    <span className="cart-item-name">{item.product.name}</span>
                     <span className="cart-item-price">${item.price} </span>
                   </div>
 
@@ -61,7 +60,7 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
                     >
                       ➖
                     </button>
-                    <span>{item.quantity}</span>
+                    <span className="cart-item-name">{item.quantity}</span>
                     <button
                       onClick={() => updateItemQuantity(item.product.id, item.quantity + 1)}
                     >
@@ -97,15 +96,21 @@ const CartModal: React.FC<CartModalProps> = ({ isOpen, onClose }) => {
             <div className="cart-total">
               <strong>Total:</strong> ${totalPrice.toFixed(2)}
             </div>
-            <button
-              className="checkout-btn"
-              onClick={() => {
-                onClose();
-                navigate('/checkout');
-              }}
-            >
-              Proceed to Checkout
-            </button>
+            <div className="button-group">
+              <button className="continue-shopping-btn" onClick={onClose}>
+                Continue Shopping
+              </button>
+              <button
+                className="checkout-btn"
+                onClick={() => {
+                  onClose();
+                  navigate('/checkout');
+                }}
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+           
           </>
         )}
       </div>
