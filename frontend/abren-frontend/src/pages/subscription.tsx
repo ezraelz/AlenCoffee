@@ -1,10 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Subscription.css'; // Make sure this matches your folder structure
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaCcAmazonPay, FaCcMastercard, FaCcPaypal, FaCcStripe } from 'react-icons/fa';
 import { FaCcVisa } from 'react-icons/fa6';
+import { useCart } from './shop/useCart';
+import axios from '../utils/axios';
 
-const Subscription = () => {
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  image: string;
+  quantity: number;
+}
+
+const Subscription:React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
+  const [loadingProductIds, setLoadingProductIds] = useState<Set<number>>(new Set());
+  const { cartItems, removeItem, totalPrice, updateItemQuantity, cartItemCount,addItem } = useCart();
+  const navigate = useNavigate();
+
+  const guides = [
+    {number: 1, title: 'Choose Your Favorite Coffee'},
+    {number: 2, title: 'Detrmine order interval'},
+    {number: 3, title: 'Add to cart and All done'}
+  ]
+
+  useEffect(() => {
+      const fetchInitialData = async () => {
+        try {
+          const productsResponse = await axios.get<Product[]>('/products/list/');
+          setProducts(
+            productsResponse.data.map((p) => ({
+              ...p,
+              price: Number(p.price),
+              quantity: Number(p.quantity),
+            }))
+          );
+        } catch (error) {
+          console.error('Failed to load products:', error);
+          setError('Failed to load products. Please try again later.');
+        }
+      };
+  
+      fetchInitialData();
+     
+    }, []);
+
   return (
     <div className="subscription">
       <div className="subscription-container">
@@ -54,8 +99,76 @@ const Subscription = () => {
         </div>
 
         <div className="subscription-guide">
-          
+          {guides.map((guide, index) => (
+            <div className="guid-card" key={index}>
+              <span>{guide.number}</span>
+              <p>{guide.title}</p>
+            </div>
+          ))}
         </div>
+
+        <div className="subscription-items">
+          {products.map((product) => {
+            const isLoading = loadingProductIds.has(product.id);
+            const isOutOfStock = product.stock === 0;
+            const quantity = product.quantity ?? 1; // fallback if undefined
+
+            return (
+              <article className="item-card" key={product.id}>
+                <img src={product.image} alt={product.name} className="product-image" />
+
+                <h3 className="product-name">{product.name}</h3>
+
+                <div className="product-details">
+                  <p className="price">${product.price.toFixed(2)}</p>
+                </div>
+
+                <button
+                  className="addCart"
+                  onClick={() => addItem(product)}
+                  disabled={isLoading || isOutOfStock}
+                  type="button"
+                >
+                  {isLoading
+                    ? 'Adding...'
+                    : isOutOfStock
+                    ? 'Out of Stock'
+                    : 'Add to Cart'}
+                </button>
+
+                <div className="cart-item-controls">
+                  <button
+                    aria-label="Decrease quantity"
+                    onClick={() => updateItemQuantity(product.id, quantity - 1)}
+                    disabled={quantity <= 1}
+                    type="button"
+                  >
+                    ➖
+                  </button>
+
+                  <span className="cart-item-name">{cartItemCount}</span>
+
+                  <button
+                    aria-label="Increase quantity"
+                    onClick={() => updateItemQuantity(product.id, quantity + 1)}
+                    type="button"
+                  >
+                    ➕
+                  </button>
+
+                  <button
+                    aria-label="Remove item"
+                    onClick={() => removeItem(product.id)}
+                    type="button"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
       </div>
     </div>
   );
