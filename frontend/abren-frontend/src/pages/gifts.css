@@ -58,6 +58,7 @@
     width: 5rem;
     height: 5rem;
     z-index: 2;
+    border-radius: .2rem;
   }
   
   .gift-grid {
@@ -73,7 +74,7 @@
     background: #f5eee7;
     padding: 20px;
     border-radius: 16px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.226);
     width: 280px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }

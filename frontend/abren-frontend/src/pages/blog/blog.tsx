@@ -15,6 +15,7 @@ interface BlogDetail {
 }
 
 const Blog: React.FC = () => {
+  const [loading, setLoading] = useState(true);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [blogItems, setBlogItems] = useState<BlogDetail[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>(''); // now it's just one selected category
@@ -31,7 +32,6 @@ const Blog: React.FC = () => {
       window.addEventListener('scroll', handleScrollChange);
       return () => window.removeEventListener('scroll', handleScrollChange);
     }, []);
-
 
   useEffect(() => {
     if (name) setSelectedCategory(name); // optional: load filter from URL param
@@ -54,6 +54,7 @@ const Blog: React.FC = () => {
 
     fetchBlogData();
   }, []);
+
 
   const filteredItems =
     selectedCategory === ''
@@ -93,7 +94,7 @@ const Blog: React.FC = () => {
   return (
     <div className="blog">
       <div className={isScrolled ? "blog-hero scroll" : 'blog-hero'}>
-        <h1>Blog</h1>
+        <h1>Abren Blog</h1>
         <Categories setCategory={setSelectedCategory} /> {/* Pass setter to child */}
       </div>
       <div className="blog-container">{renderBlogItems()}</div>

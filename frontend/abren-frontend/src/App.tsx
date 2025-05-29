@@ -40,6 +40,7 @@ import { ToastContainer } from 'react-toastify';
 import ScrollToTop from './routes/ScrollToTop';
 import { NavVisibilityProvider } from './context/NavVisibilityContext';
 import Layout from './layout';
+import BlogDetail from './pages/blog/blogDetail';
 
 const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -148,6 +149,7 @@ const App = () => {
               <Route path="/success/" element={<PaymentSuccess />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:category" element={<Blog />} />
+              <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/register" element={<Register />} />
             </Routes>

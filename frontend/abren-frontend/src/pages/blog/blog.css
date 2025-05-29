@@ -1,6 +1,5 @@
 .blog {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url(../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -11,21 +10,35 @@
     color: #fff;
   }
   
-  .blog-hero {
-    text-align: center;
-    color: #fff;
-    padding-top: 12em;
-    background: #333333e7;
+  .blog-hero{
+    background-image: url('../../assets/images/artisan-roasted-coffee-beans.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: rgb(255, 255, 255);
+    padding: 8em;
   }
-
-  .blog-hero.scroll{
-    opacity: 0;
+  .blog-hero::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
   }
+  
   
   .blog-hero h1 {
     font-size: 3rem;
     margin: 0;
     padding-bottom: 1em;
+    z-index: 2;
   }
   
   .blog-container {

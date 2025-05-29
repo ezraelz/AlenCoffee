@@ -20,21 +20,18 @@ const Gifts = () => {
 
         <div className="gift-grid">
           <div className="gift-card">
-            <img src="/images/gift-box1.jpg" alt="Starter Gift Box" />
             <h2>Starter Gift Box</h2>
             <p>A handpicked selection of beans and a stylish mug. Perfect for new coffee enthusiasts.</p>
             <span className="gift-price">$29.99</span>
           </div>
 
           <div className="gift-card">
-            <img src="/images/gift-box2.jpg" alt="Deluxe Coffee Set" />
             <h2>Deluxe Coffee Set</h2>
             <p>Includes premium beans, a grinder, and accessories for the ultimate brew-at-home experience.</p>
             <span className="gift-price">$79.99</span>
           </div>
 
           <div className="gift-card">
-            <img src="/images/gift-card.jpg" alt="Digital Gift Card" />
             <h2>Digital Gift Card</h2>
             <p>Let them choose their favorite brew. Available in multiple denominations.</p>
             <span className="gift-price">From $10</span>

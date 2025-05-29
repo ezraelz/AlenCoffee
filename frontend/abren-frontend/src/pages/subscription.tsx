@@ -1,8 +1,8 @@
 import React from 'react';
 import './Subscription.css'; // Make sure this matches your folder structure
 import { Link } from 'react-router-dom';
-import { FaCcAmazonPay, FaCcMastercard, FaCcPaypal, FaCcStripe, FaFacebook, FaInstagram, FaTiktok, FaTwitch } from 'react-icons/fa';
-import { FaCcVisa, FaX } from 'react-icons/fa6';
+import { FaCcAmazonPay, FaCcMastercard, FaCcPaypal, FaCcStripe } from 'react-icons/fa';
+import { FaCcVisa } from 'react-icons/fa6';
 
 const Subscription = () => {
   return (
@@ -13,7 +13,8 @@ const Subscription = () => {
           <p className="subscription-intro">
             Enjoy our premium coffee delivered straight to your door every week or month. Choose a plan that suits your taste and schedule.
           </p>
-          <div className="about-social">
+          <p>Enjoy 10% discount on Subscription</p>
+          <div className="subscripton-payment">
             <Link to="https://www.facebook.com/abren" className='social' target="_blank" rel="noopener noreferrer">
               <FaCcMastercard aria-label="Facebook" />
             </Link>
@@ -50,6 +51,10 @@ const Subscription = () => {
             <p>Keep the team fueled with bulk deliveries for your workspace or business.</p>
             <span className="price">Custom Quote</span>
           </div>
+        </div>
+
+        <div className="subscription-guide">
+          
         </div>
       </div>
     </div>

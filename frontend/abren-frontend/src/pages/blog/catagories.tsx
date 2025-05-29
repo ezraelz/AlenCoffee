@@ -7,7 +7,11 @@ interface Category {
   link: string;
 }
 
-const Categories: React.FC = () => {
+interface CategoriesProps {
+  setCategory: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Categories: React.FC<CategoriesProps> = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
