@@ -1,0 +1,111 @@
+.subscription {
+    background: #fefaf6;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3e2c1c;
+  }
+
+  
+  .subscription-container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fffefc;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    text-align: center;
+  }
+
+  .subscription-hero{
+    background-image: url('../assets/images/artisan-roasted-coffee-beans.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: rgb(255, 255, 255);
+    padding: 8em;
+  }
+
+  .subscription-hero::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+  }
+  
+  .subscription-title {
+    font-size: 36px;
+    margin-top: 3em;
+    margin-bottom: 20px;
+    color: #ffffff;
+    z-index: 2;
+  }
+  
+  .subscription-intro {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #ffffff;
+    z-index: 2;
+    justify-content: center;
+    text-align: justify;
+  }
+  
+  .subscription-plans {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+  }
+
+  .plan-card {
+    background-color: #fff8f1;
+    padding: 30px 20px;
+    border-radius: 10px;
+    width: 100%;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+  }
+  
+  .plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .plan-card h2 {
+    font-size: 22px;
+    color: #4b3225;
+    margin-bottom: 12px;
+  }
+  
+  .plan-card p {
+    font-size: 16px;
+    color: #5a4636;
+    margin-bottom: 10px;
+  }
+  
+  .price {
+    font-weight: bold;
+    color: #9c6f4a;
+    font-size: 18px;
+  }
+
+  .social {
+    font-size: 26px;
+    color: #6e4e38;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .social:hover {
+    color: #c69c6d;
+    transform: scale(1.2);
+  }
+  
+  

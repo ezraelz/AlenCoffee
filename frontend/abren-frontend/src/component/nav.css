@@ -341,10 +341,7 @@
     transition: width 0.3s;
   }
   
-  .nav-link:hover::after,
-  .nav-item.active .nav-link::after {
-    width: 100%;
-  }
+
 
 @keyframes fallD{
   0%{

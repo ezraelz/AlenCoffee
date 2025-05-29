@@ -11,7 +11,7 @@
 .topnav {
   position: fixed;
   top: 0;
-  left: 14.3em;
+  left: 14.9em;
   width: calc(100% - 14.3em);
   display: flex;
   justify-content: space-between;

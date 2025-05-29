@@ -1,0 +1,91 @@
+.services {
+    background-color: #fefaf6;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3e2c1c;
+  }
+  
+  .services-container {
+    width: 100%;
+    margin: 0 auto;
+    background: #fffefc;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .service-hero {
+    background-image: url('../assets/images/artisan-roasted-coffee-beans.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: rgb(255, 255, 255);
+    padding: 8em;
+  }
+
+  .service-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+  }
+  
+  .services-title {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 4em;
+    z-index: 2;
+  }
+  
+  .services-intro {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 40px;
+    color: #ffffff;
+    z-index: 2;
+  }
+  
+  .services-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .service-card {
+    background-color: #fff8f1;
+    padding: 25px 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-left: 6px solid #c69c6d;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-card h2 {
+    font-size: 20px;
+    color: #4b3225;
+    margin-bottom: 12px;
+  }
+  
+  .service-card p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #5a4636;
+  }
+  

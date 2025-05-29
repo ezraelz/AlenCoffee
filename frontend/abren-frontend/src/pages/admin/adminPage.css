@@ -1,11 +1,10 @@
 /* Main layout */
 .admin-page {
     display: flex;
-    height: 200vh;
+    height: auto;
+    position: relative;
     flex-direction: column;
-    background: #f2f2f2;
-    background-position:center;
-    background-attachment: fixed;
+    background: #ffffff;
     transition: all .5s ease-in-out;
 }
 
@@ -13,14 +12,14 @@
 .cards-container {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 5em;
+    position: relative;
+    top: 4em;
     left: 15em;
     padding: 1em;
     background: #f2f2f2;
     gap: 1em;
-    height: auto;
-    border-radius: .7em;
+    width: 79%;
+    height: 100%;
 }
 
 /* Cards wrapper */
@@ -88,7 +87,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
     font-size: 1.2rem;
     color: #555;
 }
