@@ -4,8 +4,11 @@ import './contact.css'; // Make sure this path is correct
 const Contact = () => {
   return (
     <div className="contact-container">
+      <div className="contact-hero">
+          <h1 className="contact-title">Contact Us</h1>
+        </div>
       <div className="contact-card">
-        <h1 className="contact-title">Contact Us</h1>
+        
         <div className="contact-grid">
           <form className="contact-form">
             <label>

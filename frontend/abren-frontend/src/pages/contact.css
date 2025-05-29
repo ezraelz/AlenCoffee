@@ -1,15 +1,38 @@
 /* Container styling */
 .contact-container {
-    background: url('../assets//images/artisan-roasted-coffee-beans.jpg') no-repeat center center fixed;
+    background: white;
     height: auto;
     margin: auto;
+  }
+
+  .contact-hero{
+    background-image: url('../assets/images/artisan-roasted-coffee-beans.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: rgb(255, 255, 255);
+    padding: 8em;
+  }
+
+  .contact-hero::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
   }
   
   .contact-card {
     background: #ffffff00;
     width: 90%;
     margin: 0em auto;
-    padding: 10em 4em;
     gap: 2em;
   }
   
@@ -18,7 +41,8 @@
     text-align: center;
     font-size: 32px;
     margin-bottom: 30px;
-    color: #333;
+    color: #ffffff;
+    z-index: 2;
   }
   
   /* Grid layout */
