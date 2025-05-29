@@ -1,7 +1,43 @@
 import React from 'react';
 import './Services.css'; // Make sure the path is correct
+import {
+  FaCoffee,
+  FaLeaf,
+  FaBreadSlice,
+  FaUtensils,
+} from 'react-icons/fa'
 
 const Services = () => {
+
+  const info = [
+          // Coffee-related
+          {
+            title: 'Best Coffee',
+            icon: <FaCoffee/>,
+            description: 'We serve premium, ethically sourced coffee brewed to perfection.',
+          },
+          {
+              title: 'Fine Teas',
+              icon: <FaLeaf />,
+              description: 'Explore our collection of organic green, black, and herbal teas.',
+            },
+        
+          // Pastry-related
+          {
+            title: 'Fresh Pastries',
+            icon: <FaBreadSlice />,
+            description: 'From croissants to cinnamon rolls, our pastries are baked fresh daily.',
+          },
+  
+        
+          // Café Menu-related
+          {
+            title: 'Seasonal Specials',
+            icon: <FaUtensils/>,
+            description: 'Our rotating menu features seasonal, locally sourced ingredients.',
+          },
+        ]
+
   return (
     <div className="services">
       <div className="services-container">
@@ -10,6 +46,20 @@ const Services = () => {
           <p className="services-intro">
             At Abren, we offer a range of services tailored to meet your needs in digital commerce and technology.
           </p>
+        </div>
+
+        <div className="service-info">
+          <div className="service-info-container">
+          {info.map((item, index) => {
+                  return (
+                      <div key={index} className="info-card">
+                          <div className="info-icon">{item.icon}</div>
+                          <h3 className="info-title">{item.title}</h3>
+                          <p className="info-description">{item.description}</p>
+                      </div>
+                  )
+                })}
+            </div>
         </div>
 
         <div className="services-grid">

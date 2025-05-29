@@ -89,3 +89,36 @@
     color: #5a4636;
   }
   
+  .service-info{
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.05);
+  }
+
+  .service-info .service-info-container{
+    display: flex;
+    flex-direction: row;
+    background: #c69c6d;
+    justify-content: center;
+    align-items: center;
+  }
+  .service-info .info-card {
+    padding: 1rem;
+    border-radius: 8px;
+    width: 200px;
+    text-align: center;
+    color: #fff;
+    transition: transform 0.2s ease;
+  }
+  .service-info .icon{
+    color: #000000;
+    margin-bottom: 0.5rem;
+    font-size: 4em;
+    border-radius: 50%;
+    border: 1px solid #000000;
+    transition: all .5s ease-in-out;
+  }
+  .service-info .icon:hover{
+    border-radius: 0;
+    transition: all .5s ease-in-out;
+}
