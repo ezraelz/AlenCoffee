@@ -33,6 +33,7 @@
     background: #ffffff00;
     width: 90%;
     margin: 0em auto;
+    padding: 2em 0;
     gap: 2em;
   }
   
@@ -41,9 +42,20 @@
     text-align: center;
     font-size: 32px;
     margin-bottom: 30px;
+    margin-top: 6em;
     color: #ffffff;
     z-index: 2;
   }
+
+  .contact-subtitle {
+    font-size: 1.1rem;
+    color: #ffffff; /* gray-500 */
+    max-width: 600px;
+    line-height: 1.6;
+    z-index: 2;
+    text-align: justify;
+  }
+  
   
   /* Grid layout */
   .contact-grid {

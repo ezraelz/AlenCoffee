@@ -12,7 +12,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 240px;
+  width: 14em;
   height: 100dvh;
   background-color: var(--sidebar-bg);
   color: var(--sidebar-text);

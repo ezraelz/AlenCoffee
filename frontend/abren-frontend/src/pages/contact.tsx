@@ -5,8 +5,13 @@ const Contact = () => {
   return (
     <div className="contact-container">
       <div className="contact-hero">
-          <h1 className="contact-title">Contact Us</h1>
-        </div>
+        <h1 className="contact-title">Get in Touch</h1>
+        <p className="contact-subtitle">
+          We'd love to hear from you! Whether you have a question about features, pricing, or anything else,
+          our team is ready to help.
+        </p>
+      </div>
+
       <div className="contact-card">
         
         <div className="contact-grid">

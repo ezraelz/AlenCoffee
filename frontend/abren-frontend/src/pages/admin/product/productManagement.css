@@ -4,14 +4,14 @@
 .product-management {
     position: absolute;
     top: 4em;
-    left: 15em;
+    left: 14em;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 1em;
     gap: 1em;
-    border-radius: 0.7em;
+    background-color: #f1f5f9;
     color: #000000;
     height: auto;
   }

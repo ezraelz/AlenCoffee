@@ -2,10 +2,10 @@
    Product List Wrapper
 ================================= */
 .product-list {
-  padding: 2rem;
+  padding: 1rem;
   background-color: #f8fafc;
   overflow-x: auto;
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .product-list h1 {

@@ -9,32 +9,32 @@
 }
 
 /* Flex container for sidebar and content */
-.cards-container {
+.admin-page .cards-container {
     display: flex;
     flex-direction: column;
     position: relative;
     top: 4em;
-    left: 15em;
+    left: 13em;
     padding: 1em;
     background: #f2f2f2;
-    gap: 1em;
+    gap: .5em;
     width: 79%;
     height: 100%;
 }
 
 /* Cards wrapper */
-.cards {
+.admin-page .cards {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1.4em;
-    padding: 1.5em;
+    gap: 1.2em;
+    padding: 1.2em;
     background-color: #ebebec;
     border-radius: .7em;
 }
 
 /* Individual card styles */
-.card {
+.admin-page .card {
     width: 30vh;
     height: 20vh;
     background-color: #ffffffbd;
@@ -46,19 +46,19 @@
     position: relative;
 }
 
-.card:hover {
+.admin-page .card:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
 }
 
-.card h2 {
+.admin-page .card h2 {
     font-size: .8rem;
     color: #333;
     margin-bottom: 10px;
     text-transform: uppercase;
 }
 
-.card p {
+.admin-page .card p {
     font-size: 1.2rem;
     color: #2d8cf0;
     font-weight: bold;
@@ -66,24 +66,23 @@
 }
 
 /* Small stats section under main value */
-.card small {
+.admin-page .card small {
     display: flex;
     gap: .4em;
     margin-top: 12px;
     padding-top: 10px;
     border-top: 1px solid #eee;
     font-size: 0.6rem;
-    color: #666;
 }
 
-.card small p {
+.admin-page .card small p {
     margin: 4px 0;
     font-size: 0.9rem;
-    color: #444;
+    color: #7f7f7fde;
 }
 
 /* Loading/Error styling */
-.main {
+.admin-page .main {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,7 +91,7 @@
 }
 
 /* Error alert */
-.alert {
+.admin-page .alert {
     padding: 10px 20px;
     margin-bottom: 20px;
     background-color: #ff4d4f;
@@ -101,14 +100,14 @@
     font-weight: 500;
 }
 
-.users-top-products{
+.admin-page .users-top-products{
     display: flex;
     background-color: #ebebec;
     padding: 1.5em;
     gap: 1.5em;
     border-radius: .7em;
 }
-.top-products,.sales-per-day {
+.admin-page .top-products,.sales-per-day {
     padding: 20px;
     background-color: #f8fafc; /* Tailwind slate-50 */
     border-radius: 10px;
@@ -118,7 +117,7 @@
     width: 70%;
 }
 
-.sales-per-day {
+.admin-page .sales-per-day {
     padding: 20px;
     background-color: #f8fafc; /* Tailwind slate-50 */
     border-radius: 10px;
@@ -127,21 +126,21 @@
     color: #050505;
     width: 30%;
 }
-.sales-chart{
+.admin-page .sales-chart{
     display: flex;
     background-color: #ebebec;
     padding: 1.5em;
     gap: 1.5em;
     border-radius: .7em;
 }
-.sales-per-day-chart{
+.admin-page .sales-per-day-chart{
     padding: 20px;
     background-color: #f8fafc; /* Tailwind slate-50 */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     color: #050505;
 }
-.top-products table, .sales-per-day table, .sales-per-day-chart {
+.admin-page .top-products table, .sales-per-day table, .sales-per-day-chart {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.95rem;
@@ -174,22 +173,22 @@
 
 /* Make cards container adapt to small screens */
 @media screen and (max-width: 1024px) {
-    .cards-container {
+  .admin-page .cards-container {
       left: 0;
       top: 6em;
       padding: 1em;
       width: 100%;
     }
   
-    .cards {
+    .admin-page .cards {
       justify-content: center;
     }
   
-    .users-top-products {
+    .admin-page .users-top-products {
       flex-direction: column;
     }
   
-    .top-products,
+    .admin-page .top-products,
     .sales-per-day {
       width: 100%;
     }
@@ -209,7 +208,7 @@
       flex-direction: column;
     }
   
-    .sidebar {
+    .admin-page .sidebar {
       position: relative;
       width: 100%;
       flex-direction: row;
@@ -219,11 +218,11 @@
       border-bottom: 1px solid #ccc;
     }
   
-    .sidebar-header {
+    .admin-page .sidebar-header {
       display: none;
     }
   
-    .sidebar-links {
+    .admin-page .sidebar-links {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -247,7 +246,7 @@
       background-color: #ffecec;
     }
   
-    .card {
+    .admin-page .card {
       width: 90%;
       margin: 0 auto;
       height: auto;
@@ -264,15 +263,15 @@
       padding: 0.4rem 0.5rem;
     }
   
-    .card h2 {
+    .admin-page .card h2 {
       font-size: 0.9rem;
     }
   
-    .card p {
+    .admin-page .card p {
       font-size: 1.2rem;
     }
   
-    .card small {
+    .admin-page .card small {
       font-size: 0.75rem;
       flex-direction: column;
     }

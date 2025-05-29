@@ -113,14 +113,26 @@ const Overview:React.FC = () => {
                 <div className="card">
                     <p>${sales}</p>
                     <h2>Total Sales</h2>
+                    <small>
+                        <p>Refund</p>
+                        <p>$0</p>
+                    </small>
                 </div>
                 <div className="card">
                     <p>{users}</p>
                     <h2>Total Users</h2>
+                    <small>
+                        <p>New</p>
+                        <p>0</p>
+                    </small>
                 </div>
                 <div className="card">
                     <p>{orders > 0 ? orders.toLocaleString() : '0'}</p>
                     <h2>Total Orders</h2>
+                    <small>
+                        <p>Pending</p>
+                        <p>0</p>
+                    </small>
                 </div>
             </div>
             <div className="users-top-products">
