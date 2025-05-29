@@ -48,20 +48,6 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="service-info">
-          <div className="service-info-container">
-          {info.map((item, index) => {
-                  return (
-                      <div key={index} className="info-card">
-                          <div className="info-icon">{item.icon}</div>
-                          <h3 className="info-title">{item.title}</h3>
-                          <p className="info-description">{item.description}</p>
-                      </div>
-                  )
-                })}
-            </div>
-        </div>
-
         <div className="services-grid">
           <div className="service-card">
             <h2>Subscription</h2>
@@ -89,6 +75,20 @@ const Services = () => {
             <p>
               Improve your online presence with search engine optimization and detailed analytics reports.
             </p>
+          </div>
+        </div>
+
+        <div className="service-info">
+          <div className="service-info-container">
+          {info.map((item, index) => {
+              return (
+                <div key={index} className="info-card">
+                    <span className="info-icon">{item.icon}</span>
+                    <h3 className="info-title">{item.title}</h3>
+                    <p className="info-description">{item.description}</p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>

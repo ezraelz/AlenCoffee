@@ -3,7 +3,8 @@ import './About.css'; // Make sure this path is correct
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitch } from 'react-icons/fa';
 import { FaX } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-
+import { FaUserFriends, FaHandshake, FaLightbulb } from 'react-icons/fa';
+import value from '../assets/images/our-core-values.png';
 import img1 from '../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg';
 
 import team1 from '../assets/images/customer.jpg';
@@ -60,14 +61,19 @@ const About = () => {
               <img src={team2} alt="" />
             </div>
           </div>
-          <div className="about-card">
-            <h2>Our Values</h2>
-            <ul>
-              <li>Customer-Centric Approach</li>
-              <li>Integrity & Transparency</li>
-              <li>Innovation & Excellence</li>
-            </ul>
+          <div className="about-card-values">
+            <img src={value} alt="value" />
+            <div className="values">
+              <h2>Our Values</h2>
+              <ul>
+                <li><div className="icon"><FaUserFriends /></div>Customer-Centric Approach</li>
+                <li> <div className="icon"><FaHandshake /></div>Integrity & Transparency</li>
+                <li> <div className="icon"><FaLightbulb /></div>Innovation & Excellence</li>
+              </ul>
+            </div>
+            
           </div>
+          
         </div>
       </div>
     </div>

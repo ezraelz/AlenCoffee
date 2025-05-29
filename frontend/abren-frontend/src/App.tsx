@@ -2,7 +2,6 @@ import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import './component/nav.css';
-import './pages/home.css';
 import './pages/login.css';
 import './component/leftsidebar.css';
 import './pages/shop/cart.css';
@@ -35,6 +34,7 @@ const Profile = lazy(() => import('./pages/profile/profileManagement'));
 const Register = lazy(() => import('./pages/register'));
 const Services = lazy(() => import('./pages/services'));
 const Subscription = lazy(() => import('./pages/subscription'));
+const Gifts = lazy(() => import('./pages/gifts'));
 
 import { ToastContainer } from 'react-toastify';
 import ScrollToTop from './routes/ScrollToTop';
@@ -142,6 +142,7 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/services" element={<Services/>} />
               <Route path='/subscription' element={<Subscription />} />
+              <Route path="/gifts" element={<Gifts />} />
               <Route path="/checkout/" element={<Checkout />} />
               <Route path="/product/:id" element={<SingleProduct />} />
               <Route path="/success/" element={<PaymentSuccess />} />

@@ -82,13 +82,23 @@
     margin: auto;
   }
   
-  .about-card {
+  .about-card{
     display: flex;
     flex-direction: row;
     background-color: #f1f1f1;
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+    align-items: center;
+  }
+ .about-card-values {
+    display: flex;
+    flex-direction: row;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2em;
   }
   .about-card-team {
     display: flex;
@@ -103,25 +113,55 @@
   .about-card img{
     border-radius: 2em;
   }
-  .about-card h2 {
+  .about-card h2, .about-card-values h2 {
     margin-bottom: 10px;
     font-size: 22px;
     color: #222;
   }
   
   .about-card p,
-  .about-card ul {
+  .about-card ul ,
+  .about-card-values ul{
     font-size: 16px;
     color: #444;
+  }
+
+  .about-card-values img{
+    width: 40%;
+    height: 60vh;
+    padding: 2em;
+  }
+
+  .about-card-values .values{
+    width: 30%;
+    height: 60vh;
+    padding: 2em;
+    padding-top: 4em;
+    line-height: 2rem;
+    border-radius: 3em;
+    background: wheat;
   }
   
   .about-card ul {
     list-style: none;
     padding-left: 20px;
   }
-  
+  .about-card-values ul{
+    list-style:none;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+  }
     .about-card ul li {
         margin-bottom: 10px;
+    }
+
+    .about-card-values ul li{
+      display: flex;
+      flex-direction: row;
+      gap: 1em;
+      margin: auto;
     }
     .about-card ul li:last-child {
         margin-bottom: 0;
