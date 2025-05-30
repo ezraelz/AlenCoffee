@@ -130,7 +130,7 @@ const Overview:React.FC = () => {
                     <p>{orders > 0 ? orders.toLocaleString() : '0'}</p>
                     <h2>Total Orders</h2>
                     <small>
-                        <p>Pending</p>
+                        <p>Completed</p>
                         <p>0</p>
                     </small>
                 </div>

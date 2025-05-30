@@ -27,7 +27,7 @@ export interface CartContextType {
   cartItems: CartItem[];
   cartItemCount: number;
   totalPrice: number;
-  addItem: (product: Product, quantity?: number) => void;
+  addItem: (product: Product, quantity?: number, delivery_frequency?: string) => void;
   updateItemQuantity: (productId: number, newQuantity: number) => void;
   removeItem: (productId: number) => void;
   clearCart: () => void;
@@ -59,17 +59,24 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = cart.total_price;
 
-  const addItem = async (product: Product, quantity: number = 1) => {
+  interface AddItemPayload {
+    product_id: number;
+    quantity: number;
+    frequency: string; // Assuming delivery_frequency is a string
+  }
+
+  const addItem = async (product: Product, quantity: number = 1, delivery_frequency?: string) => {
     try {
       const token = localStorage.getItem('access_token');
-      await axios.post(
-        '/cart/add/',
-        { product_id: product.id, quantity },
-        {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-          withCredentials: true,
-        }
-      );
+      const payload: AddItemPayload = {
+        product_id: product.id,
+        quantity,
+        frequency: delivery_frequency || 'default_frequency',
+      };
+      await axios.post('/cart/add/', payload, {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        withCredentials: true,
+      });
       await fetchCartData();
     } catch (error) {
       console.error('Error adding item:', error);

@@ -2,18 +2,15 @@
    Product Management Container
 ================================= */
 .product-management {
-    position: absolute;
-    top: 4em;
-    left: 14em;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    padding: 1em;
-    gap: 1em;
-    background-color: #f1f5f9;
-    color: #000000;
-    height: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 4em;
+  margin-left: 16em;
+  height: auto;
+  border-radius: .7em;
+  color: black;
+  justify-content: start;
+  align-items: start;
   }
 
 /* ===============================
@@ -23,7 +20,7 @@
 .product-management .header {
     width: 100%;
     background-color: #f1f5f9; /* slate-100 */
-    padding: 1.5em;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,7 +32,6 @@
 .product-management .container {
     width: 100%;
     margin: auto;
-    padding: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,9 +42,8 @@
      Product List Section
   ================================= */
   .product-management .product-list {
-    width: 100%;
+    width: 90%;
     background-color: #f8fafc; /* slate-50 */
-    padding: 1.5em;
     display: flex;
     flex-direction: column;
     align-items: center;

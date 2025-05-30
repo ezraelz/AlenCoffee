@@ -1,5 +1,5 @@
 :root {
-  --sidebar-bg: #ffffffef;
+  --sidebar-bg: #9f7e45;
   --sidebar-text: #2c2c2c;
   --sidebar-accent: #38bdf8;
   --sidebar-hover: #334155;
@@ -12,17 +12,15 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 14em;
+  width: 13em;
   height: 100dvh;
-  background-color: var(--sidebar-bg);
+  background-color: #cbba9a;
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
   padding: 1rem;
   box-sizing: border-box;
   z-index: 1000;
-  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
-  border-right: 1px solid var(--sidebar-border);
   transition: transform 0.3s ease-in-out;
 }
 
