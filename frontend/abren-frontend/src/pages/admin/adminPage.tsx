@@ -4,12 +4,9 @@ import './topnav.css';
 import './adminPage.css';
 
 import TopNav from './topnav';
-import Overview from './overview';
-import ProductManagement from './product/productMnanagement';
-
-import axios from '../../utils/axios';
+import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { useNavVisibility } from '../../context/NavVisibilityContext';
-import { useNavigate, Navigate } from 'react-router-dom';
+import axios from '../../utils/axios';
 
 import {
   FaArrowCircleRight,
@@ -21,10 +18,6 @@ import {
   FaUser
 } from 'react-icons/fa';
 import { FaArrowRightToCity, FaGear } from 'react-icons/fa6';
-import UsersManagement from './users/usersManagement';import Help from './help/help';
-import BlogManagement from './blog/blogManagement';
-import OrderManagement from './orders/orderManagement';
-import InvoiceManagement from './invoice/invoiceManagement';
 
 interface User {
   id: number;
@@ -37,12 +30,13 @@ interface User {
 }
 
 const AdminPage: React.FC = () => {
-  const [selectedComponent, setSelectedComponent] = useState('Dashboard');
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const { setShowNav, setShowFooter } = useNavVisibility();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     setShowNav(false);
@@ -54,21 +48,20 @@ const AdminPage: React.FC = () => {
   }, [setShowNav, setShowFooter]);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUser = async () => {
       const token = localStorage.getItem('access_token');
       if (!token) {
         setError('You must be logged in.');
         setLoading(false);
         return;
       }
-
       try {
-        const response = await axios.get('/users/me/', {
-          headers: { Authorization: `Bearer ${token}` },
+        const res = await axios.get('/users/me/', {
+          headers: { Authorization: `Bearer ${token}` }
         });
-        setUser(response.data);
-      } catch (error: any) {
-        if (error.response?.status === 401) {
+        setUser(res.data);
+      } catch (err: any) {
+        if (err.response?.status === 401) {
           localStorage.removeItem('access_token');
           navigate('/login');
         } else {
@@ -79,48 +72,27 @@ const AdminPage: React.FC = () => {
       }
     };
 
-    fetchUserData();
+    fetchUser();
   }, [navigate]);
-
-  const handleMenuClick = (itemName: string) => {
-    setSelectedComponent(itemName);
-  };
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     navigate('/login');
   };
 
-  const componentMap: { [key: string]: JSX.Element } = {
-    Home: '',
-    Dashboard: <Overview />,
-    Products: <ProductManagement />,
-    Users: <UsersManagement/>,
-    Blog: <BlogManagement/>,
-    Orders: <OrderManagement />,
-    Invoices: <InvoiceManagement />,
-    Help: <Help/>
-  };
-
-  const renderActiveTab = () => componentMap[selectedComponent] || <Overview />;
-
   if (loading) return <div className="main">Verifying admin access...</div>;
   if (!user || user.role !== 'admin') return <Navigate to="/" replace />;
 
-  // ------------------------
-  // Inner Sidebar Component
-  // ------------------------
-
+  // Sidebar Component
   const Sidebar: React.FC = () => {
     const links = [
-      { name: 'Home', icon: <FaHome /> },
-      { name: 'Dashboard', icon: <FaClock /> },
-      { name: 'Users', icon: <FaUser /> },
-      { name: 'Products', icon: <FaProductHunt /> },
-      { name: 'Orders', icon: <FaCartPlus/> }, 
-      { name: 'Invoices', icon: <FaFileInvoice /> },
-      { name: 'Blog', icon: <FaGear /> },
-      { name: 'Help', icon: <FaArrowRightToCity /> }
+      { name: 'Dashboard', path: '/admin/overview', icon: <FaClock /> },
+      { name: 'Users', path: '/admin/users', icon: <FaUser /> },
+      { name: 'Products', path: '/admin/products', icon: <FaProductHunt /> },
+      { name: 'Orders', path: '/admin/orders', icon: <FaCartPlus /> },
+      { name: 'Invoices', path: '/admin/invoices', icon: <FaFileInvoice /> },
+      { name: 'Blog', path: '/admin/blog', icon: <FaGear /> },
+      { name: 'Help', path: '/admin/help', icon: <FaArrowRightToCity /> }
     ];
 
     return (
@@ -132,13 +104,15 @@ const AdminPage: React.FC = () => {
           <ul className="sidebar-links">
             {links.map((link) => (
               <li key={link.name}>
-                <button
-                  className={`sidebar-link ${selectedComponent === link.name ? 'active' : ''}`}
-                  onClick={() => handleMenuClick(link.name)}
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `sidebar-link ${isActive ? 'active' : ''}`
+                  }
                 >
                   {link.icon}
                   <span>{link.name}</span>
-                </button>
+                </NavLink>
               </li>
             ))}
             <li>
@@ -153,14 +127,14 @@ const AdminPage: React.FC = () => {
     );
   };
 
-  // ------------------------
-
   return (
     <div className="admin-page">
       <TopNav />
       <Sidebar />
       {error && <div className="alert alert-danger w-100 text-center">{error}</div>}
-      {renderActiveTab()}
+      <div className="admin-content">
+        <Outlet />
+      </div>
     </div>
   );
 };

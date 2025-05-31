@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './homeStory.css';
 import img1 from '../../assets/images/pngtree-vintage-handgrinded-coffee-powder-packed-in-a-box-photo-image_31431962.jpg';
 import img2 from '../../assets/images/roasted-coffee-beans-free-photo.jpg';
 import img3 from '../../assets/images/Packaging-Coffee-Beans-1920-x-1080px-1600x900.webp';

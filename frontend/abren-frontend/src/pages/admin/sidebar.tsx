@@ -4,34 +4,28 @@ import {
   FaClipboardCheck,
   FaClock,
   FaFileInvoice,
-  FaHome,
   FaProductHunt,
-  FaUser
+  FaUser,
 } from 'react-icons/fa';
 import { FaArrowRightToCity, FaGear, FaBars } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 
-interface SidebarProps {
-  setSelectedComponent: (component: string) => void;
-  selectedComponent: string;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ setSelectedComponent, selectedComponent }) => {
+const Sidebar: React.FC = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // controls sidebar open/close
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
   const links = [
-    { name: 'Dashboard', icon: <FaClock /> },
-    { name: 'Users', icon: <FaUser /> },
-    { name: 'Products', icon: <FaProductHunt /> },
-    { name: 'Orders', icon: <FaClipboardCheck /> },
-    { name: 'Invoices', icon: <FaFileInvoice /> },
-    { name: 'Blog', icon: <FaGear /> },
-    { name: 'Help', icon: <FaArrowRightToCity /> },
+    { name: 'Dashboard', icon: <FaClock />, path: '/admin/dashboard' },
+    { name: 'Users', icon: <FaUser />, path: '/admin/users' },
+    { name: 'Products', icon: <FaProductHunt />, path: '/admin/products' },
+    { name: 'Orders', icon: <FaClipboardCheck />, path: '/admin/orders' },
+    { name: 'Invoices', icon: <FaFileInvoice />, path: '/admin/invoices' },
+    { name: 'Blog', icon: <FaGear />, path: '/admin/blog' },
+    { name: 'Help', icon: <FaArrowRightToCity />, path: '/admin/help' },
   ];
 
   const handleLogout = () => {
@@ -41,15 +35,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setSelectedComponent, selectedCompone
 
   return (
     <>
-      {/* Toggle Button (always visible on small screen, optionally hidden on large) */}
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
+      <button title='side-button' className="sidebar-toggle" onClick={toggleSidebar}>
         <FaBars />
       </button>
 
-      {/* Backdrop on mobile */}
       {isOpen && <div className="sidebar-backdrop" onClick={toggleSidebar}></div>}
 
-      {/* Sidebar */}
       <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h2>Abren Coffee</h2>
@@ -59,10 +50,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setSelectedComponent, selectedCompone
             {links.map((link) => (
               <li key={link.name}>
                 <button
-                  className={`sidebar-link ${selectedComponent === link.name ? 'active' : ''}`}
+                  className="sidebar-link"
                   onClick={() => {
-                    setSelectedComponent(link.name);
-                    setIsOpen(false); // close sidebar on small screen after selection
+                    navigate(link.path);
+                    setIsOpen(false);
                   }}
                 >
                   {link.icon}

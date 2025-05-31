@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from '../../utils/axios';
+import './catagories.css';
 
 interface Category {
   name: string;

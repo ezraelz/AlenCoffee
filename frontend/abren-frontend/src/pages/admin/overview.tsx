@@ -19,6 +19,7 @@ const Overview:React.FC = () => {
     const [stock, setStock] = useState(0);
     const [sales, setSales] = useState(0);
     const [orders, setOrders] = useState(0);
+    const [completedOrders, setCompletedOrders] = useState(0);
     const [users, setUsers] = useState(0);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
@@ -43,6 +44,7 @@ const Overview:React.FC = () => {
                     salesRes,
                     usersRes,
                     ordersRes,
+                    completedOrdersRes,
                     topProductsRes,
                     salesPerDayRes
                 ] = await Promise.all([
@@ -51,6 +53,7 @@ const Overview:React.FC = () => {
                     axios.get('/adminPanel/total-sales/', config),
                     axios.get('/adminPanel/users/', config),
                     axios.get('/adminPanel/total-orders/', config),
+                    axios.get('/adminPanel/completed_orders/', config),
                     axios.get('/adminPanel/top-products/', config),
                     axios.get('/adminPanel/sales-per-day/', config),
                 ]);
@@ -60,6 +63,7 @@ const Overview:React.FC = () => {
                 setSales(salesRes.data.total_sales);
                 setUsers(usersRes.data.length);
                 setOrders(ordersRes.data.total_orders);
+                setCompletedOrders(completedOrdersRes.data.total_completed_orders);
                 setTopProducts(topProductsRes.data);
                 setDailySales(salesPerDayRes.data);
 
@@ -131,7 +135,7 @@ const Overview:React.FC = () => {
                     <h2>Total Orders</h2>
                     <small>
                         <p>Completed</p>
-                        <p>0</p>
+                        <p>{completedOrders}</p>
                     </small>
                 </div>
             </div>

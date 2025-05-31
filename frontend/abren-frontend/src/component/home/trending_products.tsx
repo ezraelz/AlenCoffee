@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from '../../utils/axios';
 import { useCart } from '../../pages/shop/useCart'; // ✅ Import global cart context
 import { useNavigate } from 'react-router-dom';
+import './trending_products.css';
 
 interface Product {
     id: number;

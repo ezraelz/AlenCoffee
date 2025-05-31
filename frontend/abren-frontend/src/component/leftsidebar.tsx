@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import './leftsidebar.css';
 
 const Leftsidebar = () => {
   const [scrolledUp, setScrolledUp] = useState<boolean>(false);

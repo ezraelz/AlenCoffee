@@ -109,15 +109,17 @@
   .dropdown-menu {
     border: none;
     border-radius: 0;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
     height: auto;
     list-style: none;
-    width: 24vh;
+    width: 80vh;
     height: auto;
     position: absolute;
     justify-content: start;
     margin-left: -1.5em;
-    top: 13.3vh;
+    top: 14.3vh;
     left: 0;
     color: #000000;
     background: white;
@@ -129,7 +131,7 @@
     display: block;
     height: auto;
     list-style: none;
-    width: 30vh;
+    width: 60vh;
     height: auto;
     position: absolute;
     justify-content: start;
@@ -175,7 +177,18 @@
   .dropdown-item:hover {
     color: #896e1c;
   }
-  
+  .dropdown-menu .product-imgs .product-cards .product-nav-img{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-nav-img img{
+    width: 4em;
+    height: 4em;
+  }
   .navbar-toggler {
     border-color: rgba(255, 255, 255, 0.1);
   }

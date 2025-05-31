@@ -1,4 +1,5 @@
 import React from 'react';
+import './shoppingform.css';
 
 interface ShippingFormProps {
   formData: {

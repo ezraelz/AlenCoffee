@@ -65,7 +65,7 @@ const TopNav: React.FC = () => {
       name: '',
       image: (
         <div className="topnav-profile-image">
-          <img src={user?.profile_image} alt={`${user?.first_name} ${user?.last_name}`} />
+          <img src={`http://127.0.0.1:8000/${user?.profile_image}`} alt={`${user?.first_name} ${user?.last_name}`} />
         </div>
       ),
       path: '#',
@@ -98,7 +98,7 @@ const TopNav: React.FC = () => {
                 aria-expanded={openDropdown === index}
                 onClick={() => link.sublinks && handleDropdown(index)}
               >
-                {link.name} {link.image}
+                {link.name} {link.image} 
               </div>
               {link.sublinks && openDropdown === index && (
                 <ul className="topnav-sublinks">

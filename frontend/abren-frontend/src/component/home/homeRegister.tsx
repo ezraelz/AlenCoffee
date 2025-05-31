@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import axios from '../../utils/axios';
 import { useNavigate } from 'react-router-dom';
 import img from '../../assets/images/coffee3.png';
+import './homeRegister.css';
 
 const HomeRegister:React.FC = () => {
   const [error, setError] = useState<string | null>(null);

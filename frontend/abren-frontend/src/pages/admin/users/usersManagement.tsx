@@ -1,43 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import './userManagement.css';
-import UsersList from './usersList';
-import UserCreate from './userCreate';
 
 const UsersManagement = () => {
-  const [activeTab, setActiveTab] = useState('Users');
-
-  const tabs = ()=> {
-    const buttons = [
-      {name: 'Users'},
-      {name: 'Add User'}
-    ]
-    return(
-      <div className="tab-container">
-        {buttons.map((button)=>(
-          <button onClick={()=> setActiveTab(button.name)}>{button.name}</button>
-        ))}
-      </div>
-    )
-  }
-
-  const renderContent = () =>{
-    switch(activeTab){
-      case 'Users': return <UsersList/>;
-      case 'Add User': return <UserCreate />;
-      default: return <UsersList />;
-    }
-  }
-
-
   return (
-    <div className='user-management'>
-      <h1>User Mananger</h1>
-      {tabs()}
+    <div className="user-management">
+      <h1>User Manager</h1>
+      <div className="tab-container">
+        <Link to="/admin/users" className='link'>Users</Link>
+        <Link to="/admin/users/add" className='link'>Add User</Link>
+      </div>
       <div className="container">
-        {renderContent()}
+        <Outlet />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UsersManagement
+export default UsersManagement;

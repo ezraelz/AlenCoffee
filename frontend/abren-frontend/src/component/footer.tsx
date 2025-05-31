@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './footer.css';
 import { useNavVisibility } from '../context/NavVisibilityContext';
 
 const Column1: React.FC = () => {

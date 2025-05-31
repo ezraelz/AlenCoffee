@@ -4,14 +4,22 @@ import { Link, useLocation } from 'react-router-dom';
 import axios from '../utils/axios';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../pages/shop/useCart';
+import './nav.css';
 
 interface NavProps {
   onCartClick: () => void;
 }
 
+interface Product {
+  name: string;
+  id: number;
+  image: string;
+}
+
 const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const { cartItemCount } = useCart();
   const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const [ products, setProducts] = useState<Product[]>([]);
   const [role, setRole] = useState('');
   const [username, setUsername] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +29,14 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const liDropdownRef = useRef<HTMLLIElement>(null);
   const location = useLocation();
+
+  useEffect(()=> {
+    const fetchProducts = async () => {
+      const response = await axios.get('/products/list');
+      setProducts(response.data);
+    }
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -93,8 +109,9 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
 
   const shopDropdown = [
     { name: 'All Products', to: '/shop' },
-    { name: 'Single Product', to: '/product/1' },
-    { name: 'Cart', to: '#', onClick: onCartClick },
+    { name: 'Abren Espresso', to: '/shop' },
+    { name: 'Abren DECAF', to: '/shop' },
+    { name: 'Abren Coffee', to: '/shop' },
     { name: 'Checkout', to: '/checkout' },
   ];
 
@@ -111,6 +128,25 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { link: '#', icon: <FaUser />, onClick: () => setIsProfileOpen(prev => !prev) },
     { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
   ];
+
+  const navShopProduct = () => {
+    return (
+      <div className="shop-products">
+        {products.length > 0 ? (
+          <div className="product-imgs">
+            {products.map((product) => (
+                <div className="product-nav-img" key={product.id}>
+                  <img src={product.image} alt="" />
+                </div>
+              
+            ))}
+          </div>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </div>
+    )
+  }
 
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
@@ -130,17 +166,22 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
                   Shop
                 </span>
                 {isOpen && (
-                  <div className="dropdown-menu" ref={dropdownRef}>
-                    <ul>
-                      {shopDropdown.map((item, idx) => (
-                        <li key={idx}>
-                          <Link className="dropdown-item" to={item.to} onClick={item?.onClick}>
-                            {item.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <>
+                    <div className="dropdown-menu" ref={dropdownRef}>
+                      <ul>
+                        {shopDropdown.map((item, idx) => (
+                          <li key={idx}>
+                            <Link className="dropdown-item" to={item.to} onClick={item?.onClick}>
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="dropdown-img">
+                        {navShopProduct()}
+                      </div>
+                    </div>
+                  </>
                 )}
               </li>
 

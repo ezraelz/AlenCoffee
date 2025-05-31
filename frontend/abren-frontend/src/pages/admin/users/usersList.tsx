@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface ShippingAddress {
   id?: number;
@@ -20,6 +23,7 @@ interface User {
 }
 
 interface UserEntry {
+  id: string;
   user: User;
   shipping_address: ShippingAddress[];
   total_spent: number[];
@@ -31,6 +35,7 @@ const UsersList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 5;
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAllUsers = async () => {
@@ -56,6 +61,19 @@ const UsersList: React.FC = () => {
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
+  const handleDelete = async (id: number) => {
+    const token = localStorage.getItem('access_token');
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    try {
+      await axios.delete(`/users/delete/${id}/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success('✅ Product deleted successfully!');
+      setUsers(users.filter((user) => user.id !== id.toString()));
+    } catch (error) {
+      toast.error('❌ Failed to delete product.');
+    }
+  };
 
   return (
     <div className='users-list'>
@@ -70,6 +88,7 @@ const UsersList: React.FC = () => {
               <th>Role</th>
               <th>Shipping Address Count</th>
               <th>Total Spent ($)</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -94,6 +113,20 @@ const UsersList: React.FC = () => {
                     </td>
 
                     <td>${totalSpentAmount}</td>
+                    <td>
+                      <button
+                        className="btn-edit"
+                        onClick={() => navigate(`/admin/users/detail/${user.id}`)}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className="btn-delete"
+                        onClick={() => handleDelete(Number(user.id))}
+                      >
+                        🗑️
+                      </button>
+                    </td>
                   </tr>
                 );
               })

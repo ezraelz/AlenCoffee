@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
 import { useNavVisibility } from '../../context/NavVisibilityContext';
-import { useNavigate } from 'react-router-dom';
 import ShippingForm from '../../component/checkout/ShippingForm';
 import Review from '../../component/checkout/Review';
 import PaymentMethods from '../../component/checkout/PaymentMethods';
 import CheckoutStepper from '../../component/checkout/CheckoutStepper';
 import '../../component/checkout/CheckoutStepper.css';
+import './checkout.css';
 
 interface Product {
   id: number;

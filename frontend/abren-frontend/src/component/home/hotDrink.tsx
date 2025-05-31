@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import './hotDrinks.css';
 import img1 from '../../assets/images/R.jpeg';
 import img2 from '../../assets/images/coffee12.png';
 import img3 from '../../assets/images/esspereso.png';

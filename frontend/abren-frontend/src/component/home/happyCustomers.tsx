@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import './happyCustomer.css';
 import img from '../../assets/images/happy.jpeg';
 import img1 from '../../assets/images/measuring-customer-satisfaction-408402166[1].jpg';
 import img2 from '../../assets/images/customer.jpg';

@@ -14,7 +14,7 @@
   left: 0;
   width: 13em;
   height: 100dvh;
-  background-color: #cbba9a;
+  background: linear-gradient(90deg,#fff, #edeae2);
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;
@@ -85,7 +85,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  width: 100%;
+  width: 80%;
   font-size: 0.95rem;
   font-weight: 500;
   font-family: 'Arial Narrow Bold', sans-serif;
