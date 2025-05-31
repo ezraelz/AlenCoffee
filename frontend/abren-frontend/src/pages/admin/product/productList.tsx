@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import './productList.css';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   id: string;
@@ -17,6 +18,7 @@ const ProductList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 5;
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -97,8 +99,8 @@ const ProductList: React.FC = () => {
                   <td>
                     <button
                       className="btn-edit"
-                      onClick={() => alert(`Navigate to edit product ${product.id}`)}
-                    >
+                      onClick={() => navigate(`/admin/products/detail/${product.id}`)}
+                      >
                       ✏️ Edit
                     </button>
                     <button

@@ -120,6 +120,7 @@ const UserDetail = () => {
               >
                 <option value="admin">Admin</option>
                 <option value="staff">Staff</option>
+                <option value="customer">customer</option>
                 <option value="user">User</option>
               </select>
               <button onClick={saveEdit}>Save</button>

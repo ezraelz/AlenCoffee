@@ -17,6 +17,10 @@ import InvoiceManagement from './pages/admin/invoice/invoiceManagement';
 import BlogManagement from './pages/admin/blog/blogManagement';
 import Help from './pages/admin/help/help';
 import AdminPage from './pages/admin/adminPage';
+import OrderDetail from './pages/admin/orders/orderDetail';
+import ProductList from './pages/admin/product/productList';
+import ProductUpdate from './pages/admin/product/productUpdate';
+import ProductDetail from './pages/admin/product/productDetail';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -138,7 +142,13 @@ const App = () => {
               <Route path="/admin/" element={<ProtectedRoute element={<AdminPage />} />}>
                 <Route index element={<Overview />} />
                 <Route path="overview" element={<Overview />} />
-                <Route path="products" element={<ProductManagement />} />
+                <Route path="/admin/products" element={<ProductManagement />} >
+                  <Route index element={<ProductList />} />
+                  <Route path="add" element={<ProductList />} />
+                  <Route path="update/:id" element={<ProductUpdate />} />
+                  <Route path="detail/:id" element={<ProductDetail />} />
+                </Route>
+
                 <Route path="/admin/users" element={<UsersManagement />}>
                   <Route index element={<UsersList />} />
                   <Route path="add" element={<UserCreate />} />
@@ -146,7 +156,13 @@ const App = () => {
                   <Route path="detail/:id" element={<UserDetail />} />
                 </Route>
 
-                <Route path="orders" element={<OrderManagement />} />
+                <Route path="/admin/orders" element={<OrderManagement />} >
+                  <Route index element={<OrderList />} />
+                  <Route path="add" element={<OrderCreate />} />
+                  <Route path="update/:id" element={<UserUpdate />} />
+                  <Route path="detail/:id" element={<OrderDetail />} />
+                </Route>
+                
                 <Route path="invoices" element={<InvoiceManagement />} />
                 <Route path="blog" element={<BlogManagement />} />
                 <Route path="help" element={<Help />} />

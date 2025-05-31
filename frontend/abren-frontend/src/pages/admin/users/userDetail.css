@@ -1,8 +1,14 @@
 .user-detail {
     padding: 2rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   
   .detail-card {
+    align-self: center;
     background: #fff;
     border-radius: 12px;
     padding: 1.5rem;

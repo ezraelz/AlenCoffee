@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 interface Order {
     id: number;
@@ -16,6 +17,7 @@ const OrderList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const ordersPerPage = 5;
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAllOrders = async () => {
@@ -83,8 +85,8 @@ const OrderList: React.FC = () => {
                   <td>
                     <button
                       className="btn-edit"
-                      onClick={() => alert(`Navigate to edit blog ${order.id}`)}
-                    >
+                      onClick={() => navigate(`/admin/orders/detail/${order.id}`)}
+                      >
                       ✏️ Edit
                     </button>
                     <button
