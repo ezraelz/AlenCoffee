@@ -62,7 +62,7 @@ const BlogList: React.FC = () => {
 
   return (
     <div className="blog-list">
-      <h1>All Blogs</h1>
+      <h2>All Blogs</h2>
 
       {/* Search Input */}
       <div style={{ marginBottom: '1rem' }}>

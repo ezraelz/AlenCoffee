@@ -187,6 +187,18 @@
     color: #050505; /* slate-500 */
 }
 
+.tab-container{
+  position: fixed;
+  top: 9em;
+  left: 15em;
+}
+
+.admin-page h1{
+  position: fixed;
+  top: 2em;
+  left: 7.6em;
+}
+
 /* Make cards container adapt to small screens */
 @media screen and (max-width: 1024px) {
   .admin-page .cards-container {

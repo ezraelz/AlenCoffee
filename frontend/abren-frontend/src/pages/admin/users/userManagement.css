@@ -12,7 +12,9 @@
 .user-management .users-list{
     width: 90%;
     background: #f8fafc;
-    margin-top: 1em;
+    box-shadow: 0 0 10px #e3e3e3;
+    border-radius: .6em;
+    margin-top: 8em;
     padding: 1.5em;
     align-items: center;
     justify-content: center;
@@ -51,7 +53,8 @@
     border-radius: 8px;
     text-decoration: none;
     color: #333;
-    background-color: #f2f2f2;
+    background-color: #f8fafc;
+    box-shadow: 0 0 10px #e6e6e6;
   }
   
   .tab-container .link.active {
@@ -59,4 +62,37 @@
     color: white;
   }
   
+  .user-form{
+    margin-top: 8em;
+    width: 100vh;
+    padding: 1em;
+    border-radius: .6em;
+    box-shadow: 0 0 10px #c0c0c0;
+  }
+  .user-form .form-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: 2em;
+    margin-right: 5em;
+  }
+  .user-form input{
+    width: 40vh;
+  }
+  .user-form .form-group button{
+    width: 40vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-self: flex-end;
+  }
+
+  .user-form .form-group .add-category-btn{
+    position: fixed;
+    top: 14em;
+    right: 12em;
+    padding: .5em;
+    align-items: center;
+    width: 20vh;
+  }
   

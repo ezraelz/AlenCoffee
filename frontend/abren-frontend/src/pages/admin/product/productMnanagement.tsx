@@ -1,43 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import './productManagement.css';
-import ProductList from './productList';
-import ProductCreate from './productCreate';
 
 const ProductManagement = () => {
-  const [activeTab, setActiveTab] = useState('List');
-
-  const tabs = ()=> {
-    const buttons = [
-      {name: 'List'},
-      {name: 'Add Product'}
-    ]
-    return(
-      <div className="tab-container">
-        {buttons.map((button)=>(
-          <button onClick={()=> setActiveTab(button.name)}>{button.name}</button>
-        ))}
-      </div>
-    )
-  }
-
-  const renderContent = () =>{
-    switch(activeTab){
-      case 'List': return <ProductList/>;
-      case 'Add Product': return <ProductCreate />;
-      default: return <ProductList />;
-    }
-  }
-
-
   return (
-    <div className='product-management'>
-      <h1>Product Mananger</h1>
-      {tabs()}
+    <div className="product-management">
+      <h1>Product Manager</h1>
+      <div className="tab-container">
+        <Link to="/admin/products" className='link'>Products</Link>
+        <Link to="/admin/products/add" className='link'>Add Product</Link>
+      </div>
       <div className="container">
-        {renderContent()}
+        <Outlet />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductManagement
+export default ProductManagement;

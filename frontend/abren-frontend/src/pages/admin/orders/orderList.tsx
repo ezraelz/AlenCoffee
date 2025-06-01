@@ -60,7 +60,7 @@ const OrderList: React.FC = () => {
 
   return (
     <div className='order-list'>
-      <h1>All Orders</h1>
+      <h2>All Orders</h2>
       <div className='order-table'>
         <table>
           <thead>

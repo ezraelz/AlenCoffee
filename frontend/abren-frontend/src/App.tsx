@@ -21,6 +21,7 @@ import OrderDetail from './pages/admin/orders/orderDetail';
 import ProductList from './pages/admin/product/productList';
 import ProductUpdate from './pages/admin/product/productUpdate';
 import ProductDetail from './pages/admin/product/productDetail';
+import ProductCreate from './pages/admin/product/productCreate';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -144,7 +145,7 @@ const App = () => {
                 <Route path="overview" element={<Overview />} />
                 <Route path="/admin/products" element={<ProductManagement />} >
                   <Route index element={<ProductList />} />
-                  <Route path="add" element={<ProductList />} />
+                  <Route path="add" element={<ProductCreate />} />
                   <Route path="update/:id" element={<ProductUpdate />} />
                   <Route path="detail/:id" element={<ProductDetail />} />
                 </Route>

@@ -134,12 +134,11 @@ const ProductCreate: React.FC = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="product-form">
-        <h2>Create New Product</h2>
+    <div className='product-form'>
+      <h2>Create New Product</h2>
+      <form onSubmit={handleSubmit} className="form">
 
         <div className="form-group">
-          <label>Name</label>
           <input
             type="text"
             name="name"
@@ -152,7 +151,6 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Description</label>
           <textarea
             name="description"
             placeholder="Product Description"
@@ -163,10 +161,10 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Image</label>
           <input
             type="file"
             name="image"
+            placeholder='image'
             title='product image'
             ref={fileInputRef}
             onChange={handleInputChange}
@@ -183,10 +181,10 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Stock</label>
           <input
             type="number"
             name="stock"
+            placeholder='stock'
             title='number of items in stock'
             value={formData.stock}
             onChange={handleInputChange}
@@ -196,10 +194,10 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Price</label>
           <input
             type="number"
             title='price in USD'
+            placeholder='price'
             name="price"
             value={formData.price}
             onChange={handleInputChange}
@@ -209,7 +207,6 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label>Category</label>
           <Select
             placeholder="Select category"
             options={category}
@@ -232,7 +229,7 @@ const ProductCreate: React.FC = () => {
           {CategoryCreate()}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

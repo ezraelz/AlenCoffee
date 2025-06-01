@@ -76,7 +76,7 @@ const UsersList: React.FC = () => {
 
   return (
     <div className='users-list'>
-      <h1>All Users</h1>
+      <h2>All Users</h2>
       <div className='users-table'>
         <table>
           <thead>

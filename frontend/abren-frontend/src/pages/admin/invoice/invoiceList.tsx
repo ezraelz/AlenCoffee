@@ -37,7 +37,7 @@ const Invoices: React.FC = () => {
 
   return (
     <div className="invoices-container">
-      <h1>All Invoices</h1>
+      <h2>All Invoices</h2>
   
       {loading ? (
         <p>Loading...</p>

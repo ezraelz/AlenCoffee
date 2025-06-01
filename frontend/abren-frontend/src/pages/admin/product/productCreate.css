@@ -2,8 +2,8 @@
    Product Form Container
 ============================= */
 .product-form {
-  width: 100vh;
-  margin: auto;
+  width: 80%;
+  margin: 8em auto;
   padding: 2rem;
   background-color: #ffffff;
   border-radius: 12px;
@@ -12,27 +12,42 @@
 }
 
 /* ============================
+   Form Layout
+============================= */
+.product-form .form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+/* ============================
    Form Heading
 ============================= */
 .product-form h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  color: #333333;
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+  color: #222;
 }
 
 /* ============================
    Form Groups
 ============================= */
 .form-group {
-  margin-bottom: 1.5rem;
+  flex: 1 1 45%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  flex: 1 1 100%;
 }
 
 .form-group label {
-  display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #444444;
+  color: #444;
 }
 
 /* ============================
@@ -42,9 +57,10 @@
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border-radius: 8px;
   transition: border-color 0.3s ease;
+  background-color: #fff;
 }
 
 .form-input:focus {
@@ -61,7 +77,7 @@
   max-height: 200px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
 }
 
 /* ============================
@@ -71,7 +87,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .form-checkbox label {
@@ -79,14 +95,14 @@
 }
 
 /* ============================
-   Button Styles
+   Submit Button
 ============================= */
 .form-button {
   width: 100%;
-  padding: 0.85rem;
+  padding: 1rem;
   font-size: 1.1rem;
   background-color: #007bff;
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
   border: none;
   border-radius: 10px;
@@ -140,15 +156,30 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #ffffff;
+  color: #fff;
   z-index: 3001;
 }
 
 /* ============================
    Responsive Design
 ============================= */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
+  .form-group {
+    flex: 1 1 100%;
+  }
+
   .product-form {
-    padding: 1rem;
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .product-form h2 {
+    font-size: 1.7rem;
+  }
+
+  .form-button {
+    font-size: 1rem;
+    padding: 0.85rem;
   }
 }

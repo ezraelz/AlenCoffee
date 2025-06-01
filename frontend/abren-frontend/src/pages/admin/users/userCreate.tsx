@@ -117,7 +117,7 @@ const UserCreate = () => {
   
     return (
       <>
-        <form onSubmit={handleSubmit} className="product-form">
+        <form onSubmit={handleSubmit} className="user-form">
           <h2>Add New User</h2>
           
           <div className="form-group">
@@ -160,7 +160,6 @@ const UserCreate = () => {
           </div>
   
           <div className="form-group">
-            <label>Role</label>
             <Select
               placeholder="Select role"
               options={role}
