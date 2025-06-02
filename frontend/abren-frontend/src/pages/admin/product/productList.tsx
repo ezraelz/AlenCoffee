@@ -3,6 +3,7 @@ import axios from '../../../utils/axios';
 import './productList.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { FaEye } from 'react-icons/fa';
 
 interface Product {
   id: string;
@@ -98,16 +99,17 @@ const ProductList: React.FC = () => {
                   <td>{product.created_at}</td>
                   <td>
                     <button
+                      title='view'
                       className="btn-edit"
                       onClick={() => navigate(`/admin/products/detail/${product.id}`)}
                       >
-                      ✏️ Edit
+                      <FaEye />
                     </button>
                     <button
                       className="btn-delete"
                       onClick={() => handleDelete(Number(product.id))}
                     >
-                      🗑️ Delete
+                      🗑️
                     </button>
                   </td>
                 </tr>

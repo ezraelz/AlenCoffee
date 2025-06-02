@@ -29,7 +29,7 @@ const ProductUpdate = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('access_token');
-        const response = await axios.get<Product>(`/products/detail/${id}`, {
+        const response = await axios.get<Product>(`/products/detail/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

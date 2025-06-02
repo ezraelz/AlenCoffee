@@ -1,43 +1,20 @@
-import React, { useState } from 'react'
-import Invoices from './invoiceList';
-import AddInvoice from './addInvoice';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import './invoice.css';
 
 const InvoiceManagement = () => {
-  const [activeTab, setActiveTab] = useState('List');
-  
-    const tabs = ()=> {
-      const buttons = [
-        {name: 'List'},
-        {name: 'Add Invoice'}
-      ]
-      return(
-        <div className="tab-container">
-          {buttons.map((button)=>(
-            <button key={button.name} onClick={()=> setActiveTab(button.name)}>{button.name}</button>
-          ))}
-        </div>
-      )
-    }
-  
-    const renderContent = () =>{
-      switch(activeTab){
-        case 'List': return <Invoices/>;
-        case 'Add Invoice': return <AddInvoice />;
-        default: return <Invoices />;
-      }
-    }
-  
-  
-    return (
-      <div className='order-management'>
-        <h1>Invoice Mananger</h1>
-        {tabs()}
-        <div className="container">
-          {renderContent()}
-        </div>
+  return (
+    <div className="invoices-container">
+      <h1>Invoice Manager</h1>
+      <div className="tab-container">
+        <Link to="/admin/invoices/" className='link'>Invoices</Link>
+        <Link to="/admin/invoices/add" className='link'>Add Invoice</Link>
       </div>
-    )
-  }
-  
+      <div className="container">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
 
-export default InvoiceManagement
+export default InvoiceManagement;

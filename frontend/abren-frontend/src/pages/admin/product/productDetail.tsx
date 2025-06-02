@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
+import './ProductDetail.css';
+
 
 interface Product {
   id: string;
@@ -84,7 +86,7 @@ const ProductDetail = () => {
   return (
     <div className="product-detail">
       <h2>Product Detail</h2>
-      <div className="detail-card">
+      <div className="product-detail-card">
         <p><strong>ID:</strong> {product.id}</p>
         <p><strong>Name:</strong> {product.name}</p>
         <p><strong>Category:</strong> {product.category}</p>

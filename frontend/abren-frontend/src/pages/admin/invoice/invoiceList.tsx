@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import './invoice.css';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { FaEye, FaPen } from 'react-icons/fa';
+import { FaTrashCan } from 'react-icons/fa6';
 
 interface Invoice {
   id: number;
@@ -14,6 +17,7 @@ interface Invoice {
 const Invoices: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const fetchInvoices = async () => {
     setLoading(true);
@@ -34,6 +38,20 @@ const Invoices: React.FC = () => {
   useEffect(() => {
     fetchInvoices();
   }, []);
+
+  const handleDelete = async (id: number) => {
+    const token = localStorage.getItem('access_token');
+    if (!window.confirm('Are you sure you want to delete this invoice?')) return;
+    try {
+      await axios.delete(`/orders/invoice/delete/${id}/`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      toast.success('✅ Invoice deleted successfully!');
+      setInvoices(invoices.filter((invoice) => invoice.id !== id));
+    } catch {
+      toast.error('❌ Failed to delete product.');
+    }
+  };
 
   return (
     <div className="invoices-container">
@@ -60,9 +78,9 @@ const Invoices: React.FC = () => {
                 <td>{new Date(invoice.created_at).toLocaleDateString()}</td>
                 <td>{invoice.status}</td>
                 <td className="action-buttons">
-                  <button onClick={() => alert(`Viewing ${invoice.id}`)}>View</button>
-                  <button onClick={() => alert(`Editing ${invoice.id}`)}>Edit</button>
-                  <button onClick={() => alert(`Deleting ${invoice.id}`)}>Delete</button>
+                  <button onClick={() => navigate(`/admin/invoices/detail/${invoice.id}`)}><FaEye/></button>
+                  <button onClick={() => alert(`Editing ${invoice.id}`)}><FaPen/></button>
+                  <button onClick={() => handleDelete(Number(invoice.id))}><FaTrashCan/></button>
                   {invoice.pdf_file && (
                     <a
                       href={invoice.pdf_file}

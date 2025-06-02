@@ -22,6 +22,9 @@ import ProductList from './pages/admin/product/productList';
 import ProductUpdate from './pages/admin/product/productUpdate';
 import ProductDetail from './pages/admin/product/productDetail';
 import ProductCreate from './pages/admin/product/productCreate';
+import Invoices from './pages/admin/invoice/invoiceList';
+import AddInvoice from './pages/admin/invoice/addInvoice';
+import InvoiceDetail from './pages/admin/invoice/invoiceDetail';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -131,7 +134,7 @@ const App = () => {
               <Route path="/subscription" element={<Subscription />} />
               <Route path="/gifts" element={<Gifts />} />
               <Route path="/shop" element={<Shop />} />
-              <Route path="/product/:id" element={<SingleProduct />} />
+              <Route path="/product/:id" element={<SingleProduct handleAddToCart={(product) => console.log('Add to cart:', product)} />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/success" element={<PaymentSuccess />} />
               <Route path="/blog" element={<Blog />} />
@@ -164,7 +167,12 @@ const App = () => {
                   <Route path="detail/:id" element={<OrderDetail />} />
                 </Route>
                 
-                <Route path="invoices" element={<InvoiceManagement />} />
+                <Route path="/admin/invoices" element={<InvoiceManagement />} >
+                  <Route index element={<Invoices />} />
+                  <Route path="add" element={<AddInvoice />} />
+                  <Route path="update/:id" element={<UserUpdate />} />
+                  <Route path="detail/:id" element={<InvoiceDetail />} />
+                </Route>
                 <Route path="blog" element={<BlogManagement />} />
                 <Route path="help" element={<Help />} />
               </Route>
