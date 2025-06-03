@@ -1,6 +1,6 @@
 /* Swatches */
 :root {
-  --bg: #f5f1ea;
+  --bg: #f4f4f4;
   --primary: #6f4e37;
   --secondary: #c7a17a;
   --highlight: #a9746e;
@@ -44,7 +44,7 @@
     flex-wrap: wrap;
     gap: 1.2em;
     padding: 1.2em;
-    background-color:#edeae2;
+    background-color:#ffffff;
     box-shadow: 1px solid #050505;
     border-radius: .7em;
 }
@@ -53,7 +53,7 @@
 .admin-page .card {
     width: 30vh;
     height: 20vh;
-    background-color: #edeae2;
+    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.308);
     padding: 1.4em;
@@ -96,7 +96,11 @@
     font-size: 0.9rem;
     color: #7f7f7fde;
 }
-
+.admin-page .card .less-stock p{
+  color: red;
+  opacity: 0;
+  animation: blink 1s forwards ease-in-out infinite;
+}
 /* Loading/Error styling */
 .admin-page .main {
     display: flex;
@@ -118,14 +122,14 @@
 
 .admin-page .users-top-products{
     display: flex;
-    background-color: #edeae2;
+    background-color: #ffffff;
     padding: 1.5em;
     gap: 1.5em;
     border-radius: .7em;
 }
 .admin-page .top-products,.sales-per-day {
     padding: 20px;
-    background-color: #edeae2; /* Tailwind slate-50 */
+    background-color: #ffffff; /* Tailwind slate-50 */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
     overflow-x: auto;
@@ -135,7 +139,7 @@
 
 .admin-page .sales-per-day {
     padding: 20px;
-    background-color: #ebdcbc; /* Tailwind slate-50 */
+    background-color: #eae6de; /* Tailwind slate-50 */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
     overflow-x: auto;
@@ -144,14 +148,14 @@
 }
 .admin-page .sales-chart{
     display: flex;
-    background-color: #edeae2;
+    background-color: #fcfcfc;
     padding: 1.5em;
     gap: 1.5em;
     border-radius: .7em;
 }
 .admin-page .sales-per-day-chart{
     padding: 20px;
-    background-color: #edeae2; /* Tailwind slate-50 */
+    background-color: #ffffff; /* Tailwind slate-50 */
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
     color: #050505;
@@ -197,6 +201,14 @@
   position: fixed;
   top: 2em;
   left: 7.6em;
+}
+
+@keyframes blink {
+  0%{
+    opacity: 0;
+  }100%{
+    opacity: 1;
+  }
 }
 
 /* Make cards container adapt to small screens */

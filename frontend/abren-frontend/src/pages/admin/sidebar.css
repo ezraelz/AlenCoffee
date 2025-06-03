@@ -14,7 +14,7 @@
   left: 0;
   width: 13em;
   height: 100dvh;
-  background: linear-gradient(90deg,#fff, #edeae2);
+  background: #fff;
   color: var(--sidebar-text);
   display: flex;
   flex-direction: column;

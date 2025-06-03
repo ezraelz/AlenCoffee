@@ -15,6 +15,7 @@ interface Product {
   name: string;
   category: string;
   stock: number;
+  quantity: number;
   description: string;
   price: number;
   image: File | string;
@@ -30,6 +31,7 @@ const ProductCreate: React.FC = () => {
     name: '',
     category: '',
     stock: 0,
+    quantity: 0,
     description: '',
     price: 0,
     image: '',
@@ -83,6 +85,7 @@ const ProductCreate: React.FC = () => {
     form.append('name', formData.name);
     form.append('description', formData.description);
     form.append('stock', String(formData.stock));
+    form.append('quantity', String(formData.quantity));
     form.append('price', String(formData.price));
     form.append('category', formData.category);
 
@@ -103,6 +106,7 @@ const ProductCreate: React.FC = () => {
         name: '',
         category: '',
         stock: 0,
+        quantity: 0,
         description: '',
         price: 0,
         image: '',
@@ -139,6 +143,7 @@ const ProductCreate: React.FC = () => {
       <form onSubmit={handleSubmit} className="form">
 
         <div className="form-group">
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             name="name"
@@ -151,6 +156,7 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="description">Description:</label>
           <textarea
             name="description"
             placeholder="Product Description"
@@ -161,6 +167,7 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="image">Image:</label>
           <input
             type="file"
             name="image"
@@ -181,6 +188,7 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="stock">Stock:</label>
           <input
             type="number"
             name="stock"
@@ -194,6 +202,21 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="quantity">Quantity:</label>
+          <input
+            type="number"
+            name="quantity"
+            placeholder='quantity'
+            title='number of items in quantity'
+            value={formData.quantity}
+            onChange={handleInputChange}
+            className="form-input"
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="price">Price:</label>
           <input
             type="number"
             title='price in USD'
@@ -207,6 +230,7 @@ const ProductCreate: React.FC = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="category">Category:</label>
           <Select
             placeholder="Select category"
             options={category}

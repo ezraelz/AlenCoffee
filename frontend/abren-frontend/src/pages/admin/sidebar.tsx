@@ -1,76 +1,66 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   FaArrowCircleRight,
-  FaClipboardCheck,
+  FaCartPlus,
+  FaClipboard,
   FaClock,
   FaFileInvoice,
   FaProductHunt,
   FaUser,
 } from 'react-icons/fa';
-import { FaArrowRightToCity, FaGear, FaBars } from 'react-icons/fa6';
+import { FaArrowRightToCity, FaGear} from 'react-icons/fa6';
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
+// Sidebar Component
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const links = [
-    { name: 'Dashboard', icon: <FaClock />, path: '/admin/dashboard' },
-    { name: 'Users', icon: <FaUser />, path: '/admin/users' },
-    { name: 'Products', icon: <FaProductHunt />, path: '/admin/products' },
-    { name: 'Orders', icon: <FaClipboardCheck />, path: '/admin/orders' },
-    { name: 'Invoices', icon: <FaFileInvoice />, path: '/admin/invoices' },
-    { name: 'Blog', icon: <FaGear />, path: '/admin/blog' },
-    { name: 'Help', icon: <FaArrowRightToCity />, path: '/admin/help' },
-  ];
-
+  
   const handleLogout = () => {
     localStorage.removeItem('access_token');
     navigate('/login');
   };
 
+  const links = [
+    { name: 'Dashboard', path: '/admin/overview', icon: <FaClock /> },
+    { name: 'Users', path: '/admin/users', icon: <FaUser /> },
+    { name: 'Products', path: '/admin/products', icon: <FaProductHunt /> },
+    { name: 'Orders', path: '/admin/orders', icon: <FaCartPlus /> },
+    { name: 'Invoices', path: '/admin/invoices', icon: <FaFileInvoice /> },
+    { name: 'Report', path: '/admin/report', icon: <FaClipboard /> },
+    { name: 'Blog', path: '/admin/blog', icon: <FaGear /> },
+    { name: 'Help', path: '/admin/help', icon: <FaArrowRightToCity /> }
+  ];
+
   return (
-    <>
-      <button title='side-button' className="sidebar-toggle" onClick={toggleSidebar}>
-        <FaBars />
-      </button>
-
-      {isOpen && <div className="sidebar-backdrop" onClick={toggleSidebar}></div>}
-
-      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="sidebar-header">
-          <h2>Abren Coffee</h2>
-        </div>
-        <nav>
-          <ul className="sidebar-links">
-            {links.map((link) => (
-              <li key={link.name}>
-                <button
-                  className="sidebar-link"
-                  onClick={() => {
-                    navigate(link.path);
-                    setIsOpen(false);
-                  }}
-                >
-                  {link.icon}
-                  <span>{link.name}</span>
-                </button>
-              </li>
-            ))}
-            <li>
-              <button className="sidebar-link logout-button" onClick={handleLogout}>
-                <FaArrowCircleRight />
-                <span>Logout</span>
-              </button>
+    <aside className="sidebar">
+      <div className="sidebar-header">
+        <h2>Abren Coffee</h2>
+      </div>
+      <nav>
+        <ul className="sidebar-links">
+          {links.map((link) => (
+            <li key={link.name}>
+              <NavLink
+                to={link.path}
+                className={({ isActive }) =>
+                  `sidebar-link ${isActive ? 'active' : ''}`
+                }
+              >
+                {link.icon}
+                <span>{link.name}</span>
+              </NavLink>
             </li>
-          </ul>
-        </nav>
-      </aside>
-    </>
+          ))}
+          <li>
+            <button className="sidebar-link logout-button" onClick={handleLogout}>
+              <FaArrowCircleRight />
+              <span>Logout</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </aside>
   );
 };
 

@@ -109,7 +109,7 @@ const Overview:React.FC = () => {
                 <div className="card">
                     <p>{products}</p>
                     <h2>Total Products</h2>
-                    <small>
+                    <small className={stock < 10 ? 'less-stock' : ''}>
                         <p>Stock</p>
                         <p>{stock}</p>
                     </small>

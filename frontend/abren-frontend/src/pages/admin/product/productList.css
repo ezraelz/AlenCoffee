@@ -49,6 +49,10 @@
   border-bottom: 1px solid #e2e8f0;
 }
 
+.product-table tr .less-stock{
+  color: red;
+}
+
 /* Centered Cells (Optional) */
 .product-table td.text-center {
   text-align: center;

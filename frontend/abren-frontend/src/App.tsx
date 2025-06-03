@@ -25,6 +25,7 @@ import ProductCreate from './pages/admin/product/productCreate';
 import Invoices from './pages/admin/invoice/invoiceList';
 import AddInvoice from './pages/admin/invoice/addInvoice';
 import InvoiceDetail from './pages/admin/invoice/invoiceDetail';
+import Report from './pages/admin/report/report';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -173,6 +174,8 @@ const App = () => {
                   <Route path="update/:id" element={<UserUpdate />} />
                   <Route path="detail/:id" element={<InvoiceDetail />} />
                 </Route>
+
+                <Route path='report' element={<Report />} />
                 <Route path="blog" element={<BlogManagement />} />
                 <Route path="help" element={<Help />} />
               </Route>

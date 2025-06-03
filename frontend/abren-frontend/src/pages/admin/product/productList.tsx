@@ -12,6 +12,7 @@ interface Product {
   price: number;
   category: string;
   stock: string;
+  quantity: number;
   created_at: string;
 }
 
@@ -87,6 +88,7 @@ const ProductList: React.FC = () => {
               <th>Price</th>
               <th>Catagory</th>
               <th>Stock</th>
+              <th>Quantity</th>
               <th>Created at</th>
               <th>Actions</th>
             </tr>
@@ -99,7 +101,8 @@ const ProductList: React.FC = () => {
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.category}</td>
-                  <td>{product.stock}</td>
+                  <td className={product.stock.length < 10 ? 'less-stock' : ''}>{product.stock}</td>
+                  <td>{product.quantity}kg</td>
                   <td>{product.created_at}</td>
                   <td>
                     <button
@@ -120,7 +123,7 @@ const ProductList: React.FC = () => {
                     isOpen={showConfirm}
                     title="Delete order"
                     message="Are you sure you want to delete this order? This action cannot be undone."
-                    onConfirm={() => handleConfirmDelete(product.id)}
+                    onConfirm={() => handleConfirmDelete(Number(product.id))}
                     onCancel={() => setShowConfirm(false)}
                   />
                 </tr>
