@@ -2,15 +2,10 @@
    Product Management Container
 ================================= */
 .product-management {
-  display: flex;
-  flex-direction: column;
-  margin-top: 4em;
-  margin-left: 15em;
-  height: auto;
-  border-radius: .7em;
-  color: black;
-  justify-content: start;
-  align-items: start;
+  margin-top: 5em;
+  margin-left: 5em;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
 /* ===============================
@@ -42,12 +37,15 @@
      Product List Section
   ================================= */
   .product-management .product-list {
-    width: 90%;
-    background-color: #f8fafc; /* slate-50 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    margin-top: 4em;
+    margin-bottom: 4em;
+    width: 80%;
+    height: auto;
+    margin-left: 8em;
+    padding: 2em;
+    color: #e5e8ec;
+    border-radius: 1em;
+    background: rgb(255, 255, 255);
   }
   
   /* ===============================

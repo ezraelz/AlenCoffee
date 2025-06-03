@@ -26,6 +26,9 @@ import Invoices from './pages/admin/invoice/invoiceList';
 import AddInvoice from './pages/admin/invoice/addInvoice';
 import InvoiceDetail from './pages/admin/invoice/invoiceDetail';
 import Report from './pages/admin/report/report';
+import BlogCreate from './pages/admin/blog/blogCreate';
+import BlogList from './pages/admin/blog/blogList';
+import BlogUpdate from './pages/admin/blog/blogUpdate';
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -176,7 +179,12 @@ const App = () => {
                 </Route>
 
                 <Route path='report' element={<Report />} />
-                <Route path="blog" element={<BlogManagement />} />
+                <Route path="/admin/blog" element={<BlogManagement />} >
+                  <Route index element={<BlogList />} />
+                  <Route path="add" element={<BlogCreate />} />
+                  <Route path="update/:id" element={<BlogUpdate />} />
+                  <Route path="detail/:id" element={<BlogDetail />} />
+                </Route>
                 <Route path="help" element={<Help />} />
               </Route>
 

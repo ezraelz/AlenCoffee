@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
-
+import './BlogList.css';
 interface Blog {
   id: number;
   title: string;

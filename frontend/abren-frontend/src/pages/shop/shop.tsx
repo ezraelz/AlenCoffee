@@ -76,7 +76,6 @@ const Shop: React.FC = () => {
 
   return (
     <div className="shop">
-      <Leftsidebar />
       <div className="container">
         {error && <div className="error-banner">{error}</div>}
         {message && (

@@ -1,17 +1,8 @@
 .blog-management {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 3em;
-    
-    padding: 1em;
-    background: none;
-    gap: 1em;
-    height: auto;
-    border-radius: .7em;
-    color: black;
-    justify-content: start;
-    align-items: start;
+  margin-top: 5em;
+  margin-left: 5em;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
   
   .blog-management  .tab-container {
@@ -38,27 +29,9 @@
     color: white;
   }
   
-  .blog-management  .container {
-    width: 100%;
-    margin-top: 1rem;
-    display: flex;
-    margin: auto;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
   
-  .blog-management .blog-list {
-    margin-top: 6em;
-    margin-bottom: 4em;
-    width: 70%;
-    height: auto;
-    margin-left: 11em;
-    padding: 2em;
-    color: #e5e8ec;
-    border-radius: 1em;
-    background: rgb(255, 255, 255);
-  }
+  
+ 
   
   .blog-management .blog-table table {
     width: 100%;

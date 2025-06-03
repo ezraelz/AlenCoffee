@@ -10,6 +10,7 @@ interface Product {
   price: number;
   category: string;
   stock: string;
+  quantity: number;
   created_at: string;
 }
 
@@ -23,6 +24,7 @@ const ProductUpdate = () => {
   const [price, setPrice] = useState<number>(0);
   const [category, setCategory] = useState('');
   const [stock, setStock] = useState('');
+  const [quantity, setQuantity] = useState('');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,6 +41,7 @@ const ProductUpdate = () => {
         setPrice(data.price);
         setCategory(data.category);
         setStock(data.stock);
+        setQuantity(data.quantity);
       } catch (err: any) {
         toast.error('Fetch failed: ' + err.message);
       } finally {
@@ -55,7 +58,7 @@ const ProductUpdate = () => {
       const token = localStorage.getItem('access_token');
       await axios.put(
         `/products/update/${id}`,
-        { name, price, category, stock },
+        { name, price, category, stock, quantity },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       toast.success('Product updated successfully');
@@ -106,6 +109,15 @@ const ProductUpdate = () => {
             title='stock'
             value={stock}
              onChange={e => setStock(e.target.value)} required />
+        </div>
+
+        <div className="form-group">
+          <label>Quantity</label>
+          <input 
+            type="text" 
+            title='quantity'
+            value={quantity}
+            onChange={e => setQuantity(e.target.value)} required />
         </div>
 
         <button type="submit" className="submit-button">Update Product</button>
