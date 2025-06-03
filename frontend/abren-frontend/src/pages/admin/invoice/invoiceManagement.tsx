@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './invoice.css';
 
 const InvoiceManagement = () => {
+   const [activeTab, setActiveTab] = useState('List');
+    
+      const renderTabs = () => {
+        const buttons = [
+          { name: 'List', to: '/admin/invoices/' },
+          { name: 'Add Invoice', to: '/admin/invoices/add'}
+        ];
+  
+        return (
+          <div className="tab-container">
+            {buttons.map((button, index) => (
+              <Link
+                key={index}
+                to={button.to}
+                onClick={()=> setActiveTab(button.name)}
+                className={activeTab === button.name ? 'link active' : 'link'}
+              >
+                {button.name}
+              </Link>
+            ))}
+          </div>
+        );
+      };
+
   return (
     <div className="invoices-container">
-      <h1>Invoice Manager</h1>
-      <div className="tab-container">
-        <Link to="/admin/invoices/" className='link'>Invoices</Link>
-        <Link to="/admin/invoices/add" className='link'>Add Invoice</Link>
-      </div>
+      {renderTabs()}
       <div className="container">
         <Outlet />
       </div>

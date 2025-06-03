@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './sidebar.css';
 import './topnav.css';
 import './adminPage.css';
-
+import '../../styles/admintabButtons.css';
 import TopNav from './topnav';
 import { Outlet, useNavigate, useLocation, NavLink } from 'react-router-dom';
 import { useNavVisibility } from '../../context/NavVisibilityContext';

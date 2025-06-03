@@ -1,15 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './ordermanagement.css';
 
 const OrderManagement = () => {
+   const [activeTab, setActiveTab] = useState('List');
+    
+      const renderTabs = () => {
+        const buttons = [
+          { name: 'List', to: '/admin/orders' },
+          { name: 'Add Order', to: '/admin/orders/add'}
+        ];
+  
+        return (
+          <div className="tab-container">
+            {buttons.map((button, index) => (
+              <Link
+                key={index}
+                to={button.to}
+                onClick={()=> setActiveTab(button.name)}
+                className={activeTab === button.name ? 'link active' : 'link'}
+              >
+                {button.name}
+              </Link>
+            ))}
+          </div>
+        );
+      };
+
   return (
     <div className="order-management">
-      <h1>Order Manager</h1>
-      <div className="tab-container">
-        <Link to="/admin/orders" className='link'>Orders</Link>
-        <Link to="/admin/orders/add" className='link'>Add Order</Link>
-      </div>
+      {renderTabs()}
       <div className="container">
         <Outlet />
       </div>

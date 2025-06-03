@@ -39,7 +39,6 @@ const BlogManagement: React.FC = () => {
 
   return (
     <div className="blog-management">
-      <h1>Blog Manager</h1>
       {renderTabs()}
       <div className="container">
         {renderContent()}
