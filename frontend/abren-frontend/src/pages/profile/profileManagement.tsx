@@ -42,15 +42,15 @@ const ProfileManagement = () => {
       const buttons = [
         { name: 'profile' },
         { name: role === 'admin' ? 'dashboard' : 'shipping address' },
-        { name: role === 'admin' ? '' : 'orders'},
-        { name: role === 'admin' ? '' : 'wishlist' },
-        { name: role === 'admin' ? '' : 'invoices' },
+        { name: 'orders'},
+        { name: 'wishlist' },
+        { name: 'invoices' },
         { name: isLoggedIn ? 'Logout' : '', to: '', onClick: handleLogout },
         { name: 'settings' },
       ].filter(button => button.name);
 
       return (
-        <div className="tab-container">
+        <div className="profile-tab-container">
           {buttons.map((button, index) => (
             <button
               key={index}

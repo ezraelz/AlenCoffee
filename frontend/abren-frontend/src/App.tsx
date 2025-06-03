@@ -140,6 +140,7 @@ const App = () => {
               <Route path="/shop" element={<Shop />} />
               <Route path="/product/:id" element={<SingleProduct handleAddToCart={(product) => console.log('Add to cart:', product)} />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/:step" element={<Checkout />} /> 
               <Route path="/success" element={<PaymentSuccess />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:category" element={<Blog />} />

@@ -13,10 +13,11 @@ interface Props {
   email: string;
   loading: boolean;
   setLoading: (v: boolean) => void;
-  phoneNumber: string; // Added phoneNumber prop
+  phoneNumber: string; 
+  orderId?: number | null;
 }
 
-const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, phoneNumber }) => {
+const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, phoneNumber,orderId, }) => {
   const paymentOptions = [
     { id: 'stripe', label: 'Stripe', icon: <FaCcStripe /> },
     { id: 'paypal', label: 'PayPal', icon: <FaPaypal /> },
@@ -90,7 +91,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
           email,
           amount: cart.total_price,
           // You can optionally include order_id or cart_id here if available
-          // order_id: someOrderId
+          order_id: orderId
         },
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},

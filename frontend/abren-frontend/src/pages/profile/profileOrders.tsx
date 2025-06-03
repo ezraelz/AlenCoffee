@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
 import './profileOrders.css';
+import { useNavigate } from 'react-router-dom';
 
 interface Order {
     id: number;
@@ -14,6 +15,7 @@ const ProfileOrderList: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const navigate = useNavigate();
   const ordersPerPage = 5;
 
   useEffect(() => {
@@ -42,6 +44,22 @@ const ProfileOrderList: React.FC = () => {
   const totalPages = Math.ceil(filteredOrders.length / ordersPerPage);
 
 
+  const handleCancelOrder = async (orderId: number) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      await axios.post(`/orders/${orderId}/cancel/`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      toast.success('Order cancelled and stock restored.');
+  
+      // Optionally re-fetch orders
+      setOrders(prev => prev.filter(order => order.id !== orderId));
+    } catch {
+      toast.error('Failed to cancel order.');
+    }
+  };
+  
   return (
     <div className='order-list'>
       <h1>All Orders</h1>
@@ -63,13 +81,33 @@ const ProfileOrderList: React.FC = () => {
                   <td>{order.status}</td>
                   <td>{order.total_price}</td>
                   <td>
-                    <button
-                      className="btn-edit"
-                      onClick={() => alert(`Navigate to edit blog ${order.id}`)}
-                    >
-                      ✏️ Info
-                    </button>
+                    {order.status === 'pending' ? (
+                      <div className="pending-order-actions">
+                        <button
+                          onClick={() => navigate('/checkout/payment', { state: { orderId: order.id } })}
+                          className="btn-primary"
+                        >
+                          💳 Resume Payment
+                        </button>
+
+                        <button
+                          onClick={() => handleCancelOrder(order.id)}
+                          className="btn-secondary"
+                        >
+                          ❌ Cancel Order
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        className="btn-edit"
+                        title="View Order"
+                        onClick={() => alert(`View details for order ${order.id}`)}
+                      >
+                        ✏️ Info
+                      </button>
+                    )}
                   </td>
+
                 </tr>
               ))
             ) : (

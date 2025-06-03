@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../../utils/axios';
 import { toast } from 'react-toastify';
 import { useNavVisibility } from '../../context/NavVisibilityContext';
@@ -34,7 +35,20 @@ interface Cart {
 type Step = 0 | 1 | 2;
 
 const Checkout: React.FC = () => {
-  const [step, setStep] = useState<Step>(0);
+  const { step: stepParam } = useParams<{ step?: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Read orderId from navigation state to resume payment
+  const orderId = location.state?.orderId ?? null;
+
+  // Determine initial step from URL param (fallback 0)
+  const [step, setStep] = useState<Step>(() => {
+    if (stepParam === 'payment') return 2;
+    if (stepParam === 'review') return 1;
+    return 0;
+  });
+
   const [cart, setCart] = useState<Cart | null>(null);
   const [shippingAddressId, setShippingAddressId] = useState<number | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -57,11 +71,13 @@ const Checkout: React.FC = () => {
     zipcode: '',
   });
 
+  // Hide navigation on checkout page
   useEffect(() => {
     setShowNav(false);
     return () => setShowNav(true);
   }, [setShowNav]);
 
+  // Load cart data on mount
   useEffect(() => {
     const fetchCart = async () => {
       try {
@@ -92,11 +108,25 @@ const Checkout: React.FC = () => {
     fetchCart();
   }, []);
 
+  // Sync step if URL param changes
+  useEffect(() => {
+    if (stepParam === 'payment') setStep(2);
+    else if (stepParam === 'review') setStep(1);
+    else setStep(0);
+  }, [stepParam]);
+
+  // Update URL when step changes
+  useEffect(() => {
+    const stepPath = step === 0 ? '' : step === 1 ? 'review' : 'payment';
+    navigate(`/checkout/${stepPath}`, { replace: true, state: { orderId } });
+  }, [step, navigate, orderId]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  // Shipping form submit handler
   const handleShippingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -113,18 +143,14 @@ const Checkout: React.FC = () => {
       setShippingAddressId(data.id);
       setPhoneNumber(data.phone_number);
       setStep(1);
-    } catch (err: any) {
-      console.error(err.response?.data);
-      toast.error(
-        `❌ Failed to save shipping info: ${
-          err.response?.data?.detail || JSON.stringify(err.response?.data)
-        }`
-      );
+    } catch {
+      toast.error('❌ Failed to save shipping info');
     } finally {
       setLoading(false);
     }
   };
 
+  // Order confirmation handler
   const handleOrderSubmit = async () => {
     if (!shippingAddressId) {
       toast.error('Shipping address is missing.');
@@ -137,21 +163,23 @@ const Checkout: React.FC = () => {
       const token = localStorage.getItem('access_token');
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      await axios.post(
+      const { data } = await axios.post(
         '/orders/create/',
         {
           shipping_address_id: shippingAddressId,
           total_price: totalPrice,
           phone_number: formData.phone_number,
-          delivery_frequency: 'none', // Add actual value if supporting subscriptions
+          delivery_frequency: 'none',
         },
         { headers, withCredentials: true }
       );
 
       toast.success('✅ Order created successfully!');
       setStep(2);
-    } catch (err: any) {
-      console.error(err.response?.data);
+
+      // Pass the newly created order ID to payment step
+      navigate('/checkout/payment', { state: { orderId: data.id } });
+    } catch {
       toast.error('❌ Failed to create order.');
     } finally {
       setLoading(false);
@@ -173,12 +201,11 @@ const Checkout: React.FC = () => {
           />
         )}
 
-        {step === 1 && cart && shippingAddressId && (
+        {step === 1 && cart && (
           <Review
             cart={cart}
             formData={formData}
             phoneNumber={phoneNumber}
-            shippingAddressId={shippingAddressId}
             onBack={() => setStep(0)}
             onConfirm={handleOrderSubmit}
             loading={loading}
@@ -192,6 +219,7 @@ const Checkout: React.FC = () => {
             phoneNumber={phoneNumber}
             loading={paymentLoading}
             setLoading={setPaymentLoading}
+            orderId={orderId}
           />
         )}
       </div>

@@ -27,8 +27,8 @@ const Sidebar: React.FC = () => {
     { name: 'Products', path: '/admin/products', icon: <FaProductHunt /> },
     { name: 'Orders', path: '/admin/orders', icon: <FaCartPlus /> },
     { name: 'Invoices', path: '/admin/invoices', icon: <FaFileInvoice /> },
-    { name: 'Report', path: '/admin/report', icon: <FaClipboard /> },
     { name: 'Blog', path: '/admin/blog', icon: <FaGear /> },
+    { name: 'Report', path: '/admin/report', icon: <FaClipboard /> },
     { name: 'Help', path: '/admin/help', icon: <FaArrowRightToCity /> }
   ];
 

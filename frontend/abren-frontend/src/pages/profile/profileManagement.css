@@ -24,7 +24,7 @@
     border-right: 1px solid #ddd;
   }
   
-  .profile-management .tab-container {
+  .profile-management .profile-tab-container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -34,7 +34,7 @@
     margin-right: 3em;
   }
   
-  .profile-management .tab-container button {
+  .profile-management .profile-tab-container button {
     padding: 0.75rem 1rem;
     background-color: transparent;
     border: none;
@@ -46,11 +46,11 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
   
-  .profile-management .tab-container button:hover {
+  .profile-management .profile-tab-container button:hover {
     background-color: #e0e0e0;
   }
   
-  .profile-management .tab-container button.active {
+  .profile-management .profile-tab-container button.active {
     background-color: #007bff;
     color: white;
     font-weight: bold;

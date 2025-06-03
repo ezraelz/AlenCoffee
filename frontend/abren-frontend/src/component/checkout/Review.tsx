@@ -30,20 +30,11 @@ interface Props {
     loading: boolean;
   }
 
-const Review: React.FC<Props> = ({ cart, formData, onBack, onConfirm, loading}) => {
+const Review: React.FC<Props> = ({ cart,  onBack, onConfirm, loading}) => {
 
   return (
     <div className="review-container">
       <h2 className="review-title">Review Your Order</h2>
-
-      <div className='review-section'>
-        <h3 className='review-section-title'>Shipping Details</h3>
-        {Object.entries(formData).map(([key, value]) => (
-          <p key={key} className='p'>
-            <strong>{key.replace(/_/g, ' ')}:</strong> {value}
-          </p>
-        ))}
-      </div>
 
       <div className='section'>
         <h3 className='title'>Items in Cart</h3>
