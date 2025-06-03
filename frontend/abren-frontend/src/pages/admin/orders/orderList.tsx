@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { FaEye } from 'react-icons/fa';
+import ConfirmModal from '../../../component/confirmDelete';
 
 interface Order {
     id: number;
@@ -13,6 +15,7 @@ interface Order {
 }
 
 const OrderList: React.FC = () => {
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,16 +36,18 @@ const OrderList: React.FC = () => {
     fetchAllOrders();
   }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDeleteClick = () => setShowConfirm(true);
+
+  const handleConfirmDelete = async (id: number) => {
+    setShowConfirm(false);
     const token = localStorage.getItem('access_token');
-    if (!window.confirm('Are you sure you want to delete this order?')) return;
     try {
       await axios.delete(`/orders/delete/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success('✅ Order deleted successfully!');
+      toast.success('✅ Invoice deleted successfully!');
       setOrders(orders.filter((order) => order.id !== id));
-    } catch (error) {
+    } catch {
       toast.error('❌ Failed to delete order.');
     }
   };
@@ -84,18 +89,27 @@ const OrderList: React.FC = () => {
                   <td>{order.total_price}</td>
                   <td>
                     <button
+                      title='view'
                       className="btn-edit"
                       onClick={() => navigate(`/admin/orders/detail/${order.id}`)}
                       >
-                      ✏️ Edit
+                      <FaEye />
                     </button>
                     <button
+                      title='delete'
                       className="btn-delete"
-                      onClick={() => handleDelete(order.id)}
+                      onClick={handleDeleteClick}
                     >
-                      🗑️ Delete
+                      🗑️
                     </button>
                   </td>
+                  <ConfirmModal
+                    isOpen={showConfirm}
+                    title="Delete Invoice"
+                    message="Are you sure you want to delete this invoice? Only Pending orders can be deleted, This action cannot be undone."
+                    onConfirm={() => handleConfirmDelete(order.id)}
+                    onCancel={() => setShowConfirm(false)}
+                  />
                 </tr>
               ))
             ) : (

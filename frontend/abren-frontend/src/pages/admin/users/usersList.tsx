@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import ConfirmModal from '../../../component/confirmDelete';
 
 interface ShippingAddress {
   id?: number;
@@ -30,6 +31,7 @@ interface UserEntry {
 
 
 const UsersList: React.FC = () => {
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [users, setUsers] = useState<UserEntry[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,17 +62,19 @@ const UsersList: React.FC = () => {
 
   const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
 
-  const handleDelete = async (id: number) => {
+  const handleDeleteClick = () => setShowConfirm(true);
+
+  const handleConfirmDelete = async (id: number) => {
+    setShowConfirm(false);
     const token = localStorage.getItem('access_token');
-    if (!window.confirm('Are you sure you want to delete this user?')) return;
     try {
       await axios.delete(`/users/delete/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success('✅ Product deleted successfully!');
+      toast.success('✅ User deleted successfully!');
       setUsers(users.filter((user) => user.id !== id.toString()));
-    } catch (error) {
-      toast.error('❌ Failed to delete product.');
+    } catch {
+      toast.error('❌ Failed to delete user.');
     }
   };
 
@@ -121,11 +125,18 @@ const UsersList: React.FC = () => {
                       </button>
                       <button
                         className="btn-delete"
-                        onClick={() => handleDelete(Number(user.id))}
+                        onClick={handleDeleteClick}
                       >
                         🗑️
                       </button>
                     </td>
+                    <ConfirmModal
+                      isOpen={showConfirm}
+                      title="Delete user"
+                      message="Are you sure you want to delete this user? This action cannot be undone."
+                      onConfirm={() => handleConfirmDelete(user.id)}
+                      onCancel={() => setShowConfirm(false)}
+                    />
                   </tr>
                 );
               })

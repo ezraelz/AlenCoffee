@@ -1,9 +1,9 @@
 .blog-management {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
     top: 3em;
-    left: 15em;
+    
     padding: 1em;
     background: none;
     gap: 1em;
@@ -13,14 +13,13 @@
     justify-content: start;
     align-items: start;
 }
-
-.blog-management {
-    padding: 2rem;
-    font-family: Arial, sans-serif;
-  }
   
   .blog-management  .tab-container {
     margin-bottom: 1rem;
+  }
+
+  .blog-management h1{
+    color: #000;
   }
   
   .blog-management  .tab-container button {
@@ -50,24 +49,42 @@
   }
   
   .blog-management .blog-list {
-    padding: 20px;
-    margin-top: 5em;
+    margin-top: 6em;
+    margin-bottom: 4em;
+    width: 70%;
+    height: auto;
+    margin-left: 11em;
+    padding: 2em;
+    color: #e5e8ec;
+    border-radius: 1em;
+    background: rgb(255, 255, 255);
   }
   
   .blog-management .blog-table table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
   }
   
   .blog-management .blog-table th,
   .blog-management .blog-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
   }
   
   .blog-management .blog-table th {
-    background-color: #f4f4f4;
+    background-color: #f1f5f9;
+    color: #334155;
+    font-weight: 600;
     text-align: left;
+    padding: 14px 16px;
+    font-size: 0.95rem;
   }
   
   .blog-management .btn-edit, .blog-management .btn-delete {

@@ -4,6 +4,7 @@ import './productList.css';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { FaEye } from 'react-icons/fa';
+import ConfirmModal from '../../../component/confirmDelete';
 
 interface Product {
   id: string;
@@ -15,6 +16,7 @@ interface Product {
 }
 
 const ProductList: React.FC = () => {
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,17 +36,19 @@ const ProductList: React.FC = () => {
     fetchAllProducts();
   }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDeleteClick = () => setShowConfirm(true);
+
+  const handleConfirmDelete = async (id: number) => {
+    setShowConfirm(false);
     const token = localStorage.getItem('access_token');
-    if (!window.confirm('Are you sure you want to delete this blog?')) return;
     try {
       await axios.delete(`/products/delete/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success('✅ Product deleted successfully!');
+      toast.success('✅ Invoice deleted successfully!');
       setProducts(products.filter((product) => product.id !== id.toString()));
-    } catch (error) {
-      toast.error('❌ Failed to delete product.');
+    } catch {
+      toast.error('❌ Failed to delete invoice.');
     }
   };
 
@@ -107,11 +111,18 @@ const ProductList: React.FC = () => {
                     </button>
                     <button
                       className="btn-delete"
-                      onClick={() => handleDelete(Number(product.id))}
+                      onClick={handleDeleteClick}
                     >
                       🗑️
                     </button>
                   </td>
+                  <ConfirmModal
+                    isOpen={showConfirm}
+                    title="Delete order"
+                    message="Are you sure you want to delete this order? This action cannot be undone."
+                    onConfirm={() => handleConfirmDelete(product.id)}
+                    onCancel={() => setShowConfirm(false)}
+                  />
                 </tr>
               ))
             ) : (

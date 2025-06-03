@@ -112,8 +112,8 @@ const Invoices: React.FC = () => {
                   )}
                   <ConfirmModal
                     isOpen={showConfirm}
-                    title="Delete Invoice"
-                    message="Are you sure you want to delete this invoice? This action cannot be undone."
+                    title="Delete order"
+                    message="Are you sure you want to delete this order? This action cannot be undone."
                     onConfirm={() => handleConfirmDelete(invoice.id)}
                     onCancel={() => setShowConfirm(false)}
                   />
