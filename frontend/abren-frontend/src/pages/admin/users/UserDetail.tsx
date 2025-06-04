@@ -8,6 +8,7 @@ interface User {
   username: string;
   email: string;
   role: string;
+  profile_image: string;
   isActive: boolean;
   date_joined: string;
 }
@@ -32,8 +33,8 @@ const UserDetail = () => {
         });
         if (response.status !== 200) throw new Error('User not found');
         setUser(response.data);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch user');
+      } catch {
+        setError('Failed to fetch user');
       } finally {
         setLoading(false);
       }
@@ -85,57 +86,62 @@ const UserDetail = () => {
     <div className="user-detail">
       <h2>User Detail</h2>
       <div className="detail-card">
-        <p><strong>ID:</strong> {user.id}</p>
-        <p><strong>Username:</strong> {user.username}</p>
+        <img src={`http://127.0.0.1:8000/${user.profile_image}`} alt="" />
+        <div className="user-detail-info">
+          <p><strong>ID:</strong> {user.id}</p>
+          <p><strong>Username:</strong> {user.username}</p>
 
-        {/* Email */}
-        <p>
-          <strong>Email:</strong>{' '}
-          {editingField === 'email' ? (
-            <>
-              <input
-                type="email"
-                value={editedValue}
-                onChange={(e) => setEditedValue(e.target.value)}
-              />
-              <button onClick={saveEdit}>Save</button>
-              <button onClick={cancelEditing}>Cancel</button>
-            </>
-          ) : (
-            <>
-              {user.email}
-              <button onClick={() => startEditing('email')}>Edit</button>
-            </>
-          )}
-        </p>
+          {/* Email */}
+          <p>
+            <strong>Email:</strong>{' '}
+            {editingField === 'email' ? (
+              <>
+                <input
+                  title='email'
+                  type="email"
+                  value={editedValue}
+                  onChange={(e) => setEditedValue(e.target.value)}
+                />
+                <button onClick={saveEdit}>Save</button>
+                <button onClick={cancelEditing}>Cancel</button>
+              </>
+            ) : (
+              <>
+                {user.email}
+                <button onClick={() => startEditing('email')}>Edit</button>
+              </>
+            )}
+          </p>
 
-        {/* Role */}
-        <p>
-          <strong>Role:</strong>{' '}
-          {editingField === 'role' ? (
-            <>
-              <select
-                value={editedValue}
-                onChange={(e) => setEditedValue(e.target.value)}
-              >
-                <option value="admin">Admin</option>
-                <option value="staff">Staff</option>
-                <option value="customer">customer</option>
-                <option value="user">User</option>
-              </select>
-              <button onClick={saveEdit}>Save</button>
-              <button onClick={cancelEditing}>Cancel</button>
-            </>
-          ) : (
-            <>
-              {user.role}
-              <button onClick={() => startEditing('role')}>Edit</button>
-            </>
-          )}
-        </p>
+          {/* Role */}
+          <p>
+            <strong>Role:</strong>{' '}
+            {editingField === 'role' ? (
+              <>
+                <select
+                  title='role'
+                  value={editedValue}
+                  onChange={(e) => setEditedValue(e.target.value)}
+                >
+                  <option value="admin">Admin</option>
+                  <option value="staff">Staff</option>
+                  <option value="customer">customer</option>
+                  <option value="user">User</option>
+                </select>
+                <button onClick={saveEdit}>Save</button>
+                <button onClick={cancelEditing}>Cancel</button>
+              </>
+            ) : (
+              <>
+                {user.role}
+                <button onClick={() => startEditing('role')}>Edit</button>
+              </>
+            )}
+          </p>
 
-        <p><strong>Status:</strong> {user.isActive ? 'Active' : 'Inactive'}</p>
-        <p><strong>Joined:</strong> {new Date(user.date_joined).toLocaleDateString()}</p>
+          <p><strong>Status:</strong> {user.isActive ? 'Active' : 'Inactive'}</p>
+          <p><strong>Joined:</strong> {new Date(user.date_joined).toLocaleDateString()}</p>
+        </div>
       </div>
     </div>
   );

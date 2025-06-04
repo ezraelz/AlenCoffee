@@ -41,7 +41,7 @@ const ProfileManagement = () => {
     const renderTabs = () => {
       const buttons = [
         { name: 'profile' },
-        { name: role === 'admin' ? 'dashboard' : 'shipping address' },
+        { name: 'shipping address' },
         { name: 'orders'},
         { name: 'wishlist' },
         { name: 'invoices' },

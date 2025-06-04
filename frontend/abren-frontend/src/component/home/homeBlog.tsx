@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../utils/axios';
 import { FaArrowLeftLong, FaArrowRightLong } from 'react-icons/fa6';
-
+import './homeBlog.css';
 interface Blog {
   id: number;
   title: string;

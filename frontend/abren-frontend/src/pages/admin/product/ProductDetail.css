@@ -1,8 +1,8 @@
 .product-detail {
-    width: 90%;
-    margin: 7rem auto;
+    width: 80%;
+    margin-top: 0rem;
+    margin-left: 7em;
     padding: 1rem;
-    background-color: #fefefe;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     font-family: 'Segoe UI', sans-serif;
@@ -23,10 +23,16 @@
     border: 1px solid #eaeaea;
     margin-bottom: 2rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 2em;
     align-items: center;
   }
-  
+  .product-detail-card img{
+    width: 50%;
+  }
+  .product-detail-card .product-detail-info{
+    text-align: start;
+  }
   .product-detail-card p {
     margin: 0.1rem 0;
     font-size: 1rem;

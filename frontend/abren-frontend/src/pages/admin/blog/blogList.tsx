@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { toast } from 'react-toastify';
 import './BlogList.css';
+import ConfirmModal from '../../../component/confirmDelete';
+import { FaEye } from 'react-icons/fa';
+
 interface Blog {
   id: number;
   title: string;
@@ -15,6 +18,7 @@ interface Blog {
 }
 
 const BlogList: React.FC = () => {
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -36,17 +40,19 @@ const BlogList: React.FC = () => {
     fetchAllBlogs();
   }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDeleteClick = () => setShowConfirm(true);
+
+  const handleConfirmDelete = async (id: number) => {
+    setShowConfirm(false);
     const token = localStorage.getItem('access_token');
-    if (!window.confirm('Are you sure you want to delete this blog?')) return;
     try {
-      await axios.delete(`/blog/delete/${id}/`, {
+      await axios.delete(`/products/delete/${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      toast.success('✅ Blog deleted successfully!');
+      toast.success('✅ Invoice deleted successfully!');
       setBlogs(blogs.filter((blog) => blog.id !== id));
-    } catch (error) {
-      toast.error('❌ Failed to delete blog.');
+    } catch {
+      toast.error('❌ Failed to delete invoice.');
     }
   };
 
@@ -101,18 +107,27 @@ const BlogList: React.FC = () => {
                   <td>{new Date(blog.created_at).toLocaleString()}</td>
                   <td>
                     <button
+                      title='edit'
                       className="btn-edit"
                       onClick={() => alert(`Navigate to edit blog ${blog.id}`)}
                     >
-                      ✏️ Edit
+                      <FaEye />
                     </button>
                     <button
                       className="btn-delete"
-                      onClick={() => handleDelete(blog.id)}
+                      onClick={handleDeleteClick}
                     >
-                      🗑️ Delete
+                      🗑️
                     </button>
                   </td>
+
+                  <ConfirmModal
+                    isOpen={showConfirm}
+                    title="Delete blog"
+                    message="Are you sure you want to delete this blog? This action cannot be undone."
+                    onConfirm={() => handleConfirmDelete(Number(blog.id))}
+                    onCancel={() => setShowConfirm(false)}
+                  />
                 </tr>
               ))
             ) : (

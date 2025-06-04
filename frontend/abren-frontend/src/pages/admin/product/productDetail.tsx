@@ -11,6 +11,7 @@ interface Product {
   price: number;
   category: string;
   stock: string;
+  image: string;
   created_at: string;
 }
 
@@ -87,12 +88,15 @@ const ProductDetail = () => {
     <div className="product-detail">
       <h2>Product Detail</h2>
       <div className="product-detail-card">
-        <p><strong>ID:</strong> {product.id}</p>
-        <p><strong>Name:</strong> {product.name}</p>
-        <p><strong>Category:</strong> {product.category}</p>
-        <p><strong>Price:</strong> ${product.price}</p>
-        <p><strong>Stock:</strong> {product.stock}</p>
-        <p><strong>Created At:</strong> {new Date(product.created_at).toLocaleString()}</p>
+        <img src={`http://127.0.0.1:8000/${product.image}`} alt="" />
+        <div className="product-detail-info">
+          <p><strong>ID:</strong> {product.id}</p>
+          <p><strong>Name:</strong> {product.name}</p>
+          <p><strong>Category:</strong> {product.category}</p>
+          <p><strong>Price:</strong> ${product.price}</p>
+          <p><strong>Stock:</strong> {product.stock}</p>
+          <p><strong>Created At:</strong> {new Date(product.created_at).toLocaleString()}</p>
+        </div>
       </div>
 
       <div className="button-group mt-4">
