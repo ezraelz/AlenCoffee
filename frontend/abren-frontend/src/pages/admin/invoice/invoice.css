@@ -1,16 +1,16 @@
 .invoices-container {
     margin-top: 5em;
-    margin-left: 5em;
+    margin-left: 15em;
     padding: 2rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .invoices-list-container{
-    margin-top: 4em;
+    margin-top: 10em;
     margin-bottom: 4em;
     width: 80%;
     height: auto;
-    margin-left: 8em;
+    margin-left: 11em;
     padding: 2em;
     color: #e5e8ec;
     border-radius: 1em;
@@ -30,7 +30,6 @@
   .invoices-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;

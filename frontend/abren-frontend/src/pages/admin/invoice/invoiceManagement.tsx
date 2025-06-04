@@ -30,7 +30,7 @@ const InvoiceManagement = () => {
   return (
     <div className="invoices-container">
       {renderTabs()}
-      <div className="container">
+      <div className="list-container">
         <Outlet />
       </div>
     </div>
