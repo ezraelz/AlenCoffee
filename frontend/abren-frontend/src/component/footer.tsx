@@ -8,7 +8,7 @@ const Column1: React.FC = () => {
         <>
           <div className="footer1">
             <Link className="navbar-brand" to="/">
-                Aberen<small>Coffee</small>
+                Alen<small>Coffee</small>
             </Link>
           </div>
         </>

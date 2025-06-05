@@ -21,7 +21,7 @@ const OrderDetail = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('access_token');
-        const response = await axios.get(`/orders/detail/${id}`, {
+        const response = await axios.get(`/adminPanel/admin_order_detail/${id}/`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (response.status !== 200) throw new Error('order not found');

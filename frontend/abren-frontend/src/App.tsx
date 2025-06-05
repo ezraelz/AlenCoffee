@@ -6,29 +6,9 @@ import ScrollToTop from './routes/ScrollToTop';
 import { NavVisibilityProvider } from './context/NavVisibilityContext';
 import Layout from './layout';
 import Cart from './pages/shop/cart';
-import OrderList from './pages/admin/orders/orderList';
-import OrderCreate from './pages/admin/orders/orderCreate';
-import UsersList from './pages/admin/users/usersList';
-import UserCreate from './pages/admin/users/userCreate';
-import UserUpdate from './pages/admin/users/userUpdate';
-import UserDetail from './pages/admin/users/UserDetail';
-import ProductManagement from './pages/admin/product/productMnanagement';
-import InvoiceManagement from './pages/admin/invoice/invoiceManagement';
-import BlogManagement from './pages/admin/blog/blogManagement';
-import Help from './pages/admin/help/help';
-import AdminPage from './pages/admin/adminPage';
-import OrderDetail from './pages/admin/orders/orderDetail';
-import ProductList from './pages/admin/product/productList';
-import ProductUpdate from './pages/admin/product/productUpdate';
-import ProductDetail from './pages/admin/product/productDetail';
-import ProductCreate from './pages/admin/product/productCreate';
-import Invoices from './pages/admin/invoice/invoiceList';
-import AddInvoice from './pages/admin/invoice/addInvoice';
-import InvoiceDetail from './pages/admin/invoice/invoiceDetail';
-import Report from './pages/admin/report/report';
-import BlogCreate from './pages/admin/blog/blogCreate';
-import BlogList from './pages/admin/blog/blogList';
-import BlogUpdate from './pages/admin/blog/blogUpdate';
+import AdminRoute from './routes/adminRoute';
+import AdminRoutes from './routes/adminRoute';
+
 
 // Lazy loaded pages
 const Home = lazy(() => import('./pages/home'));
@@ -51,11 +31,6 @@ const BlogDetail = lazy(() => import('./pages/blog/blogDetail'));
 
 const Profile = lazy(() => import('./pages/profile/profileManagement'));
 
-// Admin pages
-const Admin = lazy(() => import('./pages/admin/adminPage'));
-const Overview = lazy(() => import('./pages/admin/overview'));
-const UsersManagement = lazy(() => import('./pages/admin/users/usersManagement'));
-const OrderManagement = lazy(() => import('./pages/admin/orders/orderManagement'));
 
 // Protected route wrapper
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
@@ -148,48 +123,10 @@ const App = () => {
               <Route path="/profile" element={<ProtectedRoute element={<Profile />} />} />
 
               {/* Admin Panel (Protected) */}
-              <Route path="/admin/" element={<ProtectedRoute element={<AdminPage />} />}>
-                <Route index element={<Overview />} />
-                <Route path="overview" element={<Overview />} />
-                <Route path="/admin/products" element={<ProductManagement />} >
-                  <Route index element={<ProductList />} />
-                  <Route path="add" element={<ProductCreate />} />
-                  <Route path="update/:id" element={<ProductUpdate />} />
-                  <Route path="detail/:id" element={<ProductDetail />} />
-                </Route>
-
-                <Route path="/admin/users" element={<UsersManagement />}>
-                  <Route index element={<UsersList />} />
-                  <Route path="add" element={<UserCreate />} />
-                  <Route path="update/:id" element={<UserUpdate />} />
-                  <Route path="detail/:id" element={<UserDetail />} />
-                </Route>
-
-                <Route path="/admin/orders" element={<OrderManagement />} >
-                  <Route index element={<OrderList />} />
-                  <Route path="add" element={<OrderCreate />} />
-                  <Route path="update/:id" element={<UserUpdate />} />
-                  <Route path="detail/:id" element={<OrderDetail />} />
-                </Route>
-                
-                <Route path="/admin/invoices" element={<InvoiceManagement />} >
-                  <Route index element={<Invoices />} />
-                  <Route path="add" element={<AddInvoice />} />
-                  <Route path="update/:id" element={<UserUpdate />} />
-                  <Route path="detail/:id" element={<InvoiceDetail />} />
-                </Route>
-
-                <Route path='report' element={<Report />} />
-                <Route path="/admin/blog" element={<BlogManagement />} >
-                  <Route index element={<BlogList />} />
-                  <Route path="add" element={<BlogCreate />} />
-                  <Route path="update/:id" element={<BlogUpdate />} />
-                  <Route path="detail/:id" element={<BlogDetail />} />
-                </Route>
-                <Route path="help" element={<Help />} />
-              </Route>
-
+              <Route path="/*" element={<AdminRoutes />} />
             </Routes>
+            
+
           </Layout>
         </Suspense>
       </Router>

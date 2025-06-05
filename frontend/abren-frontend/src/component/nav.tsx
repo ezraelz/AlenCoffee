@@ -99,7 +99,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   };
 
   const navLinks = [
-    { name: 'About AbrenCoffee', to: '/about' },
+    { name: 'About AlenCoffee', to: '/about' },
     { name: 'Services', to: '/services' },
     { name: 'Gifts', to: '/gifts' },
     { name: 'Blog', to: '/blog' },
@@ -109,9 +109,9 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
 
   const shopDropdown = [
     { name: 'All Products', to: '/shop' },
-    { name: 'Abren Espresso', to: '/shop' },
-    { name: 'Abren DECAF', to: '/shop' },
-    { name: 'Abren Coffee', to: '/shop' },
+    { name: 'Alen Espresso', to: '/shop' },
+    { name: 'Aln DECAF', to: '/shop' },
+    { name: 'Aln Coffee', to: '/shop' },
     { name: 'Checkout', to: '/checkout' },
   ];
 
@@ -156,7 +156,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
       <nav>
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Abren<small>Coffee</small>
+            Alen<small>Coffee</small>
           </Link>
 
           <div className="collapse navbar-collapse" id="ftco-nav">
@@ -187,7 +187,7 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
 
               {navLinks.map((link, idx) => (
                 <li key={idx} className={`nav-item ${location.pathname.startsWith(link.to) ? 'active' : ''}`}>
-                  <Link to={link.to} className="nav-link" onClick={link?.onClick}>
+                  <Link to={link.to} className="nav-link">
                     {link.name}
                   </Link>
                 </li>
