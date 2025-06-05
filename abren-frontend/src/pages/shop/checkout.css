@@ -1,0 +1,241 @@
+.checkout {
+  position: relative;
+  max-width: 100%;
+  margin: 0em auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
+  z-index: 3;
+}
+
+.checkout::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #14100c63;
+  z-index: -2;
+}
+
+.checkout .shipping-back-btn {
+  text-align: center;
+  background: #fffffff2;
+  position: fixed;
+  top: 0em;
+  left: 0;
+  width: 10%;
+  z-index: 200;
+}
+
+.checkout .hero h1 {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.checkout .hero.top {
+  display: none;
+  top: 0;
+  opacity: 0;
+  padding: 1em;
+  height: 2em;
+  font-size: 1rem;
+  animation: fallDown 2s forwards ease-in-out;
+}
+
+.checkout h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #000;
+}
+
+.checkout .checkout-container {
+  margin-top: 0em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: safe;
+  gap: 2rem;
+  text-align: center;
+  color: #000;
+  background: rgba(244, 242, 242, 0.984);
+  position: relative;
+}
+
+.checkout .shipping-info,
+.checkout .cart-summary {
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.checkout .shipping-info {
+  background-color: #ffffff;
+  padding-left: 6.7em;
+  padding-right: 6em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40%;
+}
+
+.checkout .cart-summary {
+  background: #ffffff00;
+  position: sticky;
+  top: 8em;
+  width: 30%;
+  height: 20em;
+  margin-top: 0;
+  padding-left: 4em;
+  padding-right: 4em;
+}
+
+.checkout .shipping-info h3,
+.checkout .cart-summary h3 {
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.checkout form {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout input[type="text"],
+.checkout input[type="email"],
+.checkout input[type="tel"] {
+  width: 25em;
+  padding: 0.6em;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 0 4px #bdbdbd;
+  color: #2d2813;
+  transition: border-color 0.3s ease;
+}
+
+.checkout input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+.checkout button,
+.checkout button[type="submit"] {
+  background-color: transparent;
+  border: 0 0 5px #000;
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 0.6em;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  width: 25em;
+}
+
+.checkout button[type="submit"] {
+  background-color: #4CAF50;
+}
+
+.checkout button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+.checkout button:hover {
+  background-color: #2d2813d6;
+  box-shadow: 0 0 0.5em #665c34;
+}
+
+.checkout button[disabled] {
+  background-color: #9CCC9C;
+  cursor: not-allowed;
+}
+
+.checkout ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-summary li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.checkout p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+strong {
+  font-weight: bold;
+}
+
+.checkout-container .payment-buttons-backdrop{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #0000007b;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3000;
+  justify-content: center;
+  align-items: center;
+}
+.payment-buttons{
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding: .5em;
+  gap: 1em;
+  position: fixed;
+  top: 4em;
+  left: 10em;
+  width: 80%;
+  height: 40%;
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-buttons button{
+  background-color: none;
+  border: 1px solid #949494;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: .5em;
+}
+@media (max-width: 768px) {
+  .checkout .checkout-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .checkout input[type="text"],
+  .checkout input[type="email"],
+  .checkout input[type="tel"],
+  .checkout button {
+    width: 100%;
+  }
+}
+
+@keyframes fallDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-.2rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
