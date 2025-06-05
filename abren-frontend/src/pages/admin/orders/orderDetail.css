@@ -1,0 +1,23 @@
+.order-detail {
+  max-width: 600px;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.order-detail .detail-card{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-detail .detail-card p {
+  font-size: 1rem;
+}
+
+.order-detail .detail-card strong {
+  display: inline-block;
+  color: #333;
+}

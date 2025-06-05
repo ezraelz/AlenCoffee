@@ -76,7 +76,15 @@ const Shop: React.FC = () => {
 
   return (
     <div className="shop">
+      
       <div className="container">
+        <div className="shop-hero">
+          <h1 className="shop-title">Our Products</h1>
+          <p className="shop-description">
+            Alen is a modern e-commerce platform dedicated to providing high-quality products and seamless shopping experiences. 
+            We believe in innovation, reliability, and customer satisfaction.
+          </p>
+      </div>
         {error && <div className="error-banner">{error}</div>}
         {message && (
           <div className="item-added">

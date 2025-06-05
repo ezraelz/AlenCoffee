@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation} from 'react-router-dom';
 import axios from '../utils/axios';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../pages/shop/useCart';
 import './nav.css';
-
+import NavShopProduct from './navShopProduct';
 interface NavProps {
   onCartClick: () => void;
 }
@@ -27,7 +27,6 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
   const [scrolledUp, setScrolledUp] = useState(false);
   const lastScrollY = useRef(0);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const liDropdownRef = useRef<HTMLLIElement>(null);
   const location = useLocation();
 
   useEffect(()=> {
@@ -109,9 +108,6 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
 
   const shopDropdown = [
     { name: 'All Products', to: '/shop' },
-    { name: 'Alen Espresso', to: '/shop' },
-    { name: 'Aln DECAF', to: '/shop' },
-    { name: 'Aln Coffee', to: '/shop' },
     { name: 'Checkout', to: '/checkout' },
   ];
 
@@ -129,25 +125,6 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
     { link: '#', icon: <FaShoppingCart />, onClick: onCartClick },
   ];
 
-  const navShopProduct = () => {
-    return (
-      <div className="shop-products">
-        {products.length > 0 ? (
-          <div className="product-imgs">
-            {products.map((product) => (
-                <div className="product-nav-img" key={product.id}>
-                  <img src={product.image} alt="" />
-                </div>
-              
-            ))}
-          </div>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </div>
-    )
-  }
-
   return (
     <div className={scrolledUp ? 'navbar scroll' : 'navbar'}>
       <div className='nav_second'>
@@ -162,7 +139,10 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
           <div className="collapse navbar-collapse" id="ftco-nav">
             <ul className="navbar-nav">
               <li className="nav-item dropdown">
-                <span className="nav-link dropdown-toggle" onClick={() => setIsOpen(prev => !prev)} style={{ cursor: 'pointer' }}>
+                <span 
+                  className="nav-link dropdown-toggle"
+                  onClick={() => setIsOpen(prev => !prev)}
+                  style={{ cursor: 'pointer' }}>
                   Shop
                 </span>
                 {isOpen && (
@@ -171,14 +151,14 @@ const Nav: React.FC<NavProps> = ({ onCartClick }) => {
                       <ul>
                         {shopDropdown.map((item, idx) => (
                           <li key={idx}>
-                            <Link className="dropdown-item" to={item.to} onClick={item?.onClick}>
+                            <Link className="dropdown-item" to={item.to}>
                               {item.name}
                             </Link>
                           </li>
                         ))}
                       </ul>
                       <div className="dropdown-img">
-                        {navShopProduct()}
+                        <NavShopProduct />
                       </div>
                     </div>
                   </>

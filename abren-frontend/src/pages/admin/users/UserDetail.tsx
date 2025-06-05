@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './userDetail.css';
 import axios from '../../../utils/axios';
+import { FaPencil } from 'react-icons/fa6';
 
 interface User {
   id: number;
@@ -108,7 +109,7 @@ const UserDetail = () => {
             ) : (
               <>
                 {user.email}
-                <button onClick={() => startEditing('email')}>Edit</button>
+                <button title='email' onClick={() => startEditing('email')}><FaPencil/></button>
               </>
             )}
           </p>
@@ -134,7 +135,7 @@ const UserDetail = () => {
             ) : (
               <>
                 {user.role}
-                <button onClick={() => startEditing('role')}>Edit</button>
+                <button title='role' onClick={() => startEditing('role')}><FaPencil/></button>
               </>
             )}
           </p>
