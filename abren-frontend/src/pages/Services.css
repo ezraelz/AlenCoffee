@@ -1,0 +1,131 @@
+.services {
+    background-color: #fefaf6;
+    padding: 0;
+    margin: 0;
+    height: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #3e2c1c;
+  }
+  
+  .services-container {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fffefc;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
+  
+  .service-hero {
+    background-image: url('../assets/images/artisan-roasted-coffee-beans.jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    color: rgb(255, 255, 255);
+    padding: 8em;
+  }
+
+  .service-hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1;
+  }
+  
+  .services-title {
+    font-size: 36px;
+    text-align: center;
+    margin-top: 4em;
+    z-index: 2;
+  }
+  
+  .services-intro {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: justify;
+    margin-bottom: 40px;
+    color: #ffffff;
+    z-index: 2;
+  }
+  
+  .services-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+    width: 100%;
+    padding: 2em;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .service-card {
+    background-color: #fff8f1;
+    padding: 2em 3em;
+    width: 20%;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.331);
+    transition: all 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-card h2 {
+    font-size: 20px;
+    color: #4b3225;
+    margin-bottom: 12px;
+  }
+  
+  .service-card p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #5a4636;
+  }
+  
+  .service-info{
+    display: flex;
+    flex-direction: column;
+    color: rgba(0, 0, 0, 0.05);
+  }
+
+  .service-info .service-info-container{
+    display: flex;
+    flex-direction: row;
+    background: #c69c6d;
+    justify-content: start;
+    align-items: start;
+    padding: 1rem 3rem;
+  }
+  
+  .service-info .info-card {
+    padding: 2rem;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    transition: transform 0.2s ease;
+  }
+  .service-info .info-icon{
+    color: #000000;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+    font-size: 3rem;
+    border: 1px solid #000000;
+    transition: all .5s ease-in-out;
+    overflow: hidden;
+  }
+  .service-info .info-icon:hover{
+    border-radius: 0;
+    transition: all .5s ease-in-out;
+}
