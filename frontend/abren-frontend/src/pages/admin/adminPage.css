@@ -1,0 +1,327 @@
+/* Swatches */
+:root {
+  --bg: #f4f4f4;
+  --primary: #6f4e37;
+  --secondary: #c7a17a;
+  --highlight: #a9746e;
+  --success: #4e944f;
+  --warning: #d9a441;
+  --danger: #b03a2e;
+  --text-dark: #3e2723;
+  --text-light: #ffffff;
+}
+
+/* Main layout */
+.admin-page {
+    display: flex;
+    height: auto;
+    position: relative;
+    flex-direction: column;
+    background: var(--bg);
+    background-attachment: fixed;
+    transition: all .5s ease-in-out;
+    padding-bottom: 2.5em;
+}
+
+/* Flex container for sidebar and content */
+.admin-page .cards-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 4em;
+    left: 13em;
+    padding: 1em;
+    background: var(--bg);
+    gap: .5em;
+    width: 79%;
+    height: 100%;
+}
+
+/* Cards wrapper */
+.admin-page .cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.2em;
+    padding: 1.2em;
+    background-color:#ffffff;
+    box-shadow: 1px solid #050505;
+    border-radius: .7em;
+}
+
+/* Individual card styles */
+.admin-page .card {
+    width: 30vh;
+    height: 20vh;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.308);
+    padding: 1.4em;
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.admin-page .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-page .card h2 {
+    font-size: .8rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.admin-page .card p {
+    font-size: 1.2rem;
+    color: #2d8cf0;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Small stats section under main value */
+.admin-page .card small {
+    display: flex;
+    gap: .4em;
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 0.6rem;
+}
+
+.admin-page .card small p {
+    margin: 4px 0;
+    font-size: 0.9rem;
+    color: #7f7f7fde;
+}
+.admin-page .card .less-stock p{
+  color: red;
+  opacity: 0;
+  animation: blink 1s forwards ease-in-out infinite;
+}
+/* Loading/Error styling */
+.admin-page .main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+/* Error alert */
+.admin-page .alert {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    background-color: #ff4d4f;
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.admin-page .users-top-products{
+    display: flex;
+    background-color: #ffffff;
+    padding: 1.5em;
+    gap: 1.5em;
+    border-radius: .7em;
+}
+.admin-page .top-products,.sales-per-day {
+    padding: 20px;
+    background-color: #ffffff; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
+    overflow-x: auto;
+    color: #050505;
+    width: 70%;
+}
+
+.admin-page .sales-per-day {
+    padding: 20px;
+    background-color: #eae6de; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
+    overflow-x: auto;
+    color: #050505;
+    width: 30%;
+}
+.admin-page .sales-chart{
+    display: flex;
+    background-color: #fcfcfc;
+    padding: 1.5em;
+    gap: 1.5em;
+    border-radius: .7em;
+}
+.admin-page .sales-per-day-chart{
+    padding: 20px;
+    background-color: #ffffff; /* Tailwind slate-50 */
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.308);
+    color: #050505;
+}
+.admin-page .top-products table, .sales-per-day table, .sales-per-day-chart {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.top-products th,
+.top-products td ,
+.sales-per-day th, 
+.sales-per-day td{
+    padding: 12px 15px;
+    text-align: left;
+    color: #050505;
+    border-bottom: 1px solid #e2e8f0; /* slate-200 */
+}
+
+.top-products thead {
+    background-color: #e2e8f0; /* slate-200 */
+    color: #1e293b; /* slate-800 */
+}
+
+.top-products tr:hover {
+    background-color: #f1f5f9; /* slate-100 */
+    transition: background-color 0.2s ease;
+}
+
+.top-products td:first-child {
+    font-weight: bold;
+    color: #050505; /* slate-500 */
+}
+
+.tab-container{
+  position: fixed;
+  top: 6em;
+  left: 15em;
+}
+
+.admin-page h1{
+  position: fixed;
+  top: 2em;
+  left: 7.6em;
+}
+
+@keyframes blink {
+  0%{
+    opacity: 0;
+  }100%{
+    opacity: 1;
+  }
+}
+
+/* Make cards container adapt to small screens */
+@media screen and (max-width: 1024px) {
+  .admin-page .cards-container {
+      left: 0;
+      top: 6em;
+      padding: 1em;
+      width: 100%;
+    }
+  
+    .admin-page .cards {
+      justify-content: center;
+    }
+  
+    .admin-page .users-top-products {
+      flex-direction: column;
+    }
+  
+    .admin-page .top-products,
+    .sales-per-day {
+      width: 100%;
+    }
+  
+    .sales-chart {
+      flex-direction: column;
+    }
+  
+    .sales-per-day-chart {
+      width: 100%;
+    }
+  }
+  
+  /* Stack sidebar and content on mobile */
+  @media screen and (max-width: 768px) {
+    .admin-page {
+      flex-direction: column;
+    }
+  
+    .admin-page .sidebar {
+      position: relative;
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+    }
+  
+    .admin-page .sidebar-header {
+      display: none;
+    }
+  
+    .admin-page .sidebar-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: #fff;
+      border-radius: 6px;
+      padding: 0.5rem 0.8rem;
+      font-size: 0.9rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+  
+    .logout-button {
+      background-color: #ffecec;
+    }
+  
+    .admin-page .card {
+      width: 90%;
+      margin: 0 auto;
+      height: auto;
+    }
+  }
+  
+  /* Handle extreme small screens */
+  @media screen and (max-width: 480px) {
+    .sidebar-link span {
+      display: none;
+    }
+  
+    .sidebar-link {
+      padding: 0.4rem 0.5rem;
+    }
+  
+    .admin-page .card h2 {
+      font-size: 0.9rem;
+    }
+  
+    .admin-page .card p {
+      font-size: 1.2rem;
+    }
+  
+    .admin-page .card small {
+      font-size: 0.75rem;
+      flex-direction: column;
+    }
+  
+    .top-products th,
+    .top-products td,
+    .sales-per-day th,
+    .sales-per-day td {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  }
+  
