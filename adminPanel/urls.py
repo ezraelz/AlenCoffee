@@ -3,7 +3,11 @@
 from django.urls import path
 from .views import (
     AdminUserAPI, AdminProductAPI, 
+<<<<<<< HEAD
     AdminBlogAPI, AdminOrderDetailView,
+=======
+    AdminBlogAPI, 
+>>>>>>> 500e63bacbf9749e4e143fd273d9ca47ff46681c
     TotalProductsView,
     TotalStockProductsView,
     TotalSalesProductsView,
@@ -18,8 +22,12 @@ urlpatterns = [
 
     path('orders/', AdminOrdersView.as_view(), name='admin-order-list-create'),
     path('completed_orders/', TotalOrderCompletedCountView.as_view(), name='completed-orders'),
+<<<<<<< HEAD
     path('admin_order_detail/<int:pk>/', AdminOrderDetailView.as_view(), name='admin-order-detail'),
     
+=======
+
+>>>>>>> 500e63bacbf9749e4e143fd273d9ca47ff46681c
     path('products/', AdminProductAPI.as_view(), name='admin-product-list-create'),
     path('products/<int:pk>/', AdminProductAPI.as_view(), name='admin-product-update-delete'),
 

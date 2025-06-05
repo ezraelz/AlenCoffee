@@ -6,8 +6,8 @@ from .models import CustomUser, Role
 from .serializers import UserSerializer, RoleSerializer, AdminUserCreateSerializer
 from rest_framework.permissions import IsAuthenticated
 from orders.models import ShippingAddress
-from orders.models import Payment,Order
-from orders.serializers import ShippingAddressSerializer, PaymentSerializer
+from orders.models import Order
+from orders.serializers import ShippingAddressSerializer
 from django.db.models import Sum
 
 class UserList(APIView):

@@ -1,12 +1,7 @@
 from rest_framework import serializers
-from .models import (
-    ShippingAddress,
-    BillingAddress,
-    Order,
-    OrderItem,
-)
-from payment.models import Invoice, Payment
-
+from django.contrib.auth import get_user_model
+from .models import (Payment,Invoice)
+from orders.models import OrderItem, Order
 
 
 class InvoiceSerializer(serializers.ModelSerializer):
@@ -22,59 +17,6 @@ class InvoiceSerializer(serializers.ModelSerializer):
             return request.build_absolute_uri(obj.pdf.url)
         return None
     
-class ShippingAddressSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = ShippingAddress
-        fields = [
-            'id', 'user', 'session_key',
-            'full_name', 'phone_number', 'email',
-            'address1', 'address2', 'city', 'street',
-            'state', 'zipcode', 'country',
-            'status', 'created_at', 'updated_at'
-        ]
-        read_only_fields = ['user', 'session_key', 'status', 'created_at', 'updated_at']
-
-
-
-class BillingAddressSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BillingAddress
-        fields = ['id', 'name', 'address', 'city', 'postal_code', 'country']
-
-
-class OrderItemSerializer(serializers.ModelSerializer):
-    product_name = serializers.CharField(source='product.name', read_only=True)
-
-    class Meta:
-        model = OrderItem
-        fields = ['id', 'product', 'product_name', 'quantity', 'price']
-        read_only_fields = ['price', 'product_name']
-
-
-class OrderSerializer(serializers.ModelSerializer):
-    order_items = OrderItemSerializer(many=True, read_only=True)
-    user = serializers.CharField(source='user.username', read_only=True)
-
-    class Meta:
-        model = Order
-        fields = [
-            'id', 'user', 'session_key',
-            'shipping_address', 'created_at',
-            'is_paid', 'status', 'total_price',
-            'order_items'
-        ]
-        read_only_fields = ['user', 'created_at', 'is_paid', 'status', 'total_price']
-
-    def create(self, validated_data):
-        request = self.context.get('request')
-        if request.user.is_authenticated:
-            validated_data['user'] = request.user
-        else:
-            validated_data['session_key'] = request.session.session_key
-        return super().create(validated_data)
-
-
 class PaymentSerializer(serializers.ModelSerializer):
     order = serializers.PrimaryKeyRelatedField(
         queryset=Order.objects.all(),
