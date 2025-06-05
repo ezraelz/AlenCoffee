@@ -1,1 +1,10 @@
-.node_modules
+# === Node / Frontend ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+.build/
+.next/
+out/
+coverage/
