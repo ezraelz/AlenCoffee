@@ -450,13 +450,14 @@ class PayPalWebhookView(APIView):
                         order = Order.objects.select_for_update().get(reference=invoice_id)
                         payment = Payment.objects.filter(order=order, payment_method='paypal', status='pending').first()
 
-                    # Idempotency check
+                    # Idempotency check (AFTER loading payment/order)
                     existing_payment = Payment.objects.select_for_update().filter(transaction_id=transaction_id).first()
                     if existing_payment:
                         return HttpResponse(status=200)  # Already processed
 
+                    # Update payment
                     if payment:
-                        payment.status = 'completed'
+                        payment.status = 'paid'
                         payment.transaction_id = transaction_id
                         payment.amount = order.total_price
                         payment.save()
@@ -465,7 +466,7 @@ class PayPalWebhookView(APIView):
                         Payment.objects.create(
                             order=order,
                             payment_method='paypal',
-                            status='completed',
+                            status='paid',
                             transaction_id=transaction_id,
                             amount=order.total_price
                         )
@@ -473,6 +474,7 @@ class PayPalWebhookView(APIView):
                     # Update order
                     order.status = 'paid'
                     order.is_paid = True
+                    order.shipping_status = 'ready'  # <==== ADD THIS
                     order.save()
 
             except Order.DoesNotExist:
@@ -487,7 +489,6 @@ class PayPalWebhookView(APIView):
         print(json.dumps(event, indent=2))
 
         return HttpResponse(status=200)
-
 
 def create_swish_payment(amount, phone, reference):
     SWISH_API_URL = getattr(settings, 'SWISH_API_URL')  # Replace with actual URL
