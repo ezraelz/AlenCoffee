@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import (
     PaymentListView, StripeCheckoutView, 
-    stripe_webhook_view,
+    stripe_webhook_view,PayPalCaptureView,
     SwishSetupView, SwishWebhookView, PayPalSetupView,
     InvoiceCreateView, InvoiceDownloadView, InvoiceListView,
     InvoiceView, InvoiceDetailView,PayPalWebhookView,
@@ -17,7 +17,8 @@ urlpatterns = [
 
     path('paypal/setup/', PayPalSetupView.as_view(), name='paypal-checkout'),
     path('paypal/webhook/', PayPalWebhookView.as_view(), name='paypal-webhook'),
-
+    path('paypal/capture/', PayPalCaptureView.as_view(), name='paypal-cature'),
+    
     path('swish/setup/', SwishSetupView.as_view(), name='swish-setup'),
     path('swish/webhook/', SwishWebhookView.as_view(), name='swish-webhook'),
     path('swish/mock-callback/', MockSwishCallbackView.as_view(), name='mock-swish-callback'),
