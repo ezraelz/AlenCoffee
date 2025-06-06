@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/axios';
 import './single_product.css';
 
 interface Product {
@@ -28,19 +28,20 @@ const SingleProduct: React.FC<SingleProductProps> = ({ handleAddToCart }) => {
   
   const [cart, setCart] = useState<Cart | null>(null);
   const { id } = useParams<{ id: string }>();
-  const [product, setProduct] = useState<Product | null>(null);
+  const [singleProduct, setSingleProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   // Determine if the product is out of stock
-  const isOutOfStock = product?.stock === 0;
+  const isOutOfStock = singleProduct?.stock === 0;
 
+  //single product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get<Product>(`http://127.0.0.1:8000/products/detail/${id}/`);
-        setProduct(response.data);
-        console.log(response.data);
+        const response = await axios.get<Product>(`/products/detail/${id}/`);
+        setSingleProduct(response.data);
       } catch (error) {
         console.error('Error fetching product:', error);
         setError('Failed to load product.');
@@ -51,6 +52,22 @@ const SingleProduct: React.FC<SingleProductProps> = ({ handleAddToCart }) => {
 
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`/products/list/`);
+        setProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+        setError('Failed to load product.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const fetchData = async ()=>  {
@@ -69,26 +86,26 @@ const SingleProduct: React.FC<SingleProductProps> = ({ handleAddToCart }) => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
-  if (!product) return <p>Product not found.</p>;
+  if (!singleProduct) return <p>Product not found.</p>;
 
   // Assuming the image URL returned is relative, prepend the base URL
-  const imageUrl = product.image.startsWith('http') ? product.image : `http://127.0.0.1:8000${product.image}`;
+  const imageUrl = singleProduct.image.startsWith('http') ? singleProduct.image : `http://127.0.0.1:8000${singleProduct.image}`;
 
   // Define cart or remove this logic if not needed
-  const isProductInCart = cart?.cart_items?.some((item) => item.product.id === product?.id) ?? false;
+  const isProductInCart = cart?.cart_items?.some((item) => item.product.id === singleProduct?.id) ?? false;
   
   return (
     <div className="single-product">
         <div className="product-grid">
             <article className="product-card">
-                <img src={imageUrl} alt={product.name} />
+                <img src={imageUrl} alt={singleProduct.name} />
                 <div className="description">
-                  <h2>{product.name}</h2>
-                  <p>Price: ${Number(product.price).toFixed(2)}</p>
-                  <p>{product.description}</p>
+                  <h2>{singleProduct.name}</h2>
+                  <p>Price: ${Number(singleProduct.price).toFixed(2)}</p>
+                  <p>{singleProduct.description}</p>
                   <button
                       className='addCart'
-                      onClick={() => handleAddToCart(product)}  // Pass the correct product to the handler
+                      onClick={() => handleAddToCart(singleProduct)}  // Pass the correct product to the handler
                       disabled={loading || isOutOfStock}
                       type="button"
                       >
@@ -96,6 +113,23 @@ const SingleProduct: React.FC<SingleProductProps> = ({ handleAddToCart }) => {
                   </button>
                 </div>           
             </article>
+        </div>
+        <div className="related-products">
+          {products.length > 0 ? (
+            <>
+              <h3>Related Products</h3>
+              {products.map((product, index) => (
+                <div className="product-card" key={index}>
+                  <img src={product.image} alt="" />
+                  <p>{product.name}</p>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <p>No Products found!</p>
+            </>
+          )}
         </div>
     </div>
   );

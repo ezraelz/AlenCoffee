@@ -4,7 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-inline-start: 13em;
+    width: 70%;
+    margin: auto;
   }
   
   .profile-container {
@@ -14,6 +15,22 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     width: 100%;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+  }
+
+  .profile-container::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+    background: #086793;
+    z-index: 0;
   }
   
   .profile-container img {
@@ -23,6 +40,7 @@
     object-fit: cover;
     margin-bottom: 1.5rem;
     border: 3px solid #007bff;
+    z-index: 50;
   }
   
   .profile-container p {

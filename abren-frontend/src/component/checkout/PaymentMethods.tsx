@@ -28,11 +28,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
     try {
       const token = localStorage.getItem('access_token');
       const response = await axios.post(
-<<<<<<< HEAD
-        '/orders/payments/stripe/',
-=======
-        '/payments/stripe/',
->>>>>>> 07b11ab1c04c1906d92da9dcf0ff11fb2eba4f8e
+        '/payment/stripe/',
         { email, amount: cart.total_price },
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -62,11 +58,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
       const token = localStorage.getItem("access_token");
   
       const response = await axios.post<SetupPaymentResponse>(
-<<<<<<< HEAD
-        "/orders/payments/swish/setup/",
-=======
-        "/payments/swish/setup/",
->>>>>>> 07b11ab1c04c1906d92da9dcf0ff11fb2eba4f8e
+        "/payment/swish/setup/",
         {
           amount: cart.total_price,
           phone_number: phoneNumber, // ✅ use the passed-in prop
@@ -94,11 +86,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
       const token = localStorage.getItem('access_token');
   
       const response = await axios.post(
-<<<<<<< HEAD
-        '/orders/payments/paypal/setup/',
-=======
-        '/payments/paypal/setup/',
->>>>>>> 07b11ab1c04c1906d92da9dcf0ff11fb2eba4f8e
+        '/payment/paypal/setup/',
         {
           email,
           amount: cart.total_price,

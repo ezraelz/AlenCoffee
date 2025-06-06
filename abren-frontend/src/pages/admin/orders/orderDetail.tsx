@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from '../../../utils/axios';
+import './orderDetail.css';
 
 interface Order {
   id: number;
@@ -45,7 +46,7 @@ const OrderDetail = () => {
   if (!order) return <div>No order data available</div>;
 
   return (
-    <div className="user-detail">
+    <div className="order-detail">
       <h2>Order Detail</h2>
       <div className="detail-card">
         <p><strong>ID:</strong> {order.id}</p>
