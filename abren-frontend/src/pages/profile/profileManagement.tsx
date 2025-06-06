@@ -8,8 +8,9 @@ import ProfileInvoices from './profileInvoice';
 import ProfileOrderList from './profileOrders';
 
 const ProfileManagement = () => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [activeTab, setActiveTab] = useState('profile');
-    const [ role, setRole] = useState<string>('admin');
+    const [role, setRole] = useState<string>('admin');
     const isLoggedIn = Boolean(localStorage.getItem('access_token'));
     const [error, setError] = useState<string | null>(null);
 
@@ -32,6 +33,10 @@ const ProfileManagement = () => {
 
         fetchUserData();
     }, []);
+
+    const handleDropdown = () =>{
+      setIsOpen(!isOpen);
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
@@ -93,7 +98,15 @@ const ProfileManagement = () => {
             {renderContent()}
           </div>
           <div className="tabs">
-            {renderTabs()}
+            {isOpen ? (
+              <>
+                {renderTabs()}
+              </>
+            ) : (
+              <>
+
+              </>
+            )}
           </div>
         </div>
       </div>

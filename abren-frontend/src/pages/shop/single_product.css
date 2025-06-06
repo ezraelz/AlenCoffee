@@ -1,14 +1,14 @@
 .single-product{
     position: relative;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     z-index: 3;
     width: 100%;
     height: auto;
     align-items: center;
     margin-top: 4.2em;
-    padding-top: 8em;
-    padding-bottom: 2em;
+    padding-top: 10em;
+    padding-bottom: 4em;
     justify-content: center;
     text-align: center;
     background: url('../../assets/images/cup-coffee-placed-table-some-scattered-coffee-beans-with-sheet-music-background_1_AUIWRs2.jpg') no-repeat center center/cover;
@@ -25,6 +25,8 @@
 }
 .single-product .product-grid{
     background: white;
+    border-radius: 1em;
+
 }
 .single-product .product-grid .product-card{
     display: flex;
@@ -32,6 +34,7 @@
     gap: 2em;
     color: black;
     background-color: antiquewhite;
+    overflow: hidden;
 }
 .single-product .product-grid .product-card .description{
     padding: 2em;
@@ -44,4 +47,38 @@
 .single-product .product-grid .product-card img{
     width: 60vh;
     height: 50vh;
+}
+
+/* Related products section */
+.related-products {
+  padding: 2rem 0;
+  gap: 2em;
+}
+
+.related-products h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.related-products .product-card {
+  display: inline-block;
+  width: 16em;
+  margin: 0.5rem;
+  text-align: center;
+  background: #fafafa;
+  border-radius: 6px;
+  overflow: hidden;
+  color: black;
+  transition: transform 0.2s;
+}
+
+.related-products .product-card:hover {
+  transform: scale(1.03);
+}
+
+.related-products .product-card img {
+  width: 100%;
+  height: 10em;
+  object-fit: cover;
 }

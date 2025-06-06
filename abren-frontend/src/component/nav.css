@@ -193,6 +193,7 @@
     gap: 2em;
     padding: 2em;
     color: #000000;
+    cursor: pointer;
   }
   .product-imgs .product-cards .product-nav-img{
     display: flex;
