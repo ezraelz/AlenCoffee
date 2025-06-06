@@ -28,7 +28,7 @@ const PaymentMethods: React.FC<Props> = ({ cart, email, loading, setLoading, pho
     try {
       const token = localStorage.getItem('access_token');
       const response = await axios.post(
-        '/payment/stripe/',
+        '/payment/stripe/setup/',
         { email, amount: cart.total_price },
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
