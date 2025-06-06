@@ -1,6 +1,7 @@
 import stripe
 import requests
 import json
+from django.utils.decorators import method_decorator
 from django.db import transaction
 from django.http import HttpRequest, HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
@@ -19,9 +20,10 @@ from .models import Invoice, Payment
 from .serializers import InvoiceSerializer
 from django.utils import timezone
 import uuid
+import base64
 from datetime import datetime
 from django.utils.timezone import make_aware
-from orders.utils import get_cart_total,generate_invoice_pdf
+from orders.utils import get_cart_total,generate_invoice_pdf,get_or_create_order
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -80,7 +82,6 @@ class PaymentCreateView(APIView):
 # ----------------------------------------
 # Stripe Checkout & Webhook Views
 # ----------------------------------------
-
 
 class StripeCheckoutView(APIView):
     permission_classes = []
@@ -154,7 +155,6 @@ class StripeCheckoutView(APIView):
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
-
 
 @csrf_exempt
 def stripe_webhook_view(request):
@@ -276,221 +276,238 @@ class BasePaymentView(APIView):
 
         return Response({'message': 'Payment processed successfully'}, status=status.HTTP_200_OK)
 
-
-
 class PayPalSetupView(APIView):
-    def post(self, request):
-        amount = request.data.get('amount')
-        email = request.data.get('email')
+    permission_classes = [AllowAny]
 
-        if not amount or not email:
-            return Response({'error': 'Amount and email are required'}, status=400)
+    def get_paypal_access_token(self):
+        client_id = settings.PAYPAL_CLIENT_ID
+        secret = settings.PAYPAL_SECRET
+        auth = base64.b64encode(f"{client_id}:{secret}".encode()).decode()
 
-        # Get access token
-        auth = (settings.PAYPAL_CLIENT_ID, settings.PAYPAL_SECRET)
-        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-        data = {'grant_type': 'client_credentials'}
-
-        token_response = requests.post(
-            f"{settings.PAYPAL_API_BASE}/v1/oauth2/token",
-            auth=auth,
-            headers=headers,
-            data=data
-        )
-
-        if token_response.status_code != 200:
-            return Response({'error': 'Failed to obtain PayPal access token'}, status=500)
-
-        access_token = token_response.json()['access_token']
-
-        # Create PayPal order
         headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {access_token}',
+            "Authorization": f"Basic {auth}",
+            "Content-Type": "application/x-www-form-urlencoded"
         }
+        data = {"grant_type": "client_credentials"}
+
+        response = requests.post(f"{settings.PAYPAL_API_BASE}/v1/oauth2/token", data=data, headers=headers)
+        if response.status_code == 200:
+            return response.json().get('access_token')
+        else:
+            print(f"PayPal auth failed: {response.status_code} {response.text}")
+            return None
+
+    def post(self, request):
+        if not request.session.session_key:
+            request.session.create()
+        session_key = request.session.session_key
+
+        # Fetch pending order for authenticated user or session
+        order = None
+        if request.user.is_authenticated:
+            order = Order.objects.filter(user=request.user, status='pending').first()
+        if not order:
+            order = Order.objects.filter(session_key=session_key, status='pending').first()
+        if not order:
+            return Response({'error': 'Order not found'}, status=404)
+
+        amount = get_cart_total(request, user=request.user, session_key=session_key)
+        if amount <= 0:
+            return Response({'error': 'Invalid amount'}, status=400)
+
+        # Reuse or create pending PayPal payment for order
+        payment = Payment.objects.filter(order=order, payment_method='paypal', status='pending').first()
+        if payment:
+            payment.amount = amount
+            payment.save()
+        else:
+            payment = Payment.objects.create(
+                order=order,
+                payment_method='paypal',
+                status='pending',
+                amount=amount,
+            )
+
+        # Create PayPal order API request
+        access_token = self.get_paypal_access_token()
+        if not access_token:
+            return Response({'error': 'Could not authenticate with PayPal'}, status=500)
 
         payload = {
             "intent": "CAPTURE",
             "purchase_units": [{
+                "reference_id": str(order.reference),
                 "amount": {
                     "currency_code": "USD",
-                    "value": str(amount)
+                    "value": f"{amount:.2f}"
                 },
-                "invoice_id": request.data.get('order_reference')  # Replace with actual logic to retrieve order reference
+                "custom_id": str(payment.id),
             }],
             "application_context": {
-                "return_url": settings.PAYPAL_RETURN_URL,
-                "cancel_url": settings.PAYPAL_CANCEL_URL
+                "return_url": f"{settings.FRONTEND_URL}/success",
+                "cancel_url": f"{settings.FRONTEND_URL}/cancel",
             }
         }
 
-        order_response = requests.post(
-            f"{settings.PAYPAL_API_BASE}/v2/checkout/orders",
-            headers=headers,
-            json=payload
-        )
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
 
-        if order_response.status_code != 201:
-            return Response({'error': 'Failed to create PayPal order'}, status=500)
+        response = requests.post(f"{settings.PAYPAL_API_BASE}/v2/checkout/orders", json=payload, headers=headers)
+        if response.status_code != 201:
+            return Response({'error': 'Failed to create PayPal order'}, status=400)
 
-        order_data = order_response.json()
-        approval_url = next((link['href'] for link in order_data['links'] if link['rel'] == 'approve'), None)
+        data = response.json()
+        approval_url = next((link['href'] for link in data.get('links', []) if link['rel'] == 'approve'), None)
 
         return Response({
+            'paypal_order_id': data.get('id'),
             'approval_url': approval_url,
-            'paypal_order_id': order_data['id']
         })
 
-class PayPalCaptureView(APIView):
-    def post(self, request):
-        order_id = request.data.get('order_id')
-        email = request.data.get('email')
-
-        if not order_id or not email:
-            return Response({'error': 'order_id and email required'}, status=400)
-
-        access_token = get_paypal_access_token()
-
-        response = requests.post(
-            f"{settings.PAYPAL_API_BASE}/v2/checkout/orders/{order_id}/capture",
-            headers={
-                "Authorization": f"Bearer {access_token}",
-                "Content-Type": "application/json"
-            }
-        )
-        data = response.json()
-
-        transaction_id = data['purchase_units'][0]['payments']['captures'][0]['id']
-        amount = data['purchase_units'][0]['payments']['captures'][0]['amount']['value']
-
-        try:
-            user = CustomUser.objects.get(email=email)
-            order = Order.objects.get(user=user, status='pending')
-        except (CustomUser.DoesNotExist, Order.DoesNotExist):
-            return Response({'error': 'User or pending order not found'}, status=404)
-
-        with transaction.atomic():
-            Payment.objects.create(
-                order=order,
-                payment_method='paypal',
-                status='completed',
-                transaction_id=transaction_id,
-                amount=order.total_price
-            )
-            order.status = 'paid'
-            order.save()
-
-        return Response({'message': 'Payment captured', 'transaction_id': transaction_id})
-
-
-def get_paypal_access_token():
-    response = requests.post(
-        f"{settings.PAYPAL_API_BASE}/v1/oauth2/token",
-        auth=(settings.PAYPAL_CLIENT_ID, settings.PAYPAL_SECRET),
-        headers={"Accept": "application/json"},
-        data={"grant_type": "client_credentials"}
-    )
-    return response.json().get('access_token')
-
-@csrf_exempt
-def paypal_webhook(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Invalid method")
-    
-    event = json.loads(request.body.decode('utf-8'))
-    event_type = event.get('event_type')
-    
-    if event_type == 'PAYMENT.CAPTURE.COMPLETED':
-        resource = event.get('resource', {})
-        invoice_id = resource.get('invoice_id')
-        
-        if not invoice_id:
-            return JsonResponse({'status': 'error', 'message': 'invoice_id missing'}, status=400)
-        
-        try:
-            order = Order.objects.get(reference=invoice_id)
-        except Order.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Order not found'}, status=404)
-        
-        # Extract transaction_id from resource
-        transaction_id = resource.get('id')
-
-        # Avoid duplicate payments
-        if not Payment.objects.filter(transaction_id=transaction_id).exists():
-            Payment.objects.create(
-                order=order,
-                payment_method='paypal',
-                status='completed',
-                transaction_id=transaction_id,
-                amount=order.total_price
-            )
-            
-        order.is_paid = True
-        order.status = 'paid'
-        order.save()
-        
-        return JsonResponse({'status': 'success'})
-    
-    return JsonResponse({'status': 'ignored', 'message': f'Unhandled event type {event_type}'})
-
-class PayPalReturnView(APIView):
-    def get(self, request):
-        paypal_order_id = request.GET.get("token")  # PayPal returns this as ?token=
-
-        if not paypal_order_id:
-            return Response({"error": "order_id is required"}, status=400)
-
-        # Get PayPal token
-        auth = (settings.PAYPAL_CLIENT_ID, settings.PAYPAL_SECRET)
-        token_response = requests.post(
-            f"{settings.PAYPAL_API_BASE}/v1/oauth2/token",
-            auth=auth,
-            headers={'Content-Type': 'application/x-www-form-urlencoded'},
-            data={'grant_type': 'client_credentials'}
-        )
-
-        if token_response.status_code != 200:
-            return Response({'error': 'Failed to obtain access token'}, status=500)
-
-        access_token = token_response.json()['access_token']
-
-        # Capture the payment
-        capture_response = requests.post(
-            f"{settings.PAYPAL_API_BASE}/v2/checkout/orders/{paypal_order_id}/capture",
-            headers={
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {access_token}'
-            }
-        )
-
-        if capture_response.status_code != 201:
-            return Response({'error': 'Failed to capture payment'}, status=500)
-
-        payment_info = capture_response.json()
-
-        # ✅ Process the order in your database
-        # mark it as paid, attach payment info, etc.
-
-        # Optionally redirect to a success page
-        return redirect(f"{settings.FRONTEND_URL}/success")  # Or return a JSON response
-
-
-class PayPalCancelView(APIView):
+@method_decorator(csrf_exempt, name='dispatch')
+class PayPalWebhookView(APIView):
     permission_classes = [AllowAny]
 
-    def get(self, request):
-        order_id = request.query_params.get('order_id')
-        if not order_id:
-            return Response({'error': 'order_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        # 1️⃣ Verify signature first!
+        if not self.verify_paypal_signature(request):
+            print("PayPal webhook signature verification failed.")
+            return HttpResponse(status=400)
 
+        # 2️⃣ Parse event
         try:
-            order = Order.objects.get(id=order_id, status='pending')
-        except Order.DoesNotExist:
-            return Response({'error': 'Order not found'}, status=status.HTTP_404_NOT_FOUND)
+            event = json.loads(request.body)
+        except json.JSONDecodeError:
+            return HttpResponse(status=400)
 
-        # Redirect to cancel page or handle accordingly
-        return Response({'message': 'Payment cancelled', 'order_id': order.id}, status=status.HTTP_200_OK)
+        event_type = event.get('event_type')
+        resource = event.get('resource', {})
 
+        # 3️⃣ Handle PAYMENT.CAPTURE.COMPLETED
+        if event_type == 'PAYMENT.CAPTURE.COMPLETED':
+            invoice_id = (
+                resource.get('custom_id') or
+                resource.get('invoice_id') or
+                resource.get('supplementary_data', {}).get('related_ids', {}).get('order_id')
+            )
+            transaction_id = resource.get('id')
+
+            if not invoice_id or not transaction_id:
+                print("Missing invoice_id or transaction_id")
+                return HttpResponse(status=400)
+
+            try:
+                with transaction.atomic():
+                    order = Order.objects.select_for_update().get(reference=invoice_id)
+
+                    # Avoid duplicate processing
+                    existing_payment = Payment.objects.select_for_update().filter(transaction_id=transaction_id).first()
+                    if existing_payment:
+                        return HttpResponse(status=200)
+
+                    # Update existing pending payment or create new one
+                    payment = Payment.objects.filter(order=order, payment_method='paypal', status='pending').first()
+                    if payment:
+                        payment.status = 'completed'
+                        payment.transaction_id = transaction_id
+                        payment.amount = order.total_price
+                        payment.save()
+                    else:
+                        Payment.objects.create(
+                            order=order,
+                            payment_method='paypal',
+                            status='completed',
+                            transaction_id=transaction_id,
+                            amount=order.total_price
+                        )
+
+                    # Mark order as paid
+                    order.status = 'paid'
+                    order.is_paid = True
+                    order.save()
+
+            except Order.DoesNotExist:
+                print(f"Order not found for reference {invoice_id}")
+                return HttpResponse(status=404)
+            except Exception as e:
+                print(f"Error processing PayPal webhook: {e}")
+                return HttpResponse(status=500)
+
+        # Return 200 for all events
+        return HttpResponse(status=200)
+
+    def verify_paypal_signature(self, request):
+        import base64
+
+        # Extract PayPal headers
+        transmission_id = request.headers.get('PAYPAL-TRANSMISSION-ID')
+        transmission_time = request.headers.get('PAYPAL-TRANSMISSION-TIME')
+        transmission_sig = request.headers.get('PAYPAL-TRANSMISSION-SIG')
+        cert_url = request.headers.get('PAYPAL-CERT-URL')
+        auth_algo = request.headers.get('PAYPAL-AUTH-ALGO')
+        webhook_id = settings.PAYPAL_WEBHOOK_ID  # You set this in your settings
+
+        # Sanity check
+        if not all([transmission_id, transmission_time, transmission_sig, cert_url, auth_algo, webhook_id]):
+            print("Missing PayPal signature headers")
+            return False
+
+        # Get PayPal access token
+        access_token = self.get_paypal_access_token()
+        if not access_token:
+            print("Failed to get PayPal access token for verification")
+            return False
+
+        # Prepare verification payload
+        payload = {
+            "auth_algo": auth_algo,
+            "cert_url": cert_url,
+            "transmission_id": transmission_id,
+            "transmission_sig": transmission_sig,
+            "transmission_time": transmission_time,
+            "webhook_id": webhook_id,
+            "webhook_event": json.loads(request.body.decode('utf-8')),
+        }
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {access_token}"
+        }
+
+        response = requests.post(
+            f"{settings.PAYPAL_API_BASE}/v1/notifications/verify-webhook-signature",
+            json=payload,
+            headers=headers
+        )
+
+        if response.status_code != 200:
+            print(f"Signature verification failed: {response.status_code} {response.text}")
+            return False
+
+        verification_status = response.json().get('verification_status')
+        return verification_status == 'SUCCESS'
+
+    def get_paypal_access_token(self):
+        import base64
+
+        client_id = settings.PAYPAL_CLIENT_ID
+        secret = settings.PAYPAL_SECRET
+        auth = base64.b64encode(f"{client_id}:{secret}".encode()).decode()
+
+        headers = {
+            "Authorization": f"Basic {auth}",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+        data = {"grant_type": "client_credentials"}
+
+        response = requests.post(f"{settings.PAYPAL_API_BASE}/v1/oauth2/token", data=data, headers=headers)
+        if response.status_code == 200:
+            return response.json().get('access_token')
+        else:
+            print(f"PayPal auth failed: {response.status_code} {response.text}")
+            return None
 
 def create_swish_payment(amount, phone, reference):
     SWISH_API_URL = getattr(settings, 'SWISH_API_URL')  # Replace with actual URL

@@ -1,1 +1,25 @@
-.env
+# Python
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Secrets
+*.env
+*.pyc
+__pycache__/
+*.sqlite3
+db.sqlite3
+env/
+venv/
+*.log

@@ -1,8 +1,4 @@
 from rest_framework.response import Response
-<<<<<<< HEAD
-=======
-from rest_framework.decorators import action
->>>>>>> 500e63bacbf9749e4e143fd273d9ca47ff46681c
 from django.db.models.functions import TruncDate
 from users.models import CustomUser
 from users.serializers import UserSerializer
@@ -11,19 +7,11 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from products.models import Product
-<<<<<<< HEAD
 from orders.models import OrderItem, Order
 from payment.models import Payment
 from products.serializers import ProductSerializer
 from blog.models import Blog
 from blog.serializers import BlogSerializer
-=======
-from orders.models import Payment, OrderItem, Order
-from products.serializers import ProductSerializer
-from blog.models import Blog
-from blog.serializers import BlogSerializer
-from django.db.models import Sum, Count, Avg
->>>>>>> 500e63bacbf9749e4e143fd273d9ca47ff46681c
 from django.db.models import Sum, F, ExpressionWrapper, FloatField
 from django.db.models.functions import Coalesce
 from rest_framework.decorators import api_view, permission_classes
@@ -195,7 +183,6 @@ class AdminOrdersView(APIView):
         orders = Order.objects.all()
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data)
-<<<<<<< HEAD
     
 class AdminOrderDetailView(APIView):
     permission_classes = [IsAdminUser]
@@ -204,8 +191,6 @@ class AdminOrderDetailView(APIView):
         order = Order.objects.get(id=pk)
         serializer = OrderSerializer(order)
         return Response(serializer.data, status=status.HTTP_200_OK)
-=======
->>>>>>> 500e63bacbf9749e4e143fd273d9ca47ff46681c
 
 class TotalOrdersCountView(APIView):
     permission_classes = [IsAuthenticated]
@@ -225,6 +210,7 @@ class TopProductsView(APIView):
     def get(self, request):
         top_products = (
             Product.objects
+            .filter(orderitem__order__status='paid')
             .annotate(
                 popularity=Coalesce(Sum('orderitem__quantity'), 0),
                 sales=Coalesce(
@@ -241,6 +227,7 @@ class TopProductsView(APIView):
             .values('id', 'name', 'popularity', 'sales')
         )
         return Response(top_products)
+    
 class SalesPerDayView(APIView):
     permission_classes = [IsAdminUser]  # Optional: Only admins allowed
 
