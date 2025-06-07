@@ -53,6 +53,15 @@ class Order(models.Model):
     invoice_pdf = models.FileField(upload_to='invoices/', blank=True, null=True)
     invoice_number = models.CharField(max_length=100, unique=True, blank=True, null=True)
     reference = models.CharField(max_length=64, unique=True, default=uuid4, null=True, blank=True)
+    refund_requested = models.BooleanField(default=False, blank=True, null=True)
+    REFUND_STATUS_CHOICES = [
+        ('none', 'None'),
+        ('requested', 'Requested'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+        ('processed', 'Processed'),
+    ]
+    refund_status = models.CharField(max_length=20, choices=REFUND_STATUS_CHOICES, default='none', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
     status = models.CharField(max_length=30, default="pending")

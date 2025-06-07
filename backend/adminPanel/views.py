@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from products.models import Product
+from django.db.models.functions import TruncMonth
 from orders.models import OrderItem, Order
 from payment.models import Payment
 from products.serializers import ProductSerializer
@@ -16,6 +17,83 @@ from django.db.models import Sum, F, ExpressionWrapper, FloatField
 from django.db.models.functions import Coalesce
 from rest_framework.decorators import api_view, permission_classes
 from django.utils.timezone import now, timedelta
+from datetime import timedelta
+from django.db.models import Count, Q
+from .models import PageVisit
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def visitor_analytics(request):
+    # Define time window
+    last_7_days = now() - timedelta(days=7)
+    
+    # Define internal IPs you want to exclude (replace with yours)
+    internal_ips = ['123.45.67.89', '111.222.333.444']
+    
+    # Define bot keywords (can expand this list as needed)
+    bot_keywords = ['bot', 'crawl', 'spider', 'slurp', 'archive', 'python-requests']
+    
+    # Build Q object to exclude bots by user_agent
+    bot_query = Q()
+    for keyword in bot_keywords:
+        bot_query |= Q(user_agent__icontains=keyword)
+    
+    # Base queryset filtering last 7 days, excluding bots and internal IPs
+    base_qs = PageVisit.objects.filter(timestamp__gte=last_7_days) \
+        .exclude(bot_query) \
+        .exclude(ip_address__in=internal_ips)
+    
+    # Visits per day (total hits after filtering)
+    visits_per_day = base_qs.extra({'day': "date(timestamp)"}) \
+        .values('day') \
+        .annotate(count=Count('id')) \
+        .order_by('day')
+    
+    # Unique visitors per day (by distinct session_key)
+    unique_visitors_per_day = base_qs.extra({'day': "date(timestamp)"}) \
+        .values('day') \
+        .annotate(unique_visitors=Count('session_key', distinct=True)) \
+        .order_by('day')
+    
+    # Top visited product pages
+    top_products = base_qs.filter(path__icontains='/product/') \
+        .values('path') \
+        .annotate(count=Count('id')) \
+        .order_by('-count')[:10]
+    
+    # Top referrers
+    top_referrers = base_qs.exclude(referrer__isnull=True).exclude(referrer='') \
+        .values('referrer') \
+        .annotate(count=Count('id')) \
+        .order_by('-count')[:10]
+    
+    # Top customers by visit count (only authenticated users)
+    top_customers = base_qs.filter(user__isnull=False) \
+        .values('user__username') \
+        .annotate(count=Count('id')) \
+        .order_by('-count')[:10]
+    
+    # Last 10 visits (most recent)
+    recent_visits_qs = base_qs.order_by('-timestamp')[:10]
+    recent_visits_data = [
+        {
+            'user': v.user.username if v.user else 'Guest',
+            'path': v.path,
+            'timestamp': v.timestamp.isoformat(),
+            'ip_address': v.ip_address,
+            'referrer': v.referrer,
+        }
+        for v in recent_visits_qs
+    ]
+    
+    return Response({
+        'visits_per_day': list(visits_per_day),
+        'unique_visitors_per_day': list(unique_visitors_per_day),
+        'top_products': list(top_products),
+        'top_referrers': list(top_referrers),
+        'top_customers': list(top_customers),
+        'recent_visits': recent_visits_data,
+    })
 
 class AdminUserAPI(APIView):
     permission_classes = [IsAuthenticated]
@@ -206,6 +284,55 @@ class TotalOrderCompletedCountView(APIView):
         total_completed_orders = Order.objects.filter(status='paid').count()
         return Response({'total_completed_orders': total_completed_orders})
 
+class RecentOrderView(APIView):
+    def get(self, request):
+        last_7_days = now() - timedelta(days=7)
+        
+        recent_orders = Order.objects.filter(created_at__gte=last_7_days).order_by('-created_at')[:20]
+
+        recent_orders_data = [
+            {
+                'id': o.id,
+                'user': o.user.username if o.user else 'Guest',
+                'created_at': o.created_at.isoformat(),
+                'reference': o.reference,
+                'status': o.status,
+                'total_price': o.total_price,
+            }
+            for o in recent_orders
+        ]
+        
+        return Response({'recent_order_data': recent_orders_data}, status=status.HTTP_200_OK)
+
+class AdminRefundRequestView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(request):
+        refund_orders = Order.objects.filter(refund_requested=True).order_by('-created_at')
+        serializer = OrderSerializer(refund_orders, many=True)
+        return Response(serializer.data)
+    
+class AdminRefundAprovalView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def post(request, pk):
+        try:
+            order = Order.objects.get(id=pk, refund_requested=True)
+
+            # Here you should trigger your real refund logic
+            # For example: stripe.Refund.create(payment_intent=order.payment_intent_id)
+
+            # For demo we just mark as processed:
+            order.refund_status = 'processed'
+            order.status = 'refunded'  # Optional: you may define "refunded" in your status flow
+            order.save()
+
+            # Optional: send email to user confirming refund processed
+
+            return Response({'status': 'success'})
+        except Exception as e:
+            return Response({'status': 'error', 'message': str(e)}, status=400)
+    
 class TopProductsView(APIView):
     def get(self, request):
         top_products = (
@@ -245,3 +372,61 @@ class SalesPerDayView(APIView):
         )
 
         return Response(sales)
+    
+class SalesTrendView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        range_param = request.query_params.get('range', '6m')
+        months = 6  # default
+        if range_param == '3m':
+            months = 3
+        elif range_param == '12m':
+            months = 12
+
+        start_date = now() - timedelta(days=30 * months)
+
+        sales_by_month = (
+            Order.objects.filter(created_at__gte=start_date)
+            .annotate(month=TruncMonth('created_at'))
+            .values('month')
+            .annotate(sales=Sum('total_price'))
+            .order_by('month')
+        )
+
+        data = [
+            {
+                'month': entry['month'].strftime('%Y-%m'),  # YYYY-MM
+                'sales': float(entry['sales'] or 0)
+            }
+            for entry in sales_by_month
+        ]
+
+        return Response(data, status=status.HTTP_200_OK)
+    
+class UserEngagementView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        # Optional: past N days (example: 30 days)
+        days = int(request.query_params.get('days', 30))
+        start_date = now() - timedelta(days=days)
+
+        visits_per_day = (
+            PageVisit.objects.filter(timestamp__gte=start_date)
+            .annotate(day=TruncDate('timestamp'))
+            .values('day')
+            .annotate(visits=Count('id'))
+            .order_by('day')
+        )
+
+        data = [
+            {
+                'date': entry['day'].strftime('%Y-%m-%d'),
+                'visits': entry['visits']
+            }
+            for entry in visits_per_day
+        ]
+
+        return Response(data, status=status.HTTP_200_OK)
+    

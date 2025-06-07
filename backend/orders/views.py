@@ -168,6 +168,21 @@ class CancelOrderView(APIView):
         order.save()
         return Response({'detail': 'Order cancelled and stock restored'})
     
+class RequestRefundView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(request, pk):
+        try:
+            order = Order.objects.get(id=pk, user=request.user)
+            if order.status != 'delivered' or order.refund_requested:
+                return Response({'status': 'error', 'message': 'Refund not allowed'})
+
+            order.refund_requested = True
+            order.save()
+
+            return Response({'status': 'success'})
+        except Exception as e:
+            return Response({'status': 'error', 'message': str(e)}, status=400)
+
 
 # ----------------------------------------
 # Shipping Address Views with ownership checking

@@ -9,7 +9,7 @@ from .views import (
     
     OrderCreateView, OrderListView,
     OrderDeleteView, OrderUpdateView, OrderDetailView,
-    PendingOrderView, CancelOrderView,
+    PendingOrderView, CancelOrderView, RequestRefundView,
   ShippingAddressRetrieveView,
 )
 
@@ -31,6 +31,7 @@ urlpatterns = [
     path('update/<int:pk>/', OrderUpdateView.as_view(), name='order-update'),
     path('detail/<int:pk>/', OrderDetailView.as_view(), name='order-detail'),
 
+    path('request-refund/<int:pk>/', RequestRefundView.as_view(), name='request-refund'),
     path('pending/', PendingOrderView.as_view()),
     path('<int:order_id>/cancel/', CancelOrderView.as_view()),
 ]

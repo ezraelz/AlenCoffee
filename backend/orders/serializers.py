@@ -62,7 +62,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'id', 'user', 'session_key',
             'shipping_address', 'created_at',
             'is_paid', 'status', 'total_price',
-            'order_items'
+            'order_items', 'refund_requested', 'refund_status'
         ]
         read_only_fields = ['user', 'created_at', 'is_paid', 'status', 'total_price']
 

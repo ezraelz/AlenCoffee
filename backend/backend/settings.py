@@ -132,6 +132,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'cart.middleware.CartMergeMiddleware',
+    'adminPanel.middleware.PageVisitLoggerMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
